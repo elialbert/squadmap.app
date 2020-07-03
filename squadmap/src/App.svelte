@@ -1,18 +1,18 @@
 <script>
-	let name = 'world';
+  import Map from './Components/Map.svelte';
 </script>
 
 <main>
-	<h1>Hello {name}!</h1>
-	<p>Visit the <a href="https://svelte.dev/tutorial">Svelte tutorial</a> to learn how to build Svelte apps.</p>
+	<h1>Squadmap.app</h1>
+	<Map></Map>
 </main>
 <!-- type="text/scss" -->
 <style>
 	main {
-		text-align: center;
+		/* text-align: center;
 		padding: 1em;
 		max-width: 240px;
-		margin: 0 auto;
+		margin: 0 auto; */
 	}
 
 	h1 {

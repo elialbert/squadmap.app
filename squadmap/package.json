@@ -19,6 +19,9 @@
     "typescript": "^3.9.6"
   },
   "dependencies": {
-    "sirv-cli": "^0.4.4"
+    "cytoscape": "^3.15.1",
+    "cytoscape-cola": "^2.3.1",
+    "sirv-cli": "^0.4.4",
+    "webcola": "^3.4.0"
   }
 }
