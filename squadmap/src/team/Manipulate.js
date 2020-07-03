@@ -18,9 +18,13 @@ const connectTo = function(node, connectTo) {
   })
 };
 
+const edgeBetween = function(node1, node2) {
+  return cy.collection(node1).edgesWith(cy.collection(node2))[0];
+};
+
 const disconnectFrom = function(node, disconnectFrom) {
-  cy.remove(cy.collection(node).edgesWith(cy.collection(disconnectFrom)))
+  cy.remove(edgeBetween(node, disconnectFrom));
 };
 
 export default { removeNode, getNeighbors, getNonNeighbors, connectTo,
-  disconnectFrom }
+  disconnectFrom, edgeBetween }

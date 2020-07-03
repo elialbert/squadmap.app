@@ -4,6 +4,7 @@ const elements = {
       data: {
         id: "1",
         label: "Eli",
+        riskFactor: 'low'
       },
     },
     {
