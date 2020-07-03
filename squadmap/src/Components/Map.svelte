@@ -2,59 +2,51 @@
   import cytoscape from 'cytoscape';
   import cola from 'cytoscape-cola';
   import { elements } from '../team/Team.js'
+  import { makeNodeMenu } from '../team/Labels.js'
   import debounce from 'lodash/debounce';
 
   let mobileMode = window.innerWidth < 656;
 
-  cytoscape.use( cola );
+  cytoscape.use(cola);
 
   var layoutOptions = {
     name: 'cola',
-    // maxSimulationTime: 2000,
-    // convergenceThreshold: 100,
     fit: true,
     padding: 1,
-    //refresh: 1,
-    //nodeSpacing: function( node ){ return 1; },
-    //edgeLength: 45
-    // flow: { axis: 'y', minSeparation: 30 }
   }
 
-  function repositionFirstElement() {
-    let firstEl = elements.nodes[0];
-    if (mobileMode) {
-      firstEl.position = {
-        x: 10, y: 10
-      }
-    }
-  };
-  repositionFirstElement();
-
   document.addEventListener('DOMContentLoaded', function(){
-
     var cy = window.cy = cytoscape({
       container: document.getElementById('cy'),
-
       autounselectify: true,
-
       boxSelectionEnabled: false,
-
       style: [
         {
           selector: 'node',
           css: {
-            'background-color': '#f92411'
+            'background-color': 'white',
+            'border-color': 'black',
+            'border-width': 2,
+            'text-valign': 'center',
+            'text-halign': 'center',
+            'height': '60px',
+            'width': '60px',
+            "text-background-opacity": 1,
+            "text-background-color": "white",
+            "label": "data(label)",
+            "text-wrap": "wrap",
+            "text-max-width": "50px",
+            "font-size": "12px"
           }
         },
-
         {
           selector: 'edge',
           css: {
-            'line-color': '#f92411'
+            'line-color': 'black',
+            'width': 2
           }
         }
       ],
-
       elements: elements
     });
 
@@ -63,7 +55,16 @@
     });
     cy.on('tap', 'node', function(evt){
       var node = evt.target;
-      console.log( 'tapped ' + node.id() );
+      node.showingPopper = !node.showingPopper;
+      if (node.showingPopper) {
+        node.closeCB = function() {
+          node.showingPopper = !node.showingPopper;
+          node.popperObj.remove();
+        }
+        node.popperObj = makeNodeMenu(node, cy.nodes());                
+      } else {
+        node.popperObj.remove();
+      }
     });
 
     refreshLayout();
@@ -75,30 +76,19 @@
   function resizeAndRefresh() {
     cy.resize();
     refreshLayout();
-  }
+  };
 
   function refreshLayout() {
-    console.log('in refresh')
     let els;
-    if (mobileMode) {
-      els = cy.elements().slice(1)
-    } else {
-      els = cy.elements();
-    }
-    els.makeLayout(layoutOptions).run()
+    els = cy.elements();
+    els.makeLayout(layoutOptions).run();
   }
 
   if(window.attachEvent) {
     window.attachEvent('onresize', resizeAndRefresh);
-  }
-  else if(window.addEventListener) {
+  } else if(window.addEventListener) {
     window.addEventListener('resize', resizeAndRefresh, true);
   }
-  else {
-    //The browser does not support Javascript event binding
-  }
-
-  
 </script>
 
 <div id="cy"></div>

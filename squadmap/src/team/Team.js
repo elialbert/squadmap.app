@@ -3,37 +3,37 @@ const elements = {
     {
       data: {
         id: "1",
-        label: "P"
-      }
+        label: "Eli",
+      },
     },
     {
       data: {
         id: "2",
-        label: "sucrose phosphate phosphatase"
+        label: "Bob"
       }
     },
     {
       data: {
         id: "4",
-        label: "sucrose 6-phosphate"
+        label: "Alice"
       }
     },
     {
       data: {
         id: "6",
-        label: "sucrose"
+        label: "Marcus Long Name"
       }
     },
     {
       data: {
         id: "8",
-        label: "invertase"
+        label: "Sara"
       }
     },
     {
       data: {
         id: "10",
-        label: "fructose"
+        label: "Jen"
       }
     },
     // {
