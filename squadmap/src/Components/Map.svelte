@@ -4,6 +4,8 @@
   import { elements } from '../team/Team.js'
   import debounce from 'lodash/debounce';
 
+  let mobileMode = window.innerWidth < 656;
+
   cytoscape.use( cola );
 
   var layoutOptions = {
@@ -18,6 +20,16 @@
     // flow: { axis: 'y', minSeparation: 30 }
   }
 
+  function repositionFirstElement() {
+    let firstEl = elements.nodes[0];
+    if (mobileMode) {
+      firstEl.position = {
+        x: 10, y: 10
+      }
+    }
+  };
+  repositionFirstElement();
+
   document.addEventListener('DOMContentLoaded', function(){
 
     var cy = window.cy = cytoscape({
@@ -26,8 +38,6 @@
       autounselectify: true,
 
       boxSelectionEnabled: false,
-
-      layout: layoutOptions,
 
       style: [
         {
@@ -49,21 +59,46 @@
     });
 
     cy.on('drag', function(event) {
-      console.log('yo')
       debounceRefreshLayout();
     });
     cy.on('tap', 'node', function(evt){
       var node = evt.target;
       console.log( 'tapped ' + node.id() );
     });
+
+    refreshLayout();
     window.cy = cy;
   });
 
   var debounceRefreshLayout = debounce(refreshLayout, 10);
 
-  function refreshLayout() {
-    cy.makeLayout(layoutOptions).run();
+  function resizeAndRefresh() {
+    cy.resize();
+    refreshLayout();
   }
+
+  function refreshLayout() {
+    console.log('in refresh')
+    let els;
+    if (mobileMode) {
+      els = cy.elements().slice(1)
+    } else {
+      els = cy.elements();
+    }
+    els.makeLayout(layoutOptions).run()
+  }
+
+  if(window.attachEvent) {
+    window.attachEvent('onresize', resizeAndRefresh);
+  }
+  else if(window.addEventListener) {
+    window.addEventListener('resize', resizeAndRefresh, true);
+  }
+  else {
+    //The browser does not support Javascript event binding
+  }
+
+  
 </script>
 
 <div id="cy"></div>
