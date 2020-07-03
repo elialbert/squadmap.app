@@ -1,15 +1,37 @@
 <script>
-  import { removeNode } from '../team/Manipulate.js';
+  import Manipulate from '../team/Manipulate.js';
   export let node;
   export let closeCB;
-  export let nodes;
   let data = node.data();
+  let nodes = cy.nodes();
+  let connectToValue;
+  let disconnectFromValue;
 
-  console.log(nodes)
-
+  let neighbors;
+  let nonNeighbors;
+  function computeNeighbors() {
+    neighbors = Manipulate.getNeighbors(node);
+    nonNeighbors = Manipulate.getNonNeighbors(node);
+  }
+  computeNeighbors();
+  
   function doRemove() {
     closeCB();
-    removeNode(node);
+    Manipulate.removeNode(node);
+  }
+
+  function runConnect() {
+    if (!connectToValue) { return; }
+    Manipulate.connectTo(node, connectToValue);
+    connectToValue = null;
+    computeNeighbors();
+  }
+
+  function runDisconnect() {
+    if (!disconnectFromValue) { return; }
+    Manipulate.disconnectFrom(node, disconnectFromValue);
+    disconnectFromValue = null;
+    computeNeighbors();
   }
 </script>
 
@@ -22,23 +44,23 @@
     <form>
       <div class='form-group'>
         <label for="connectTo">Connect To</label>
-        <select class="form-control" id="connectTo">
-          <option>1</option>
-          <option>2</option>
-          <option>3</option>
-          <option>4</option>
-          <option>5</option>
+        <!-- svelte-ignore a11y-no-onchange -->
+        <select class="form-control" id="connectTo" bind:value={connectToValue} on:change={runConnect}>
+          <option value={null}>{nonNeighbors.length > 0 ? `New connection` : `Connected to everyone!`}</option>
+          {#each nonNeighbors as nonNeighbor}
+            <option value={nonNeighbor}>{nonNeighbor.data().label}</option>
+          {/each}
         </select>
       </div>
 
       <div class='form-group'>
         <label for="disconnectFrom">Disconnect From</label>
-        <select class="form-control" id="disconnectFrom">
-          <option>1</option>
-          <option>2</option>
-          <option>3</option>
-          <option>4</option>
-          <option>5</option>
+        <!-- svelte-ignore a11y-no-onchange -->
+        <select class="form-control" id="disconnectFrom" bind:value={disconnectFromValue} on:change={runDisconnect}>
+          <option value={null}>{nonNeighbors.length > 0 ? `Choose a connection` : `Connected to no one!`}</option>
+          {#each neighbors as neighbor}
+            <option value={neighbor}>{neighbor.data().label}</option>
+          {/each}
         </select>
       </div>
       <div class='form-group'>

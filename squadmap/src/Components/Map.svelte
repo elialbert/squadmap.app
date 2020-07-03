@@ -55,6 +55,7 @@
     });
     cy.on('tap', 'node', function(evt){
       var node = evt.target;
+      cy.nodes().difference(node).forEach(function(n) { n.showingPopper = false; if (n.popperObj) {n.popperObj.remove();} });
       node.showingPopper = !node.showingPopper;
       if (node.showingPopper) {
         node.closeCB = function() {
