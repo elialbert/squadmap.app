@@ -5,7 +5,7 @@
   import Numbers from './Numbers.svelte';
 
   let showAbout = false;
-  let showNumbers = true;
+  let showNumbers = false;
   function newNode() {
     let node = Manipulate.newNode();
     showMenu(node);
