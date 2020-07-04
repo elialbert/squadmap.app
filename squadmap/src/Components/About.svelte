@@ -15,7 +15,7 @@
       The idea is to form a trusted squad of friends that you can hang out with indoors, and to be comfortable of the risk that entails.
     </p>
     <p class='p-3'>
-      This tool helps you choose your squad by allowing you to visualize people and connections on a graph.
+      This tool helps you choose your squad by allowing you to visualize people and connections on a graph. Note that everything is automatically saved in YOUR browser - I don't want your data.
     </p>
     <p class='p-3'>
       Try it out! Click nodes and edges to change the risk and connection properties, drag nodes to fit on your screen better.
