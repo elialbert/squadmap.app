@@ -32,7 +32,7 @@ const sample = {
       data: {
         id: "8",
         label: "Joey's roommate's gf",
-        riskFactor: 'Unknown'
+        riskFactor: 'Works in hospitality'
       }
     },
     {
@@ -83,7 +83,7 @@ const sample = {
       data: {
         source: "6",
         target: "8",
-        connectionType: 'Unknown'
+        connectionType: 'Outside, distanced'
       }
     }
   ]
