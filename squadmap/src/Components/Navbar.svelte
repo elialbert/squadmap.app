@@ -15,7 +15,7 @@
   </button>
   <button class='btn btn-sm btn-primary mr-3'
     on:click={newNode}>
-    + Add
+    + Add Someone
   </button>
   <!-- svelte-ignore a11y-invalid-attribute -->
   <a class="navbar-brand" href="#">squadmap.app</a>

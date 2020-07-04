@@ -98,8 +98,9 @@
       <div class='form-group form-bottom-section'>
         <button type='button' class="btn btn-secondary btn-sm"
           on:click={closeCB}
-        >Close</button>
-        <button type='button' class="btn btn-danger btn-sm float-right"
+        >Done</button>
+        <br/>
+        <button type='button' class="btn btn-danger btn-sm"
           on:click={doRemove}
         >Remove {node.data().label}</button>
       </div>

@@ -1,3 +1,5 @@
+import ExposureRisk from './ExposureRisk.js';
+
 const setLastNode = function(node) {
   saveData(cy, 'lastNode', node.data().id)
 }
@@ -61,6 +63,7 @@ const newNode = function() {
 };
 
 const save = function() {
+  ExposureRisk.run();
   window.localStorage.setItem('cyjson', JSON.stringify(cy.json()));
 }
 
@@ -70,4 +73,4 @@ const saveData = function(obj, key, value) {
 };
 
 export default { removeNode, getNeighbors, getNonNeighbors, connectTo,
-  disconnectFrom, edgeBetween, newNode, refreshLayout, setLastNode, saveData }
+  disconnectFrom, edgeBetween, newNode, refreshLayout, setLastNode, saveData, save }

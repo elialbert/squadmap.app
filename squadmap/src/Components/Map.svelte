@@ -1,4 +1,5 @@
 <script>
+  import Constants from '../team/Constants.js';
   import cytoscape from 'cytoscape';
   import cola from 'cytoscape-cola';
   import { sample } from '../team/Team.js'
@@ -7,7 +8,7 @@
   import Manipulate from '../team/Manipulate.js';
   
   cytoscape.use(cola);
-  let preloaded = JSON.parse( window.localStorage.getItem("cyjson") );
+  let preloaded = null;//JSON.parse( window.localStorage.getItem("cyjson") );
   if (!preloaded) {
     preloaded = {elements: sample}
   }
@@ -16,33 +17,7 @@
       container: document.getElementById('cy'),
       autounselectify: true,
       boxSelectionEnabled: false,
-      style: [
-        {
-          selector: 'node',
-          css: {
-            'background-color': 'white',
-            'border-color': 'black',
-            'border-width': 2,
-            'text-valign': 'center',
-            'text-halign': 'center',
-            'height': '60px',
-            'width': '60px',
-            "text-background-opacity": 0,
-            "text-background-color": "white",
-            "label": "data(label)",
-            "text-wrap": "wrap",
-            "text-max-width": "50px",
-            "font-size": "10px"
-          }
-        },
-        {
-          selector: 'edge',
-          css: {
-            'line-color': 'black',
-            'width': 2
-          }
-        }
-      ],
+      style: Constants.nodeStyles,
       elements: preloaded.elements
     });
 
@@ -62,6 +37,7 @@
     Manipulate.refreshLayout();
     window.cy = cy;
     Manipulate.setLastNode(cy.nodes()[0]);
+    Manipulate.save();
   });
 
   var debounceRefreshLayout = debounce(Manipulate.refreshLayout, 10);

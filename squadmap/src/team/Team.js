@@ -3,37 +3,43 @@ const sample = {
     {
       data: {
         id: "1",
-        label: "Mom + Dad"
+        label: "Mom + Dad",
+        riskFactor: 'Works at home'
       },
     },
     {
       data: {
         id: "2",
-        label: "Me"
+        label: "Me",
+        riskFactor: 'Works at home'
       }
     },
     {
       data: {
         id: "4",
-        label: "Alice + bf"
+        label: "Alice + bf",
+        riskFactor: 'Works in an office'
       }
     },
     {
       data: {
         id: "6",
-        label: "Joey and roommate"
+        label: "Joey and roommate",
+        riskFactor: 'Works in hospitality'
       }
     },
     {
       data: {
         id: "8",
-        label: "Joey's roommate's gf"
+        label: "Joey's roommate's gf",
+        riskFactor: 'Unknown'
       }
     },
     {
       data: {
         id: "10",
-        label: "Jen"
+        label: "Jen",
+        riskFactor: 'Works outdoors'
       }
     },
   ],
@@ -41,37 +47,43 @@ const sample = {
     {
       data: {
         source: "2",
-        target: "1"
+        target: "1",
+        connectionType: 'Indoors and unworried'
       }
     },
     {
       data: {
         source: "4",
-        target: "1"
+        target: "1",
+        connectionType: 'Indoors and unworried'
       }
     },
     {
       data: {
         source: "4",
-        target: "2"
+        target: "2",
+        connectionType: 'Indoors and unworried'
       }
     },
     {
       data: {
         source: "2",
-        target: "10"
+        target: "10",
+        connectionType: 'Close as can be'
       }
     },
     {
       data: {
         source: "2",
-        target: "6"
+        target: "6",
+        connectionType: 'Outside, but close'
       }
     },
     {
       data: {
         source: "6",
-        target: "8"
+        target: "8",
+        connectionType: 'Unknown'
       }
     }
   ]
