@@ -1,10 +1,20 @@
 <script>
   import Manipulate from '../team/Manipulate.js';
   import { showMenu } from '../team/Labels.js'
+  import About from './About.svelte';
 
+  let showAbout = false;
   function newNode() {
     let node = Manipulate.newNode();
     showMenu(node);
+  }
+
+  function aboutClose() {
+    showAbout = false;
+  }
+
+  function openAbout() {
+    showAbout = true;
   }
 </script>
 
@@ -23,7 +33,7 @@
     <ul class="navbar-nav">
       <li class="nav-item">
         <!-- svelte-ignore a11y-invalid-attribute -->
-        <a class="nav-link" href="#">About</a>
+        <a class="nav-link" href="#" on:click={openAbout}>About</a>
       </li>
       <li class="nav-item">
         <!-- svelte-ignore a11y-invalid-attribute -->
@@ -32,3 +42,6 @@
     </ul>
   </div>
 </nav>
+{#if showAbout}
+  <About closeCB={aboutClose}></About>
+ {/if}
