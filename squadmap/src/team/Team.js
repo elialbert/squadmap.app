@@ -1,33 +1,33 @@
-const elements = {
+const sample = {
   nodes: [
     {
       data: {
         id: "1",
-        label: "Eli"
+        label: "Mom + Dad"
       },
     },
     {
       data: {
         id: "2",
-        label: "Bob"
+        label: "Me"
       }
     },
     {
       data: {
         id: "4",
-        label: "Alice"
+        label: "Alice + bf"
       }
     },
     {
       data: {
         id: "6",
-        label: "Marcus Long Name"
+        label: "Joey and roommate"
       }
     },
     {
       data: {
         id: "8",
-        label: "Sara"
+        label: "Joey's roommate's gf"
       }
     },
     {
@@ -41,6 +41,12 @@ const elements = {
     {
       data: {
         source: "2",
+        target: "1"
+      }
+    },
+    {
+      data: {
+        source: "4",
         target: "1"
       }
     },
@@ -67,14 +73,8 @@ const elements = {
         source: "6",
         target: "8"
       }
-    },
-    {
-      data: {
-        source: "8",
-        target: "10"
-      }
-    },
+    }
   ]
 }
 
-export { elements }
+export { sample }

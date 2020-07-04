@@ -1,12 +1,16 @@
 <script>
   import cytoscape from 'cytoscape';
   import cola from 'cytoscape-cola';
-  // import { elements } from '../team/Team.js'
+  import { sample } from '../team/Team.js'
   import { showMenu, showEdgeMenu } from '../team/Labels.js'
   import debounce from 'lodash/debounce';
   import Manipulate from '../team/Manipulate.js';
   
   cytoscape.use(cola);
+  let preloaded = JSON.parse( window.localStorage.getItem("cyjson") );
+  if (!preloaded) {
+    preloaded = {elements: sample}
+  }
   document.addEventListener('DOMContentLoaded', function(){
     var cy = window.cy = cytoscape({
       container: document.getElementById('cy'),
@@ -23,12 +27,12 @@
             'text-halign': 'center',
             'height': '60px',
             'width': '60px',
-            "text-background-opacity": 1,
+            "text-background-opacity": 0,
             "text-background-color": "white",
             "label": "data(label)",
             "text-wrap": "wrap",
             "text-max-width": "50px",
-            "font-size": "12px"
+            "font-size": "10px"
           }
         },
         {
@@ -39,7 +43,7 @@
           }
         }
       ],
-      elements: JSON.parse( window.localStorage.getItem("cyjson") ).elements
+      elements: preloaded.elements
     });
 
     cy.on('drag', function(event) {
