@@ -34,7 +34,7 @@
     + Add Someone
   </button>
   <!-- svelte-ignore a11y-invalid-attribute -->
-  <a class="navbar-brand" href="#">squadmap.app</a>
+  <a class="navbar-brand" href="#">SquadMap.app</a>
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav">
       <li class="nav-item">

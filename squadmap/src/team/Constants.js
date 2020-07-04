@@ -57,7 +57,8 @@ const constants = {
         "label": "data(label)",
         "text-wrap": "wrap",
         "text-max-width": "50px",
-        "font-size": "10px"
+        "font-size": "10px",
+        "font-family": 'Helvetica'
       }
     },
     {
