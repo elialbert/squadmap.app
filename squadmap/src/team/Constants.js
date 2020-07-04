@@ -26,20 +26,20 @@ const constants = {
 
   riskWeights: {
     'Works at home': 0.01,
-    'Works outdoors': 0.05,
+    'Works outdoors': 0.07,
     'Works in an office': 0.2,
-    'Works in hospitality': 0.45,
-    'Works in a hospital': 0.55,
+    'Works in hospitality': 0.38,
+    'Works in a hospital': 0.46,
     'Unknown': 0.3
   },
 
   connectionWeights: {
     'Unknown': 0.4,
-    'Outside, distanced': 0.1,
-    'Outside, but close': 0.3,
-    'Indoors briefly / very seldom': 0.4,
+    'Outside, distanced': 0.03,
+    'Outside, but close': 0.16,
+    'Indoors briefly / very seldom': 0.24,
     'Indoors and unworried': 0.8,
-    'Close as can be': 1
+    'Close as can be': 0.97
   },
 
   nodeStyles: [

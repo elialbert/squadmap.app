@@ -23,7 +23,8 @@ const connectTo = function(node, connectTo) {
   setLastNode(connectTo);
   cy.add({
     group: 'edges',
-    data: { source: node.data().id, target: connectTo.data().id }
+    data: { source: node.data().id, target: connectTo.data().id,
+      connectionType: 'Close as can be' }
   });
   save();
 };

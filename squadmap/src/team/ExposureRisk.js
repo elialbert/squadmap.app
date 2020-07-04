@@ -1,4 +1,11 @@
 import Constants from './Constants.js';
+const verbose = false;
+
+const log = function(...args) {
+  if (verbose) {
+    console.log(args.join(' - '));
+  }
+}
 
 const nodekey = function(n) {
   return n.data().id;
@@ -22,14 +29,14 @@ const rollup = function(n1, path, weights) {
   reversed.forEach(function(el) {
     const eld = el.data()
     if (eld.riskFactor) {
-      lastNodeRisk = weights.riskWeights[eld.riskFactor];
+      lastNodeRisk = (prob + weights.riskWeights[eld.riskFactor]);
       checked.push(eld.id);
     } else if (eld.connectionType) {
-      // console.log(prob, lastNodeRisk, weights.connectionWeights[eld.connectionType],prob + (
-      //   lastNodeRisk *
-      //   weights.connectionWeights[eld.connectionType]
-      // ))
-      prob = prob + (
+      log('internal: ',prob, lastNodeRisk, weights.connectionWeights[eld.connectionType],(
+        lastNodeRisk *
+        weights.connectionWeights[eld.connectionType]
+      ))
+      prob = (
         lastNodeRisk *
         weights.connectionWeights[eld.connectionType]
       );
@@ -39,7 +46,7 @@ const rollup = function(n1, path, weights) {
 }
 
 const alg = function(n1, weights) {
-  // console.log('alg for : ', n1.data().label)
+  log('****************alg for : ', n1.data().label)
   let prob = weights.riskWeights[n1.data().riskFactor];
   let d = cy.elements().dijkstra(n1);
   let data = [];
@@ -51,32 +58,32 @@ const alg = function(n1, weights) {
   data.forEach(function(pathInfo) {
     let n2Data = pathInfo.n2.data();
     let roll = rollup(n1, pathInfo.path, weights);
-    // console.log('r', n2Data.label, roll.prob);
+    log('r', n2Data.label, roll.prob);
     if (checked.indexOf(n2Data.id) < 0) {
-      // console.log('not checked')
       prob += roll.prob;
+      log('not checked: new prob now', prob)
       checked = checked.concat(roll.checked);
-    }// else { console.log('checked, skipping', n2Data.label)}
+    } else { log('checked, skipping', n2Data.label)}
     
   });
-  // console.log('prob!', prob)
+  log('prob!', prob)
   return prob 
 }
 
 const mapToExposure = function(p) {
-  if (p > 0 && p <= 0.2) {
+  if (p > 0 && p <= 0.1) {
     return 1;
   }
-  if (p > 0.2 && p <= 0.4) {
+  if (p > 0.1 && p <= 0.2) {
     return 2;
   }
-  if (p > 0.4 && p <= 0.6) {
+  if (p > 0.2 && p <= 0.4) {
     return 3;
   }
-  if (p > 0.6 && p <= 0.8) {
+  if (p > 0.4 && p <= 0.6) {
     return 4;
   }
-  if (p > 0.8 && p <= 1000) {
+  if (p > 0.6) {
     return 5;
   }
 }
@@ -93,7 +100,7 @@ const run = function() {
       riskFactor = Constants.riskFactorClasses[riskFactor]
     } else { riskFactor = ''; }
     const expc = exposureClass(alg(node, weights)) || '';
-    // console.log(expc)
+    log('final for ', node.data().label, expc)
     node.classes([riskFactor, expc]);
   });
 
