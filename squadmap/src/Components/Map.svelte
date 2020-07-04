@@ -2,7 +2,7 @@
   import cytoscape from 'cytoscape';
   import cola from 'cytoscape-cola';
   import { elements } from '../team/Team.js'
-  import { showMenu } from '../team/Labels.js'
+  import { showMenu, showEdgeMenu } from '../team/Labels.js'
   import debounce from 'lodash/debounce';
   import Manipulate from '../team/Manipulate.js';
   
@@ -48,6 +48,11 @@
     cy.on('tap', 'node', function(evt){
       var node = evt.target;
       showMenu(node);
+    });
+
+    cy.on('tap', 'edge', function(evt){
+      var edge = evt.target;
+      showEdgeMenu(edge);
     });
 
     Manipulate.refreshLayout();

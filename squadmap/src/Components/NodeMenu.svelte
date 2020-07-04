@@ -120,10 +120,6 @@
     background-color: white;
   }
 
-  /* .popover-body {
-    min-height: 300px;
-  } */
-
   .cursor-pointer {
     cursor: pointer;
   }
