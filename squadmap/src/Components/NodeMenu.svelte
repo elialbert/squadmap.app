@@ -114,7 +114,6 @@
     top: 100px;
     left: 50px;
     width: 80vw;
-    min-height: 80vh;
     z-index: 9000;
     transform: none;
     background-color: white;

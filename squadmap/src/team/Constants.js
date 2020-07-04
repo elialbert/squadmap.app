@@ -24,6 +24,24 @@ const constants = {
     'Close as can be': 'connection-type-close'
   },
 
+  riskWeights: {
+    'Works at home': 0.01,
+    'Works outdoors': 0.05,
+    'Works in an office': 0.2,
+    'Works in hospitality': 0.45,
+    'Works in a hospital': 0.55,
+    'Unknown': 0.3
+  },
+
+  connectionWeights: {
+    'Unknown': 0.4,
+    'Outside, distanced': 0.1,
+    'Outside, but close': 0.3,
+    'Indoors briefly / very seldom': 0.4,
+    'Indoors and unworried': 0.8,
+    'Close as can be': 1
+  },
+
   nodeStyles: [
     {
       selector: 'node',
@@ -124,7 +142,37 @@ const constants = {
       css: {
         'line-style': 'solid'
       }
-    }
+    },
+    {
+      selector: '.exposure-risk-1',
+      css: {
+        'background-color': '#4ec924'
+      }
+    },
+    {
+      selector: '.exposure-risk-2',
+      css: {
+        'background-color': '#9dc924'
+      }
+    },    
+    {
+      selector: '.exposure-risk-3',
+      css: {
+        'background-color': '#bec924'
+      }
+    },
+    {
+      selector: '.exposure-risk-4',
+      css: {
+        'background-color': '#c95624'
+      }
+    },
+    {
+      selector: '.exposure-risk-5',
+      css: {
+        'background-color': '#c92424'
+      }
+    },
   ]
 };
 
