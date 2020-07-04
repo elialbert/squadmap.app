@@ -36,10 +36,13 @@
         <p class='media-body pb-1 mb-0 medium lh-125 border-bottom border-gray'>
           <strong class='pr-1 text-truncate connection-label'>
             {neighbor.data().label}
-          </strong> (risk: {riskFactor(neighbor)})
+          </strong>
           <button type='button' class="btn btn-warning btn-sm float-right"
               on:click={() => runDisconnect(neighbor)}
             >Disconnect</button>
+          <br />
+            Risk: {riskFactor(neighbor)}
+          
           <!-- svelte-ignore a11y-no-onchange -->
           <select class="form-control" id="connectionType" 
             bind:value={neighborConnectionTypes[neighbor.data().id]} on:change={() => changeConnectionType(neighbor)}>
@@ -56,7 +59,7 @@
 
 <style>
   .connections-box {
-    min-height: 400px;
+    min-height: 300px;
   }
   .connection-label {
     font-size: 16px;

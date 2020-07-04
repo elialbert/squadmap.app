@@ -2,19 +2,11 @@
   import cytoscape from 'cytoscape';
   import cola from 'cytoscape-cola';
   import { elements } from '../team/Team.js'
-  import { makeNodeMenu } from '../team/Labels.js'
+  import { showMenu } from '../team/Labels.js'
   import debounce from 'lodash/debounce';
-
-  let mobileMode = window.innerWidth < 656;
-
+  import Manipulate from '../team/Manipulate.js';
+  
   cytoscape.use(cola);
-
-  var layoutOptions = {
-    name: 'cola',
-    fit: true,
-    padding: 1,
-  }
-
   document.addEventListener('DOMContentLoaded', function(){
     var cy = window.cy = cytoscape({
       container: document.getElementById('cy'),
@@ -55,35 +47,20 @@
     });
     cy.on('tap', 'node', function(evt){
       var node = evt.target;
-      cy.nodes().difference(node).forEach(function(n) { n.showingPopper = false; if (n.popperObj) {n.popperObj.remove();} });
-      node.showingPopper = !node.showingPopper;
-      if (node.showingPopper) {
-        node.closeCB = function() {
-          node.showingPopper = !node.showingPopper;
-          node.popperObj.remove();
-        }
-        node.popperObj = makeNodeMenu(node, cy.nodes());                
-      } else {
-        node.popperObj.remove();
-      }
+      showMenu(node);
     });
 
-    refreshLayout();
+    Manipulate.refreshLayout();
     window.cy = cy;
+    cy.data('lastNode', cy.nodes()[0]);
   });
 
-  var debounceRefreshLayout = debounce(refreshLayout, 10);
+  var debounceRefreshLayout = debounce(Manipulate.refreshLayout, 10);
 
   function resizeAndRefresh() {
     cy.resize();
-    refreshLayout();
+    Manipulate.refreshLayout();
   };
-
-  function refreshLayout() {
-    let els;
-    els = cy.elements();
-    els.makeLayout(layoutOptions).run();
-  }
 
   if(window.attachEvent) {
     window.attachEvent('onresize', resizeAndRefresh);

@@ -4,7 +4,10 @@
   import NodeMenuConnections from './NodeMenuConnections.svelte';
   export let node;
   export let closeCB;
+  import { onMount } from 'svelte';
+
   let data = node.data();
+  Manipulate.setLastNode(node)
   let connectToValue;
   let riskFactorValue = riskFactor(node);
 
@@ -13,9 +16,6 @@
   function computeNeighbors() {
     neighbors = Manipulate.getNeighbors(node);
     nonNeighbors = Manipulate.getNonNeighbors(node);
-    // neighbors.forEach(function(neighbor) {
-    //   neighbor.data('connectionType', connectionType(node, neighbor));
-    // });
   }
   computeNeighbors();
   
@@ -45,6 +45,15 @@
     if (!riskFactorValue) { return; }
     node.data('riskFactor', riskFactorValue);
   };  
+
+  let name = node.data().label || 'New';
+  let nameInput;
+  onMount(() => { nameInput.focus() });
+
+  function changeName() {
+    node.data('label', name)
+    data = node.data();
+  }
 </script>
 
 <div class='popover fade bs-popover-right show node-menu' id={`node-menu-${data.id}`}>
@@ -54,6 +63,15 @@
   </h3>
   <div class='popover-body'>
     <form>
+      <div class='form-group'>
+        <label for="name">Name</label>
+        <div class="input-group">
+          <!-- svelte-ignore a11y-autofocus -->
+          <input type='text' class='form-control' id='name' 
+            bind:this={nameInput} autofocus
+            bind:value={name} on:change={changeName} />
+        </div>
+      </div>
       <div class='form-group'>
         <label for="riskFactor">Risk Factor</label>
         <!-- svelte-ignore a11y-no-onchange -->
@@ -102,9 +120,9 @@
     background-color: white;
   }
 
-  .popover-body {
-    min-height: 60vw;
-  }
+  /* .popover-body {
+    min-height: 300px;
+  } */
 
   .cursor-pointer {
     cursor: pointer;

@@ -13,4 +13,18 @@ var makeNodeMenu = function(node) {
   return div;
 };
 
-export { makeNodeMenu }
+var showMenu = function(node) {
+  cy.nodes().difference(node).forEach(function(n) { n.showingPopper = false; if (n.popperObj) {n.popperObj.remove();} });
+  node.showingPopper = !node.showingPopper;
+  if (node.showingPopper) {
+    node.closeCB = function() {
+      node.showingPopper = !node.showingPopper;
+      node.popperObj.remove();
+    }
+    node.popperObj = makeNodeMenu(node, cy.nodes());
+  } else {
+    node.popperObj.remove();
+  }
+}
+
+export { showMenu }
