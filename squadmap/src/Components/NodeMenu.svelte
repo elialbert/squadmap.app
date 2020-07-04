@@ -38,7 +38,7 @@
   };
 
   function riskFactor(node) {
-    return node.data().riskFactor || Constants.riskFactors[0];
+    return node.data().riskFactor || [...Constants.riskFactors].pop();
   };
 
   function changeRiskFactor() {
@@ -102,7 +102,7 @@
         <br/>
         <button type='button' class="btn btn-danger btn-sm"
           on:click={doRemove}
-        >Remove {node.data().label}</button>
+        >Remove {data.label}</button>
       </div>
     </form>
   </div>

@@ -8,7 +8,7 @@
   import Manipulate from '../team/Manipulate.js';
   
   cytoscape.use(cola);
-  let preloaded = null;//JSON.parse( window.localStorage.getItem("cyjson") );
+  let preloaded = JSON.parse( window.localStorage.getItem("cyjson") );
   if (!preloaded) {
     preloaded = {elements: sample}
   }
