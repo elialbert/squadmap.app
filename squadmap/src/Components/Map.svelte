@@ -12,6 +12,7 @@
   if (!preloaded) {
     preloaded = {elements: sample}
   }
+  
   document.addEventListener('DOMContentLoaded', function(){
     var cy = window.cy = cytoscape({
       container: document.getElementById('cy'),
@@ -34,6 +35,10 @@
       showEdgeMenu(edge);
     });
 
+    let storedWeights = JSON.parse(window.localStorage.getItem('weights'));
+    let weights = {riskWeights: Constants.riskWeights, connectionWeights: Constants.connectionWeights};
+    weights = {...weights, ...storedWeights};
+    cy.data('weights', weights);
     Manipulate.refreshLayout();
     window.cy = cy;
     Manipulate.setLastNode(cy.nodes()[0]);

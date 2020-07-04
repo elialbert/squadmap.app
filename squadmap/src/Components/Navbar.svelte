@@ -2,8 +2,10 @@
   import Manipulate from '../team/Manipulate.js';
   import { showMenu } from '../team/Labels.js'
   import About from './About.svelte';
+  import Numbers from './Numbers.svelte';
 
   let showAbout = false;
+  let showNumbers = true;
   function newNode() {
     let node = Manipulate.newNode();
     showMenu(node);
@@ -12,14 +14,18 @@
   function aboutClose() {
     showAbout = false;
   }
-
   function openAbout() {
     showAbout = true;
+  }
+  function numbersClose() {
+    showNumbers = false;
+  }
+  function openNumbers() {
+    showNumbers = true;
   }
 </script>
 
 <nav class="navbar fixed-top navbar-expand-lg navbar-light text-dark bg-transparent">
-  
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -37,11 +43,14 @@
       </li>
       <li class="nav-item">
         <!-- svelte-ignore a11y-invalid-attribute -->
-        <a class="nav-link" href="#">Thing</a>
+        <a class="nav-link" href="#" on:click={openNumbers}>Numbers</a>
       </li>
     </ul>
   </div>
 </nav>
 {#if showAbout}
   <About closeCB={aboutClose}></About>
- {/if}
+{/if}
+{#if showNumbers}
+  <Numbers closeCB={numbersClose}></Numbers>
+{/if}

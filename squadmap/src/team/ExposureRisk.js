@@ -14,7 +14,7 @@ const reversePath = function(path) {
   return t.reverse();
 }
 
-const rollup = function(n1, path) {
+const rollup = function(n1, path, weights) {
   let prob = 0;
   let checked = [];
   let lastNodeRisk = null;
@@ -22,25 +22,25 @@ const rollup = function(n1, path) {
   reversed.forEach(function(el) {
     const eld = el.data()
     if (eld.riskFactor) {
-      lastNodeRisk = Constants.riskWeights[eld.riskFactor];
+      lastNodeRisk = weights.riskWeights[eld.riskFactor];
       checked.push(eld.id);
     } else if (eld.connectionType) {
-      // console.log(prob, lastNodeRisk, Constants.connectionWeights[eld.connectionType],prob + (
+      // console.log(prob, lastNodeRisk, weights.connectionWeights[eld.connectionType],prob + (
       //   lastNodeRisk *
-      //   Constants.connectionWeights[eld.connectionType]
+      //   weights.connectionWeights[eld.connectionType]
       // ))
       prob = prob + (
         lastNodeRisk *
-        Constants.connectionWeights[eld.connectionType]
+        weights.connectionWeights[eld.connectionType]
       );
     }
   });
   return {checked: checked, prob: prob}
 }
 
-const alg = function(n1) {
+const alg = function(n1, weights) {
   // console.log('alg for : ', n1.data().label)
-  let prob = Constants.riskWeights[n1.data().riskFactor];
+  let prob = weights.riskWeights[n1.data().riskFactor];
   let d = cy.elements().dijkstra(n1);
   let data = [];
   cy.nodes().difference(n1).forEach(function(n2) { 
@@ -50,7 +50,7 @@ const alg = function(n1) {
   let checked = [];
   data.forEach(function(pathInfo) {
     let n2Data = pathInfo.n2.data();
-    let roll = rollup(n1, pathInfo.path);
+    let roll = rollup(n1, pathInfo.path, weights);
     // console.log('r', n2Data.label, roll.prob);
     if (checked.indexOf(n2Data.id) < 0) {
       // console.log('not checked')
@@ -86,12 +86,13 @@ const exposureClass = function(num) {
 }
 
 const run = function() {
+  const weights = cy.data('weights');
   cy.nodes().forEach(function(node) {
     let riskFactor = node.data().riskFactor;
     if (riskFactor) {
       riskFactor = Constants.riskFactorClasses[riskFactor]
     } else { riskFactor = ''; }
-    const expc = exposureClass(alg(node)) || '';
+    const expc = exposureClass(alg(node, weights)) || '';
     // console.log(expc)
     node.classes([riskFactor, expc]);
   });
