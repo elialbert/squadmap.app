@@ -13,7 +13,7 @@
   };
   let connectionTypeValue = connectionType();
   function changeConnectionType() {
-    edge.data('connectionType', connectionTypeValue);
+    Manipulate.saveData(edge, 'connectionType', connectionTypeValue);
   };
 
   function doRemove() {

@@ -1,10 +1,11 @@
 const setLastNode = function(node) {
-  cy.data('lastNode', node);
+  saveData(cy, 'lastNode', node.data().id)
 }
 
 const removeNode = function(node) {
   cy.remove(node);
   setLastNode(cy.nodes()[0]);
+  save();
 };
 
 const getNeighbors = function(node) {
@@ -21,7 +22,8 @@ const connectTo = function(node, connectTo) {
   cy.add({
     group: 'edges',
     data: { source: node.data().id, target: connectTo.data().id }
-  })
+  });
+  save();
 };
 
 const edgeBetween = function(node1, node2) {
@@ -31,6 +33,7 @@ const edgeBetween = function(node1, node2) {
 const disconnectFrom = function(node, disconnectFrom) {
   setLastNode(node);
   cy.remove(edgeBetween(node, disconnectFrom));
+  save();
 };
 
 const refreshLayout = function() {
@@ -52,10 +55,19 @@ const newNode = function() {
       x: 100, y: 100
     }
   });
-  connectTo(cy.data().lastNode, res)
+  connectTo(cy.nodes().filter(function(n) { return n.data().id == cy.data().lastNode })[0], res);
   refreshLayout();
   return res;
 };
 
+const save = function() {
+  window.localStorage.setItem('cyjson', JSON.stringify(cy.json()));
+}
+
+const saveData = function(obj, key, value) {
+  obj.data(key, value);
+  save();
+};
+
 export default { removeNode, getNeighbors, getNonNeighbors, connectTo,
-  disconnectFrom, edgeBetween, newNode, refreshLayout, setLastNode }
+  disconnectFrom, edgeBetween, newNode, refreshLayout, setLastNode, saveData }

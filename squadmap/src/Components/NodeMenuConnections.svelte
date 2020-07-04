@@ -23,7 +23,11 @@
   $: neighborConnectionTypes = makeNeighborConnectionTypes();
 
   function changeConnectionType(neighbor) {
-    Manipulate.edgeBetween(node, neighbor).data('connectionType', neighborConnectionTypes[neighbor.data().id]);
+    Manipulate.saveData(
+      Manipulate.edgeBetween(node, neighbor), 
+      'connectionType', 
+      neighborConnectionTypes[neighbor.data().id]
+    );
   };
   
 </script>

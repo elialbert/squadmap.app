@@ -1,7 +1,7 @@
 <script>
   import cytoscape from 'cytoscape';
   import cola from 'cytoscape-cola';
-  import { elements } from '../team/Team.js'
+  // import { elements } from '../team/Team.js'
   import { showMenu, showEdgeMenu } from '../team/Labels.js'
   import debounce from 'lodash/debounce';
   import Manipulate from '../team/Manipulate.js';
@@ -39,7 +39,7 @@
           }
         }
       ],
-      elements: elements
+      elements: JSON.parse( window.localStorage.getItem("cyjson") ).elements
     });
 
     cy.on('drag', function(event) {
@@ -57,7 +57,7 @@
 
     Manipulate.refreshLayout();
     window.cy = cy;
-    cy.data('lastNode', cy.nodes()[0]);
+    Manipulate.setLastNode(cy.nodes()[0]);
   });
 
   var debounceRefreshLayout = debounce(Manipulate.refreshLayout, 10);
@@ -83,10 +83,5 @@
   position: absolute;
   top: 60px;
   z-index: 999;
-}
-
-h1 {
-  opacity: 0.5;
-  font-size: 1em;
 }
 </style>

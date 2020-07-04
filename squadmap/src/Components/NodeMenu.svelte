@@ -43,15 +43,15 @@
 
   function changeRiskFactor() {
     if (!riskFactorValue) { return; }
-    node.data('riskFactor', riskFactorValue);
+    Manipulate.saveData(node, 'riskFactor', riskFactorValue);
   };  
 
   let name = node.data().label || 'New';
   let nameInput;
-  onMount(() => { nameInput.focus() });
+  onMount(() => { if (name == 'New') { nameInput.focus() } });
 
   function changeName() {
-    node.data('label', name)
+    Manipulate.saveData(node, 'label', name);
     data = node.data();
   }
 </script>
@@ -66,9 +66,8 @@
       <div class='form-group'>
         <label for="name">Name</label>
         <div class="input-group">
-          <!-- svelte-ignore a11y-autofocus -->
           <input type='text' class='form-control' id='name' 
-            bind:this={nameInput} autofocus
+            bind:this={nameInput}
             bind:value={name} on:change={changeName} />
         </div>
       </div>
