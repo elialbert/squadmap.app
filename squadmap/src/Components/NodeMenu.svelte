@@ -7,6 +7,8 @@
   export let closeCB;
   import { onMount } from 'svelte';
 
+  let connectionsVisible = false;
+
   let data = node.data();
   Manipulate.setLastNode(node)
   let connectToValue;
@@ -30,6 +32,7 @@
     Manipulate.connectTo(node, connectToValue);
     connectToValue = null;
     computeNeighbors();
+    connectionsVisible = true;
   }
 
   function runDisconnect(neighbor) {
@@ -87,7 +90,7 @@
     </div>
 
     <NodeMenuConnections
-      {node} {runDisconnect} {neighbors} {nonNeighbors}
+      {node} {runDisconnect} {neighbors} {nonNeighbors} bind:visible={connectionsVisible}
     ></NodeMenuConnections>      
     
     <div class='form-group form-bottom-section'>

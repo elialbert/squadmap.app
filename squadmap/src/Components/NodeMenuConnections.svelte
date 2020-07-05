@@ -5,8 +5,7 @@
   export let node;
   export let runDisconnect;
   export let neighbors;
-
-  let visible = false;
+  export let visible;
   
   function connectionType(node1, node2) {
     return Manipulate.edgeBetween(node1, node2).data().connectionType || [...Constants.connectionTypes].pop();
