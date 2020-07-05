@@ -22,14 +22,14 @@
     top: 8%;
     left: 8%;
     width: 80vw;
-    max-width: 80vw;
+    max-width: 360px;
     z-index: 9000;
     transform: none;
     background-color: rgba(255, 255, 255, 0.7);
   }
 
   .popover-body {
-    overflow-y: scroll;
+    overflow-y: auto;
     max-height: 84vh;
   }
 
