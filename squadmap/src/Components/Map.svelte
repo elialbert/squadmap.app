@@ -6,7 +6,7 @@
   import { showMenu, showEdgeMenu } from '../team/Labels.js'
   import debounce from 'lodash/debounce';
   import Manipulate from '../team/Manipulate.js';
-  
+
   cytoscape.use(cola);
   let preloaded = JSON.parse( window.localStorage.getItem("cyjson") );
   if (!preloaded) {
@@ -19,7 +19,7 @@
       autounselectify: true,
       boxSelectionEnabled: false,
       style: Constants.nodeStyles,
-      elements: preloaded.elements
+      elements: preloaded.elements,
     });
 
     cy.on('drag', function(event) {
@@ -39,6 +39,7 @@
     let weights = {riskWeights: Constants.riskWeights, connectionWeights: Constants.connectionWeights};
     weights = {...weights, ...storedWeights};
     cy.data('weights', weights);
+    cy.data('showLabels', (preloaded.data || {}).showLabels)
     Manipulate.refreshLayout();
     window.cy = cy;
     Manipulate.setLastNode(cy.nodes()[0]);

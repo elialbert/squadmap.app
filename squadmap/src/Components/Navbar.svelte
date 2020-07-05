@@ -3,6 +3,7 @@
   import { showMenu } from '../team/Labels.js'
   import About from './About.svelte';
   import Numbers from './Numbers.svelte';
+  
 
   let showAbout = false;
   let showNumbers = false;
@@ -31,6 +32,16 @@
       location.reload();
     }
   }
+
+  function toggleColorBlind() {
+    let colorBlind = cy.data('showLabels');
+    if (!colorBlind) {
+      cy.data('showLabels', true);
+    } else {
+      cy.data('showLabels', false);
+    }
+    Manipulate.save();
+  };
 </script>
 
 <nav class="navbar fixed-top navbar-expand-lg navbar-light text-dark bg-transparent">
@@ -55,7 +66,11 @@
       </li>
       <li class="nav-item">
         <!-- svelte-ignore a11y-invalid-attribute -->
-        <a class="nav-link background-color-alert" href="#" on:click={reset}>Reset</a>
+        <a class="nav-link" href="#" on:click={toggleColorBlind}>Toggle color-blind mode</a>
+      </li>
+      <li class="nav-item">
+        <!-- svelte-ignore a11y-invalid-attribute -->
+        <a class="nav-link" href="#" on:click={reset}>Reset</a>
       </li>
     </ul>
   </div>
@@ -66,3 +81,9 @@
 {#if showNumbers}
   <Numbers closeCB={numbersClose}></Numbers>
 {/if}
+
+<style>
+  a.navbar-brand {
+    padding-bottom: .6125rem;
+  }
+</style>

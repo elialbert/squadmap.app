@@ -62,6 +62,12 @@ const constants = {
       }
     },
     {
+      selector: 'node.node-number-label',
+      style: {
+        "label": "data(probResult)"
+      }
+    },
+    {
       selector: '.risk-factor-home',
       css: {
         'border-color': '#4ec924'

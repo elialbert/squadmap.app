@@ -94,14 +94,22 @@ const exposureClass = function(num) {
 
 const run = function() {
   const weights = cy.data('weights');
+  const showLabels = cy.data('showLabels');
   cy.nodes().forEach(function(node) {
     let riskFactor = node.data().riskFactor;
     if (riskFactor) {
       riskFactor = Constants.riskFactorClasses[riskFactor]
     } else { riskFactor = ''; }
-    const expc = exposureClass(alg(node, weights)) || '';
-    log('final for ', node.data().label, expc)
-    node.classes([riskFactor, expc]);
+    const probResult = alg(node, weights);
+
+    if (showLabels) {
+      node.classes(['node-number-label']);
+      node.data('probResult', `${node.data('label')}: ${probResult.toFixed(2)}`);
+    } else {
+      const expc = exposureClass(probResult) || '';
+      node.classes([riskFactor, expc]);
+      log('final for ', node.data().label, expc)
+    }
   });
 
   cy.edges().forEach(function(edge) {
