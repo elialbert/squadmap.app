@@ -34,7 +34,7 @@
 
 <div class='form-group connections-box'>
   <label for="disconnectFrom">Connections</label>
-  <div class='bg-white rounded box-shadow'>
+  <div class='rounded box-shadow'>
     {#each neighbors as neighbor}
       <div class='media pb-3'>
         <p class='media-body pb-1 mb-0 medium lh-125 border-bottom border-gray'>

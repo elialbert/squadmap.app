@@ -3,7 +3,7 @@ const constants = {
     'Works at home', 'Works outdoors', 'Works in an office', 'Works in hospitality', 'Works in a hospital', 'Unknown'
   ],
   connectionTypes: [
-    'Unknown', 'Outside, distanced', 'Outside, but close', 'Indoors briefly / very seldom', 'Indoors and unworried', 'Close as can be'
+    'Unknown', 'Outside, distanced', 'Outside, but close', 'Indoors briefly / seldom', 'Indoors and unworried', 'Close as can be'
   ],
 
   riskFactorClasses: {
@@ -19,7 +19,7 @@ const constants = {
     'Unknown': 'connection-type-unknown',
     'Outside, distanced': 'connection-type-outside-distanced',
     'Outside, but close': 'connection-type-outside-close',
-    'Indoors briefly / very seldom': 'connection-type-indoors-seldom',
+    'Indoors briefly / seldom': 'connection-type-indoors-seldom',
     'Indoors and unworried': 'connection-type-indoors',
     'Close as can be': 'connection-type-close'
   },
@@ -37,7 +37,7 @@ const constants = {
     'Unknown': 0.4,
     'Outside, distanced': 0.03,
     'Outside, but close': 0.16,
-    'Indoors briefly / very seldom': 0.24,
+    'Indoors briefly / seldom': 0.24,
     'Indoors and unworried': 0.8,
     'Close as can be': 0.97
   },
