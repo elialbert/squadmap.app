@@ -1,4 +1,5 @@
 <script>
+  import Modal from './Modal.svelte';
   import Manipulate from '../team/Manipulate.js';
   import Constants from '../team/Constants.js';
   import NodeMenuConnections from './NodeMenuConnections.svelte';
@@ -55,71 +56,48 @@
     data = node.data();
   }
 </script>
-
-<div class='popover fade bs-popover-right show node-menu' id={`node-menu-${data.id}`}>
-  <h3 class='popover-header'>
-    Edit Info for {data.label}
-    <span class="float-right cursor-pointer" on:click={closeCB}>X</span>
-  </h3>
-  <div class='popover-body'>
-    <form>
-      <div class='form-group'>
-        <label for="name">Name</label>
-        <div class="input-group">
-          <input type='text' class='form-control' id='name' 
-            bind:this={nameInput}
-            bind:value={name} on:change={changeName} />
-        </div>
+<Modal title={`Edit Info for ${data.label}`} {closeCB}>
+  <form>
+    <div class='form-group'>
+      <label for="name">Name</label>
+      <div class="input-group">
+        <input type='text' class='form-control' id='name' 
+          bind:this={nameInput}
+          bind:value={name} on:change={changeName} />
       </div>
-      <div class='form-group'>
-        <label for="riskFactor">Risk Factor</label>
-        <!-- svelte-ignore a11y-no-onchange -->
-        <select class="form-control" id="riskFactor" bind:value={riskFactorValue} on:change={changeRiskFactor}>
-          {#each Constants.riskFactors as riskFactor}
-            <option value={riskFactor}>{riskFactor}</option>
-          {/each}
-        </select>
-      </div>
-      <div class='form-group'>
-        <label for="connectTo">Connect To</label>
-        <!-- svelte-ignore a11y-no-onchange -->
-        <select class="form-control" id="connectTo" bind:value={connectToValue} on:change={runConnect}>
-          <option value={null}>{nonNeighbors.length > 0 ? `Choose` : `Connected to everyone!`}</option>
-          {#each nonNeighbors as nonNeighbor}
-            <option value={nonNeighbor}>{nonNeighbor.data().label}</option>
-          {/each}
-        </select>
-      </div>
+    </div>
+    <div class='form-group'>
+      <label for="riskFactor">Risk Factor</label>
+      <!-- svelte-ignore a11y-no-onchange -->
+      <select class="form-control" id="riskFactor" bind:value={riskFactorValue} on:change={changeRiskFactor}>
+        {#each Constants.riskFactors as riskFactor}
+          <option value={riskFactor}>{riskFactor}</option>
+        {/each}
+      </select>
+    </div>
+    <div class='form-group'>
+      <label for="connectTo">Connect To</label>
+      <!-- svelte-ignore a11y-no-onchange -->
+      <select class="form-control" id="connectTo" bind:value={connectToValue} on:change={runConnect}>
+        <option value={null}>{nonNeighbors.length > 0 ? `Choose` : `Connected to everyone!`}</option>
+        {#each nonNeighbors as nonNeighbor}
+          <option value={nonNeighbor}>{nonNeighbor.data().label}</option>
+        {/each}
+      </select>
+    </div>
 
-      <NodeMenuConnections
-        {node} {runDisconnect} {neighbors} {nonNeighbors}
-      ></NodeMenuConnections>      
-      
-      <div class='form-group form-bottom-section'>
-        <button type='button' class="btn btn-secondary btn-sm"
-          on:click={closeCB}
-        >Done</button>
-        <br/>
-        <button type='button' class="btn btn-danger btn-sm"
-          on:click={doRemove}
-        >Remove {data.label}</button>
-      </div>
-    </form>
-  </div>
-</div>
-
-<style>
-  .popover.node-menu {
-    position: absolute;
-    top: 100px;
-    left: 50px;
-    width: 80vw;
-    z-index: 9000;
-    transform: none;
-    background-color: white;
-  }
-
-  .cursor-pointer {
-    cursor: pointer;
-  }
-</style>
+    <NodeMenuConnections
+      {node} {runDisconnect} {neighbors} {nonNeighbors}
+    ></NodeMenuConnections>      
+    
+    <div class='form-group form-bottom-section'>
+      <button type='button' class="btn btn-secondary btn-sm"
+        on:click={closeCB}
+      >Done</button>
+      <br/>
+      <button type='button' class="btn btn-danger btn-sm"
+        on:click={doRemove}
+      >Remove {data.label}</button>
+    </div>
+  </form>
+</Modal>

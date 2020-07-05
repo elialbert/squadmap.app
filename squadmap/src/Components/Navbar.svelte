@@ -23,6 +23,14 @@
   function openNumbers() {
     showNumbers = true;
   }
+
+  function reset() {
+    if (confirm("Are you sure you want to clear all your changes and start over with the demo?")) {
+      localStorage.removeItem('cyjson');
+      localStorage.removeItem('weights');
+      location.reload();
+    }
+  }
 </script>
 
 <nav class="navbar fixed-top navbar-expand-lg navbar-light text-dark bg-transparent">
@@ -44,6 +52,10 @@
       <li class="nav-item">
         <!-- svelte-ignore a11y-invalid-attribute -->
         <a class="nav-link" href="#" on:click={openNumbers}>Numbers</a>
+      </li>
+      <li class="nav-item">
+        <!-- svelte-ignore a11y-invalid-attribute -->
+        <a class="nav-link background-color-alert" href="#" on:click={reset}>Reset</a>
       </li>
     </ul>
   </div>
