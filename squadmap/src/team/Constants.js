@@ -59,7 +59,8 @@ const constants = {
       selector: 'node',
       css: {
         'background-color': 'white',
-        'border-width': 0,
+        'border-width': 1.5,
+        'border-color': 'black',
         'text-valign': 'center',
         'text-halign': 'center',
         'height': '60px',
@@ -77,42 +78,6 @@ const constants = {
       selector: 'node.node-number-label',
       style: {
         "label": "data(probResult)"
-      }
-    },
-    {
-      selector: '.risk-factor-home',
-      css: {
-        'border-color': Colors.c1
-      }
-    },
-    {
-      selector: '.risk-factor-outdoors',
-      css: {
-        'border-color': Colors.c2
-      }
-    },    
-    {
-      selector: '.risk-factor-office',
-      css: {
-        'border-color': Colors.c3
-      }
-    },
-    {
-      selector: '.risk-factor-hospitality',
-      css: {
-        'border-color': Colors.c4
-      }
-    },
-    {
-      selector: '.risk-factor-hospital',
-      css: {
-        'border-color': Colors.c5
-      }
-    },
-    {
-      selector: '.risk-factor-unknown',
-      css: {
-        'border-color': Colors.c6      
       }
     },
     {

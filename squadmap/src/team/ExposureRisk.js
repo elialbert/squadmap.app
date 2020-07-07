@@ -124,7 +124,11 @@ const run = function() {
     if (sourceClass && targetClass) {
       classesToAdd.push(`rf-${sourceClass}-${targetClass}`)
     }
-    edge.classes(classesToAdd);
+    if (!showLabels) {
+      edge.classes(classesToAdd);
+    } else {
+      edge.classes(['no-color-edge'])
+    }
   });
 };
 

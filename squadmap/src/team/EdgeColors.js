@@ -251,7 +251,14 @@ const edgeColors = [{
     'line-fill': 'linear-gradient',
     'line-gradient-stop-colors': `${Colors.c6} ${Colors.c6}`
   }
-}];
+},
+{
+  selector: '.no-color-edge',
+  css: {
+    'color': 'back'
+  }
+}
+];
 
 export default edgeColors;
 
