@@ -45,6 +45,7 @@ const refreshLayout = function() {
     name: 'cola',
     fit: true,
     padding: 1,
+    edgeLength: 98
   }).run();
 }
 

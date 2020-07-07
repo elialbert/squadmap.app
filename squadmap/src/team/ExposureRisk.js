@@ -114,9 +114,17 @@ const run = function() {
 
   cy.edges().forEach(function(edge) {
     let connectionType = edge.data().connectionType;
+    let classesToAdd = [];
     if (connectionType) {
-      edge.classes([Constants.connectionTypeClasses[connectionType]]);
+      const connectionTypeClass = Constants.connectionTypeClasses[connectionType];
+      classesToAdd.push(connectionTypeClass)
     }
+    const sourceClass = Constants.riskFactorClassesShort[edge.source().data().riskFactor];
+    const targetClass = Constants.riskFactorClassesShort[edge.target().data().riskFactor];
+    if (sourceClass && targetClass) {
+      classesToAdd.push(`rf-${sourceClass}-${targetClass}`)
+    }
+    edge.classes(classesToAdd);
   });
 };
 

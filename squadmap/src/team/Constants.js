@@ -1,3 +1,5 @@
+import EdgeColors from './EdgeColors.js';
+
 const constants = {
   riskFactors: [
     'Works at home', 'Works outdoors', 'Works in an office', 'Works in hospitality', 'Works in a hospital', 'Unknown'
@@ -13,6 +15,15 @@ const constants = {
     'Works in hospitality': 'risk-factor-hospitality',
     'Works in a hospital': 'risk-factor-hospital',
     'Unknown': 'risk-factor-unknown'
+  },
+
+  riskFactorClassesShort: {
+    'Works at home': 'home',
+    'Works outdoors': 'outdoors',
+    'Works in an office': 'office',
+    'Works in hospitality': 'hospitality',
+    'Works in a hospital': 'hospital',
+    'Unknown': 'unknown'
   },
 
   connectionTypeClasses: {
@@ -47,7 +58,7 @@ const constants = {
       selector: 'node',
       css: {
         'background-color': 'white',
-        'border-width': 2,
+        'border-width': 0,
         'text-valign': 'center',
         'text-halign': 'center',
         'height': '60px',
@@ -105,9 +116,9 @@ const constants = {
     },
     {
       selector: 'edge',
-      css: {
-        'line-color': 'black',
-        'width': 2
+      css: {        
+        'width': 6,
+        'line-color':'black'
       }
     },
     {
@@ -182,5 +193,7 @@ const constants = {
     },
   ]
 };
+
+constants.nodeStyles = constants.nodeStyles.concat(EdgeColors);
 
 export default constants;
