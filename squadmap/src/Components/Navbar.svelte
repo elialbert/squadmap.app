@@ -62,7 +62,7 @@
       </li>
       <li class="nav-item">
         <!-- svelte-ignore a11y-invalid-attribute -->
-        <a class="nav-link" href="#" on:click={openNumbers}>Numbers</a>
+        <a class="nav-link" href="#" on:click={openNumbers}>Modify Algorithm Weights</a>
       </li>
       <li class="nav-item">
         <!-- svelte-ignore a11y-invalid-attribute -->

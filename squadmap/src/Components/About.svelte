@@ -8,21 +8,21 @@
     Squadmap.app is a tool to help you survive winter 2020. 
   </p>
   <p class='p-2'>
-    The idea is to form a trusted squad of friends that you can hang out with indoors, and to be comfortable with the risk that entails.
+    The idea is to to feel empowered in the decisions you make around who you share space with and how you do it.
   </p>
   <p class='p-2'>
-    SquadMap.app helps you choose your squad by allowing you to visualize people and connections on a graph. Note that everything is automatically saved in YOUR browser - I don't want your data.
+    Note that everything is automatically saved in your browser - as of right now nothing is shared online.
   </p>
   <p class='p-2'>
-    Try it out! Click nodes and edges to change the peoples' jobs and interactions, drag nodes to fit on your screen better.
+    Try it out! Click nodes and edges to change peoples' jobs and interactions, and watch how the colors change. Or turn off colors in the menu for color-blindedness.
   </p>
   <p class='p-2'>
-    If you're feeling adventurous, you can also change the numeric assumptions underlying the algorithm itself.
+    Node colors reflect the overall risk to that person, and edge gradients reflect that person's independent risk.
   </p>      
   <p class='p-2'>
     Thanks, hope you like it! 
     <br/>
-    <a href='https://elialbert.com'>Eli</a>
+    <a href='https://elialbert.com' target='_blank'>Eli</a>
   </p>
   <button type='button' class="btn btn-primary btn-sm"
     on:click={closeCB}
