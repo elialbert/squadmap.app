@@ -76,7 +76,7 @@
 
 <style>
   .connections-box {
-    min-height: 300px;
+    padding-bottom: 10px;
   }
   .connections-link {
     color: '#007bff';
