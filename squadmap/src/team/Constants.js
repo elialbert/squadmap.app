@@ -1,4 +1,5 @@
 import EdgeColors from './EdgeColors.js';
+import Colors from './Colors.js';
 
 const constants = {
   riskFactors: [
@@ -81,37 +82,37 @@ const constants = {
     {
       selector: '.risk-factor-home',
       css: {
-        'border-color': '#4ec924'
+        'border-color': Colors.c1
       }
     },
     {
       selector: '.risk-factor-outdoors',
       css: {
-        'border-color': '#9dc924'
+        'border-color': Colors.c2
       }
     },    
     {
       selector: '.risk-factor-office',
       css: {
-        'border-color': '#bec924'
+        'border-color': Colors.c3
       }
     },
     {
       selector: '.risk-factor-hospitality',
       css: {
-        'border-color': '#c95624'
+        'border-color': Colors.c4
       }
     },
     {
       selector: '.risk-factor-hospital',
       css: {
-        'border-color': '#c92424'
+        'border-color': Colors.c5
       }
     },
     {
       selector: '.risk-factor-unknown',
       css: {
-        'border-color': '#9e8b83'      
+        'border-color': Colors.c6      
       }
     },
     {
@@ -164,31 +165,31 @@ const constants = {
     {
       selector: '.exposure-risk-1',
       css: {
-        'background-color': '#4ec924'
+        'background-color': Colors.c1
       }
     },
     {
       selector: '.exposure-risk-2',
       css: {
-        'background-color': '#9dc924'
+        'background-color': Colors.c2
       }
     },    
     {
       selector: '.exposure-risk-3',
       css: {
-        'background-color': '#bec924'
+        'background-color': Colors.c3
       }
     },
     {
       selector: '.exposure-risk-4',
       css: {
-        'background-color': '#c95624'
+        'background-color': Colors.c4
       }
     },
     {
       selector: '.exposure-risk-5',
       css: {
-        'background-color': '#c92424'
+        'background-color': Colors.c5
       }
     },
   ]
