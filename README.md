@@ -4,3 +4,5 @@ a web-based graphviz tool for planning how to safely hang out with your friends 
 
 SquadMap is open source; feel free to open issues / PRs.
 Thanks!
+
+![xkcd](https://imgs.xkcd.com/comics/acceptable_risk_2x.png)
