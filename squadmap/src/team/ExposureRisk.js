@@ -11,7 +11,7 @@ const nodekey = function(n) {
   return n.data().id;
 };
 
-const nodeskey = function(n1, n2) { 
+const nodeskey = function(n1, n2) {
   return [n1.data().id, n2.data().id].sort().join(' - ');
 }
 
@@ -50,7 +50,7 @@ const alg = function(n1, weights) {
   let prob = weights.riskWeights[n1.data().riskFactor];
   let d = cy.elements().dijkstra(n1);
   let data = [];
-  cy.nodes().difference(n1).forEach(function(n2) { 
+  cy.nodes().difference(n1).forEach(function(n2) {
     data.push({n1: n1, n2: n2, distance: d.distanceTo(n2), path: d.pathTo(n2)});
   });
   data = data.sort(function(a,b) { return a.distance - b.distance  }).reverse();
@@ -64,10 +64,10 @@ const alg = function(n1, weights) {
       log('not checked: new prob now', prob)
       checked = checked.concat(roll.checked);
     } else { log('checked, skipping', n2Data.label)}
-    
+
   });
   log('prob!', prob)
-  return prob 
+  return prob
 }
 
 const mapToExposure = function(p) {
@@ -92,7 +92,7 @@ const exposureClass = function(num) {
   return `exposure-risk-${mapToExposure(num)}`;
 }
 
-const run = function() {
+const runNodes = function() {
   const weights = cy.data('weights');
   const showLabels = cy.data('showLabels');
   cy.nodes().forEach(function(node) {
@@ -107,11 +107,14 @@ const run = function() {
       node.data('probResult', `${node.data('label')}: ${probResult.toFixed(2)}`);
     } else {
       const expc = exposureClass(probResult) || '';
-      node.classes([riskFactor, expc]);
+      node.classes([riskFactor, expc]); // not using riskfactor
       log('final for ', node.data().label, expc)
     }
   });
+}
 
+const runEdges = function() {
+  const showLabels = cy.data('showLabels');
   cy.edges().forEach(function(edge) {
     let connectionType = edge.data().connectionType;
     let classesToAdd = [];
@@ -130,6 +133,11 @@ const run = function() {
       edge.classes(['no-color-edge'])
     }
   });
+}
+
+const run = function() {
+  runNodes();
+  runEdges();
 };
 
 export default {run: run};

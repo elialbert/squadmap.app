@@ -13,6 +13,7 @@
   Manipulate.setLastNode(node)
   let connectToValue;
   let riskFactorValue = riskFactor(node);
+  let activityValue = activity(node);
 
   let neighbors;
   let nonNeighbors;
@@ -21,7 +22,7 @@
     nonNeighbors = Manipulate.getNonNeighbors(node);
   }
   computeNeighbors();
-  
+
   function doRemove() {
     closeCB();
     Manipulate.removeNode(node);
@@ -45,10 +46,19 @@
     return node.data().riskFactor || [...Constants.riskFactors].pop();
   };
 
+  function activity(node) {
+    return node.data().activity || [...Constants.activities][0];
+  };
+
   function changeRiskFactor() {
     if (!riskFactorValue) { return; }
     Manipulate.saveData(node, 'riskFactor', riskFactorValue);
-  };  
+  };
+
+  function changeActivity() {
+    if (!activityValue) { return; }
+    Manipulate.saveData(node, 'activity', activityValue);
+  }
 
   let name = node.data().label || 'New';
   let nameInput;
@@ -64,7 +74,7 @@
     <div class='form-group'>
       <label for="name">Name</label>
       <div class="input-group">
-        <input type='text' class='form-control' id='name' 
+        <input type='text' class='form-control' id='name'
           bind:this={nameInput}
           bind:value={name} on:change={changeName} />
       </div>
@@ -78,6 +88,17 @@
         {/each}
       </select>
     </div>
+
+    <div class='form-group'>
+      <label for="activities">Activity Level</label>
+      <!-- svelte-ignore a11y-no-onchange -->
+      <select class="form-control" id="activities" bind:value={activityValue} on:change={changeActivity}>
+        {#each Constants.activities as activity}
+          <option value={activity}>{activity}</option>
+        {/each}
+      </select>
+    </div>
+
     <div class='form-group'>
       <label for="connectTo">Connect To</label>
       <!-- svelte-ignore a11y-no-onchange -->
@@ -91,8 +112,8 @@
 
     <NodeMenuConnections
       {node} {runDisconnect} {neighbors} {nonNeighbors} bind:visible={connectionsVisible}
-    ></NodeMenuConnections>      
-    
+    ></NodeMenuConnections>
+
     <div class='form-group form-bottom-section'>
       <button type='button' class="btn btn-secondary btn-sm"
         on:click={closeCB}

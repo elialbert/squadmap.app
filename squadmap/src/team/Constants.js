@@ -9,6 +9,10 @@ const constants = {
     'Unknown', 'Outside, distanced', 'Outside, but close', 'Indoors briefly / seldom', 'Indoors and unworried', 'Close as can be'
   ],
 
+  activities: [
+    'Hides at home', 'Outdoors, shops for groceries, but careful', 'Outdoors and unworried', 'Goes to restaurants', 'Goes to bars + restaurants', 'Does not care about risk'
+  ],
+
   riskFactorClasses: {
     'Works at home': 'risk-factor-home',
     'Works outdoors': 'risk-factor-outdoors',
@@ -82,7 +86,7 @@ const constants = {
     },
     {
       selector: 'edge',
-      css: {        
+      css: {
         'width': 6,
         'line-color':'black'
       }
@@ -97,28 +101,28 @@ const constants = {
       selector: '.connection-type-outside-distanced',
       css: {
         'line-style': 'dashed',
-        'line-dash-pattern': [2, 9], 
+        'line-dash-pattern': [2, 9],
       }
     },
     {
       selector: '.connection-type-outside-close',
       css: {
         'line-style': 'dashed',
-        'line-dash-pattern': [3, 6], 
+        'line-dash-pattern': [3, 6],
       }
     },
     {
       selector: '.connection-type-indoors-seldom',
       css: {
         'line-style': 'dashed',
-        'line-dash-pattern': [3, 3], 
+        'line-dash-pattern': [3, 3],
       }
     },
     {
       selector: '.connection-type-indoors',
       css: {
         'line-style': 'dashed',
-        'line-dash-pattern': [10, 1], 
+        'line-dash-pattern': [10, 1],
       }
     },
     {
@@ -138,7 +142,7 @@ const constants = {
       css: {
         'background-color': Colors.c2
       }
-    },    
+    },
     {
       selector: '.exposure-risk-3',
       css: {
