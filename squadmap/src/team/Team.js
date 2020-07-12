@@ -18,7 +18,8 @@ const sample = {
       data: {
         id: "4",
         label: "Alice + bf",
-        riskFactor: 'Works in an office'
+        activity: 'Outdoors, shops for groceries, but careful',
+        riskFactor: 'Works outdoors'
       }
     },
     {
@@ -31,14 +32,16 @@ const sample = {
     {
       data: {
         id: "8",
+        activity: 'Does not care about risk',
         label: "Joey's roommate's gf",
-        riskFactor: 'Works in hospitality'
+        riskFactor: 'Works in a hospital'
       }
     },
     {
       data: {
         id: "10",
         label: "Jen",
+        activity: 'Outdoors, shops for groceries, but careful',
         riskFactor: 'Works outdoors'
       }
     },

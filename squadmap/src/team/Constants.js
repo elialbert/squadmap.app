@@ -3,19 +3,34 @@ import Colors from './Colors.js';
 
 const constants = {
   riskFactors: [
-    'Works at home', 'Works outdoors', 'Works in an office', 'Works in hospitality', 'Works in a hospital', 'Unknown'
+    'Works at home',
+    'Works outdoors',
+    'Works in an office',
+    'Works in hospitality',
+    'Works in a hospital',
+    'Unknown'
   ],
   connectionTypes: [
-    'Unknown', 'Outside, distanced', 'Outside, but close', 'Indoors briefly / seldom', 'Indoors and unworried', 'Close as can be'
+    'Unknown',
+    'Outside, distanced',
+    'Outside, but close',
+    'Indoors briefly / seldom',
+    'Indoors and unworried',
+    'Close as can be'
   ],
 
   activities: [
-    'Hides at home', 'Outdoors, shops for groceries, but careful', 'Outdoors and unworried', 'Goes to restaurants', 'Goes to bars + restaurants', 'Does not care about risk'
+    'Hides at home',
+    'Outdoors, shops for groceries, but careful',
+    'Outdoors and sort of keeps distance',
+    'Goes to restaurants',
+    'Goes to bars + restaurants',
+    'Does not care about risk'
   ],
 
   activityModifier: {
     'Hides at home': 0,
-    'Outdoors, shops for groceries, but careful': 0.025,
+    'Outdoors, shops for groceries, but careful': 0.004,
     'Outdoors and sort of keeps distance': 0.1,
     'Goes to restaurants': 0.25,
     'Goes to bars + restaurants': 0.4,

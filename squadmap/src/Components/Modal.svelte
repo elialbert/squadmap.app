@@ -7,7 +7,7 @@
 <div class={`popover fade bs-popover-right show custom-modal ${customClass}`}>
   <h3 class='popover-header'>
     {title}
-    <span class="float-right cursor-pointer" on:click={closeCB}>X</span>
+    <span class="float-right cursor-pointer close-button" on:click={closeCB}>X</span>
   </h3>
   <div class='popover-body'>
     <slot></slot>
@@ -35,5 +35,10 @@
 
   .cursor-pointer {
     cursor: pointer;
+  }
+
+  .close-button {
+    padding: 10px;
+    margin: -10px;
   }
 </style>

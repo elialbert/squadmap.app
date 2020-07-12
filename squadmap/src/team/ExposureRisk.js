@@ -23,7 +23,7 @@ const nodeskey = function(n1, n2) {
 const adjustedRiskWeight = function(weights, elData) {
   const riskWeight = weights.riskWeights[elData.riskFactor];
   const activityModifier = weights.activityModifier[elData.activity] || 0;
-  log('activity modifier', activityModifier, riskWeight, riskWeight * (1 + activityModifier))
+  log('activity modifier', activityModifier, riskWeight, riskWeight + (activityModifier))
   return riskWeight + (activityModifier);
 }
 

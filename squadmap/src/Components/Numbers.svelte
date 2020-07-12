@@ -8,11 +8,13 @@
   let weights = null;
   let riskWeights;
   let connectionWeights;
+  let activityModifier;
 
   function prepWeights() {
     if (!weights) { return; }
     riskWeights = Object.entries(weights.riskWeights);
     connectionWeights = Object.entries(weights.connectionWeights);
+    activityModifier = Object.entries(weights.activityModifier);
   }
 
   if (window.cy) {
@@ -31,16 +33,19 @@
   function weightUpdate() {
     const weightObj = {
       riskWeights: Object.fromEntries(riskWeights),
-      connectionWeights: Object.fromEntries(connectionWeights)
+      connectionWeights: Object.fromEntries(connectionWeights),
+      activityModifier: Object.fromEntries(activityModifier)
     };
     cy.data('weights', weightObj);
     ExposureRisk.run();
     window.localStorage.setItem('weights', JSON.stringify(weightObj));
   }
   var debounceWeightUpdate = debounce(weightUpdate, 10);
-  
+
   function reset() {
-    weights = {riskWeights: Constants.riskWeights, connectionWeights: Constants.connectionWeights};
+    weights = {riskWeights: Constants.riskWeights,
+      connectionWeights: Constants.connectionWeights,
+      activityModifier: Constants.activityModifier};
     window.localStorage.setItem('weights', JSON.stringify(weights));
     prepWeights();
   };
@@ -60,6 +65,20 @@
         </div>
       </div>
     {/each}
+    <hr/>
+
+    <h4>Activity Risk</h4>
+    {#each activityModifier as [key, value]}
+      <div class='form-group'>
+        <label for="connectTo">{key}: {value}</label>
+        <div class="slidecontainer">
+          <input type="range" min="0" max="0.5" on:input={debounceWeightUpdate}
+            bind:value={value} class="range-slider__range"
+            step='0.0001'>
+        </div>
+      </div>
+    {/each}
+    <hr/>
 
     <h4>Connection Risk</h4>
     {#each connectionWeights as [key, value]}
@@ -83,7 +102,7 @@
 </Modal>
 
 <style>
-  
+
   .slidecontainer {
     margin-top: 10px;
     margin-bottom: 10px;
