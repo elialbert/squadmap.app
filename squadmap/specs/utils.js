@@ -2,8 +2,10 @@ import Constants from '../src/team/Constants';
 import cytoscape from 'cytoscape';
 
 const makeCY = function(elements) {
-  let weights = {riskWeights: Constants.riskWeights, connectionWeights: Constants.connectionWeights};
-  
+  let weights = {riskWeights: Constants.riskWeights,
+    connectionWeights: Constants.connectionWeights,
+    activityModifier: Constants.activityModifier};
+
   window.cy = cytoscape({
     // container: document.getElementById('cy'),
     autounselectify: true,

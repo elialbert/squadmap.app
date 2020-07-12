@@ -12,7 +12,7 @@
   if (!preloaded) {
     preloaded = {elements: sample}
   }
-  
+
   document.addEventListener('DOMContentLoaded', function(){
     var cy = window.cy = cytoscape({
       container: document.getElementById('cy'),
@@ -36,7 +36,8 @@
     });
 
     let storedWeights = JSON.parse(window.localStorage.getItem('weights'));
-    let weights = {riskWeights: Constants.riskWeights, connectionWeights: Constants.connectionWeights};
+    let weights = {riskWeights: Constants.riskWeights, connectionWeights: Constants.connectionWeights,
+      activityModifier: Constants.activityModifier};
     weights = {...weights, ...storedWeights};
     cy.data('weights', weights);
     cy.data('showLabels', (preloaded.data || {}).showLabels)

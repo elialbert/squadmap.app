@@ -13,6 +13,15 @@ const constants = {
     'Hides at home', 'Outdoors, shops for groceries, but careful', 'Outdoors and unworried', 'Goes to restaurants', 'Goes to bars + restaurants', 'Does not care about risk'
   ],
 
+  activityModifier: {
+    'Hides at home': 0,
+    'Outdoors, shops for groceries, but careful': 0.025,
+    'Outdoors and sort of keeps distance': 0.1,
+    'Goes to restaurants': 0.25,
+    'Goes to bars + restaurants': 0.4,
+    'Does not care about risk': 0.6
+  },
+
   riskFactorClasses: {
     'Works at home': 'risk-factor-home',
     'Works outdoors': 'risk-factor-outdoors',

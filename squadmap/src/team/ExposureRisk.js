@@ -7,12 +7,24 @@ const log = function(...args) {
   }
 }
 
+const closest = (orderedArray, value, valueGetter = item => item) =>
+  orderedArray.find((item, i) =>
+    i === orderedArray.length - 1 ||
+    Math.abs(value - valueGetter(item)) < Math.abs(value - valueGetter(orderedArray[i + 1])));
+
 const nodekey = function(n) {
   return n.data().id;
 };
 
 const nodeskey = function(n1, n2) {
   return [n1.data().id, n2.data().id].sort().join(' - ');
+}
+
+const adjustedRiskWeight = function(weights, elData) {
+  const riskWeight = weights.riskWeights[elData.riskFactor];
+  const activityModifier = weights.activityModifier[elData.activity] || 0;
+  log('activity modifier', activityModifier, riskWeight, riskWeight * (1 + activityModifier))
+  return riskWeight + (activityModifier);
 }
 
 const reversePath = function(path) {
@@ -29,7 +41,7 @@ const rollup = function(n1, path, weights) {
   reversed.forEach(function(el) {
     const eld = el.data()
     if (eld.riskFactor) {
-      lastNodeRisk = (prob + weights.riskWeights[eld.riskFactor]);
+      lastNodeRisk = (prob + adjustedRiskWeight(weights, eld));
       checked.push(eld.id);
     } else if (eld.connectionType) {
       log('internal: ',prob, lastNodeRisk, weights.connectionWeights[eld.connectionType],(
@@ -47,7 +59,7 @@ const rollup = function(n1, path, weights) {
 
 const alg = function(n1, weights) {
   log('****************alg for : ', n1.data().label)
-  let prob = weights.riskWeights[n1.data().riskFactor];
+  let prob = adjustedRiskWeight(weights, n1.data());
   let d = cy.elements().dijkstra(n1);
   let data = [];
   cy.nodes().difference(n1).forEach(function(n2) {
@@ -92,6 +104,26 @@ const exposureClass = function(num) {
   return `exposure-risk-${mapToExposure(num)}`;
 }
 
+const riskClassAdjustedByActivity = function(weights, sortedRisks, riskLookup, elData) {
+  const adj = adjustedRiskWeight(weights, elData);
+  const closestRiskWeight = closest(sortedRisks, adj, function(x) { return x[1]; })[1];
+  const newRisk = riskLookup[closestRiskWeight];
+  log('rcaba', elData.label, adj, closestRiskWeight, newRisk)
+  if (newRisk) {
+    return Constants.riskFactorClassesShort[newRisk];
+  } else {
+    return Constants.riskFactorClassesShort[elData.riskFactor];
+  }
+};
+
+const riskClassLookupByWeight = function(weights) {
+  let a = {};
+  Object.entries(weights.riskWeights).forEach(function(x) {
+    a[x[1]] = x[0];
+  });
+  return a;
+}
+
 const runNodes = function() {
   const weights = cy.data('weights');
   const showLabels = cy.data('showLabels');
@@ -107,7 +139,7 @@ const runNodes = function() {
       node.data('probResult', `${node.data('label')}: ${probResult.toFixed(2)}`);
     } else {
       const expc = exposureClass(probResult) || '';
-      node.classes([riskFactor, expc]); // not using riskfactor
+      node.classes([riskFactor, expc]); // not using riskfactor as a class right now
       log('final for ', node.data().label, expc)
     }
   });
@@ -115,6 +147,10 @@ const runNodes = function() {
 
 const runEdges = function() {
   const showLabels = cy.data('showLabels');
+  const weights = cy.data('weights');
+
+  const sortedRisks = Object.entries(weights.riskWeights).sort(function(a,b) { return a[1] - b[1] });
+  const riskLookup = riskClassLookupByWeight(weights);
   cy.edges().forEach(function(edge) {
     let connectionType = edge.data().connectionType;
     let classesToAdd = [];
@@ -122,8 +158,8 @@ const runEdges = function() {
       const connectionTypeClass = Constants.connectionTypeClasses[connectionType];
       classesToAdd.push(connectionTypeClass)
     }
-    const sourceClass = Constants.riskFactorClassesShort[edge.source().data().riskFactor];
-    const targetClass = Constants.riskFactorClassesShort[edge.target().data().riskFactor];
+    const sourceClass = riskClassAdjustedByActivity(weights, sortedRisks, riskLookup, edge.source().data())
+    const targetClass = riskClassAdjustedByActivity(weights, sortedRisks, riskLookup, edge.target().data())
     if (sourceClass && targetClass) {
       classesToAdd.push(`rf-${sourceClass}-${targetClass}`)
     }
