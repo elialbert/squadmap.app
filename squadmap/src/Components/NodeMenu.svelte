@@ -80,7 +80,7 @@
       </div>
     </div>
     <div class='form-group'>
-      <label for="riskFactor">Risk Factor</label>
+      <label for="riskFactor">Occupation</label>
       <!-- svelte-ignore a11y-no-onchange -->
       <select class="form-control" id="riskFactor" bind:value={riskFactorValue} on:change={changeRiskFactor}>
         {#each Constants.riskFactors as riskFactor}
