@@ -5,7 +5,7 @@
 
 <Modal title={"About"} {closeCB}>
   <p class='p-2'>
-    Squadmap.app is a tool to help you survive winter 2020. 
+    Squadmap.app is a tool to help you survive winter 2020.
   </p>
   <p class='p-2'>
     The idea is to to feel empowered in the decisions you make around who you share space with and how you do it.
@@ -18,13 +18,14 @@
   </p>
   <p class='p-2'>
     Node colors reflect the overall risk to that person, and edge gradients reflect that person's independent risk.
-  </p>      
+  </p>
   <p class='p-2'>
-    Thanks, hope you like it! 
+    Thanks, hope you like it!
     <br/>
     <a href='https://elialbert.com' target='_blank'>Eli</a>
   </p>
   <button type='button' class="btn btn-primary btn-sm"
     on:click={closeCB}
   >Cool ok let's do this</button>
+  <a href='https://github.com/elialbert/squadmap.app' target='_blank' class='float-right'>Open Source</a>
 </Modal>
