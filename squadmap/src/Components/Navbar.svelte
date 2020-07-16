@@ -5,7 +5,6 @@
   import Numbers from './Numbers.svelte';
   import auth from '../auth.js';
   export let loading;
-  export let user;
 
   let showAbout = false;
   let showNumbers = false;
@@ -79,8 +78,8 @@
 
   {#if loading}
     <span class="ml-md-3">Loading...</span>
-  {:else if user}
-    <span class="ml-md-3">{user.email}</span>
+  {:else if window.user}
+    <span class="ml-md-3">{window.user.email}</span>
     <!-- on:click={auth.signOut} -->
   {:else}
     <span class="ml-md-3 signin" on:click={auth.startAuth}>Sign in to Share</span>

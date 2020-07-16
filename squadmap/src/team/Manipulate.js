@@ -1,4 +1,5 @@
 import ExposureRisk from './ExposureRisk.js';
+import database from '../database.js'
 
 const setLastNode = function(node) {
   saveData(cy, 'lastNode', node.data().id)
@@ -66,7 +67,11 @@ const newNode = function() {
 
 const save = function() {
   ExposureRisk.run();
-  window.localStorage.setItem('cyjson', JSON.stringify(cy.json()));
+  const data = JSON.stringify(cy.json())
+  window.localStorage.setItem('cyjson', data);
+  if (window.user) {
+    database.saveMap(data);
+  }
 }
 
 const saveData = function(obj, key, value) {

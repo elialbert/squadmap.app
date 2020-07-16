@@ -2,27 +2,22 @@
   import Map from './Components/Map.svelte';
   import Navbar from './Components/Navbar.svelte';
   import auth from './auth.js'
+  import database from './database.js'
   import { onMount } from 'svelte';
 
-  let user = null;
+  window.user = null;
+  let user;
   let loading = true;
 
   const checkUserCb = function(d) {
     loading = false;
-    if (d) {
-      user = d;
-      console.log('user ', user)
-    }
+    if (!d) { return; }
   };
 
   const newUserCb = function(result) {
-    if (result.credential) {
-      // This gives you a Google Access Token. You can use it to access the Google API.
-      var token = result.credential.accessToken;
-      // ...
-    }
-    // The signed-in user info.
     user = result.user;
+    window.user = user;
+    database.writeUserData(user);
     console.log('user ', user)
     loading = false;
   }
@@ -38,7 +33,7 @@
 </script>
 
 <div class='container-fluid'>
-  <Navbar {loading} {user}></Navbar>
+  <Navbar {loading}></Navbar>
 	<Map {user}></Map>
 </div>
 

@@ -27,7 +27,7 @@
     <div class='form-group'>
       <label for="connectionType">Edit Connection Type (how close)</label>
       <!-- svelte-ignore a11y-no-onchange -->
-      <select class="form-control" id="connectionType" 
+      <select class="form-control" id="connectionType"
         bind:value={connectionTypeValue} on:change={() => changeConnectionType()}>
         <option value={null}>{`Choose`}</option>
         {#each Constants.connectionTypes as connectionType}

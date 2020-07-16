@@ -6,6 +6,9 @@
   import { showMenu, showEdgeMenu } from '../team/Labels.js'
   import debounce from 'lodash/debounce';
   import Manipulate from '../team/Manipulate.js';
+  import database from '../database.js'
+
+  export let user;
 
   cytoscape.use(cola);
   let preloaded = JSON.parse( window.localStorage.getItem("cyjson") );
@@ -13,7 +16,7 @@
     preloaded = {elements: sample}
   }
 
-  document.addEventListener('DOMContentLoaded', function(){
+  const startCy = function(preloaded) {
     var cy = window.cy = cytoscape({
       container: document.getElementById('cy'),
       autounselectify: true,
@@ -45,7 +48,9 @@
     window.cy = cy;
     Manipulate.setLastNode(cy.nodes()[0]);
     Manipulate.save();
-  });
+  }
+
+  document.addEventListener('DOMContentLoaded', () => startCy(preloaded));
 
   var debounceRefreshLayout = debounce(Manipulate.refreshLayout, 10);
 
@@ -58,6 +63,13 @@
     window.attachEvent('onresize', resizeAndRefresh);
   } else if(window.addEventListener) {
     window.addEventListener('resize', resizeAndRefresh, true);
+  }
+
+  $: {
+    window.user = user;
+    if (user) {
+      database.loadMap(startCy)
+    }
   }
 </script>
 
