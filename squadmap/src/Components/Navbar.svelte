@@ -3,7 +3,9 @@
   import { showMenu } from '../team/Labels.js'
   import About from './About.svelte';
   import Numbers from './Numbers.svelte';
-  
+  import auth from '../auth.js';
+  export let loading;
+  export let user;
 
   let showAbout = false;
   let showNumbers = false;
@@ -74,6 +76,15 @@
       </li>
     </ul>
   </div>
+
+  {#if loading}
+    <span class="ml-md-3">Loading...</span>
+  {:else if user}
+    <span class="ml-md-3">{user.email}</span>
+    <!-- on:click={auth.signOut} -->
+  {:else}
+    <span class="ml-md-3 signin" on:click={auth.startAuth}>Sign in to Share</span>
+  {/if}
 </nav>
 {#if showAbout}
   <About closeCB={aboutClose}></About>
@@ -85,5 +96,9 @@
 <style>
   a.navbar-brand {
     padding-bottom: .6125rem;
+  }
+  span.signin {
+    cursor: pointer;
+    text-decoration: underline;
   }
 </style>
