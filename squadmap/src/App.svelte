@@ -12,6 +12,10 @@
   const checkUserCb = function(d) {
     loading = false;
     if (!d) { return; }
+    user = d;
+    window.user = d;
+    database.writeUserData(user);
+    console.log('user ', user)
   };
 
   const newUserCb = function(result) {
@@ -26,7 +30,11 @@
     if (location.pathname.indexOf('/__/auth/handler') > -1) {
       auth.continueAuth(newUserCb);
     }
-    auth.checkSignin(checkUserCb);
+    try {
+      auth.checkSignin(checkUserCb);
+    } catch(err) {
+      loading = false;
+    }
   }
 
   onMount(runAuth);
@@ -34,7 +42,7 @@
 
 <div class='container-fluid'>
   <Navbar {loading}></Navbar>
-	<Map {user}></Map>
+	<Map {user} {loading}></Map>
 </div>
 
 <style>

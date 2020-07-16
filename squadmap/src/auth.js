@@ -20,6 +20,7 @@ const continueAuth = function(cb) {
 const signOut = function() {
   firebase.auth().signOut().then(function() {
     // Sign-out successful.
+    location.reload();
   }).catch(function(error) {
     // An error happened.
   });

@@ -9,6 +9,7 @@
   import database from '../database.js'
 
   export let user;
+  export let loading;
 
   cytoscape.use(cola);
   let preloaded = JSON.parse( window.localStorage.getItem("cyjson") );
