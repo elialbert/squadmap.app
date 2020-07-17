@@ -6,9 +6,11 @@
   import { showMenu, showEdgeMenu } from '../team/Labels.js'
   import debounce from 'lodash/debounce';
   import Manipulate from '../team/Manipulate.js';
+  import ExposureRisk from '../team/ExposureRisk.js';
   import database from '../database.js'
 
   export let user;
+  export let currentMap;
   export let loading;
 
   let domLoaded = false;
@@ -45,7 +47,8 @@
     Manipulate.refreshLayout();
     window.cy = cy;
     Manipulate.setLastNode(cy.nodes()[0]);
-    Manipulate.save();
+    ExposureRisk.run();
+    // Manipulate.save(); // this seems bad now
   }
 
   document.addEventListener('DOMContentLoaded', () => domLoaded = true);
@@ -67,10 +70,21 @@
     if (domLoaded && !loading) {
       window.user = user;
       if (user) {
-        database.loadMap(startCy)
+        let urlSpecified = location.pathname.split('/shared/')[1];
+        if (urlSpecified && urlSpecified != window.currentMapName) {
+        } else {
+          database.loadMap(startCy)
+        }
       } else {
         startCy(database.loadLocal())
       }
+    }
+  }
+
+  $: {
+    if (user && currentMap && (currentMap != window.currentMapName)) {
+      window.currentMapName = currentMap;
+      database.loadMap(startCy);
     }
   }
 </script>

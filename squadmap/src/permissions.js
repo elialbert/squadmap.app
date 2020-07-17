@@ -2,11 +2,10 @@ const sanitizeEmail = function(e) {
   return e.replace('.', '%2E');
 }
 
-const getShared = function() {
+const getShared = function(cb) {
   let ref = firebase.database().ref('sharing/' + sanitizeEmail(window.user.email));
   ref.on('value', function(snapshot) {
-    const shared = snapshot.val();
-    console.log('got shared', shared)
+    cb(snapshot.val());
   })
 };
 
@@ -18,7 +17,7 @@ const writeUserData = function(u) {
   });
 };
 
-const doShare = function(mapName, email) {
+const shareMapWithEmail = function(mapName, email) {
   let updates = {};
   updates['sharing/' + sanitizeEmail(email) + '/' + mapName] = 1;
   updates['sharedmaps/' + mapName + '/permissions/' + sanitizeEmail(email)] = {read: 1, write: 1};
@@ -28,5 +27,6 @@ const doShare = function(mapName, email) {
 export default {
   getShared: getShared,
   writeUserData: writeUserData,
-  doShare: doShare
+  shareMapWithEmail: shareMapWithEmail,
+  sanitizeEmail: sanitizeEmail
 }

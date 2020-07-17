@@ -10,9 +10,19 @@
   let user;
   let loading = true;
 
+  window.currentMapName = 'your private map';
+  let currentMap = 'your private map';
+
   const postSignin = function() {
     database.writeUserData(window.user);
-    permissions.getShared(window.user);
+    permissions.getShared(function(sharedNames) {
+      console.log('got shared', sharedNames)
+      Object.keys(sharedNames).forEach(function(name) {
+        if (location.pathname.indexOf(`/shared/${name}`) == 0) {
+          currentMap = name;
+        }
+      });
+    });
   };
 
   const checkUserCb = function(d) {
@@ -46,8 +56,8 @@
 </script>
 
 <div class='container-fluid'>
-  <Navbar {loading}></Navbar>
-	<Map {user} {loading}></Map>
+  <Navbar bind:currentMap {loading}></Navbar>
+	<Map {user} {loading} {currentMap}></Map>
 </div>
 
 <style>

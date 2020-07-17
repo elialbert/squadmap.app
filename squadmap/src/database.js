@@ -2,6 +2,14 @@ import { sample } from './team/Team.js'
 import diffcy from './diffcy.js'
 import permissions from './permissions.js'
 
+const mapPath = function() {
+  if (window.currentMapName == 'your private map') {
+    return `maps/${user.uid}`;
+  } else {
+    return `sharedmaps/${window.currentMapName}/data`;
+  }
+}
+
 const prepData = function() {
   let d = {nodes: {}, edges: {}, weights: cy.data('weights') || {}};
   cy.nodes().forEach(function(node) {
@@ -27,7 +35,7 @@ const unprepData = function(data) {
 };
 
 const saveMap = function(data) {
-  firebase.database().ref('maps/' + user.uid).set(data);
+  firebase.database().ref(mapPath()).set(data);
 };
 
 const save = function() {
@@ -60,27 +68,40 @@ const loadMap = function(initCb) {
 
   // unload any previous
   window.fbRefs.forEach(function(fbRef) { fbRef.off(); });
-  var mapRef = firebase.database().ref('maps/' + window.user.uid);
+  window.fbRefs = [];
+  var mapRef = firebase.database().ref(mapPath());
   mapRef.once('value', function(snapshot) {
     const d = snapshot.val()
     if (!d) {
-      console.log('falling back to local for now')
       return initCb(loadLocal())
     } else {
       let data = unprepData(d)
       initCb(data);
-      window.fbRefs.push(diffcy.setWatchers());
+      window.fbRefs.push(diffcy.setWatchers(mapPath()));
     }
+  }, function(err) {
+    console.log(err)
   });
 };
 
 const reset = function() {
   localStorage.removeItem('cyjson');
   if (window.user) {
-    firebase.database().ref('maps/' + user.uid).set(null);
+    firebase.database().ref(mapPath()).set(null);
   }
   location.reload();
 };
+
+const copyMapToShared = function(newName) {
+  let updates = {};
+  updates[`sharedmaps/${newName}/data`] = prepData();
+  updates[`sharedmaps/${newName}/permissions`] = {}
+  updates[`sharedmaps/${newName}/permissions`][`${permissions.sanitizeEmail(user.email)}`] = {read: 1, write: 1};
+  console.log('update', updates)
+  firebase.database().ref().update(updates);
+};
+
+window.t = copyMapToShared;
 
 export default {
   writeUserData: writeUserData,
@@ -88,5 +109,6 @@ export default {
   save: save,
   loadMap: loadMap,
   loadLocal: loadLocal,
-  reset: reset
+  reset: reset,
+  copyMapToShared: copyMapToShared
 }

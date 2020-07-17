@@ -7,6 +7,7 @@
   import database from '../database.js';
 
   export let loading;
+  export let currentMap;
 
   let showAbout = false;
   let showNumbers = false;
@@ -79,7 +80,7 @@
   {#if loading}
     <span class="ml-md-3">Loading...</span>
   {:else if window.user}
-    <span class="ml-md-3 signout" on:click={auth.signOut}>{window.user.email}</span>
+    <span class="ml-md-3 signout" on:click={auth.signOut}>{window.user.email} (editing {currentMap})</span>
   {:else}
     <span class="ml-md-3 signin" on:click={auth.startAuth}>Sign in to Share</span>
   {/if}

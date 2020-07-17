@@ -1,5 +1,5 @@
 import ExposureRisk from './team/ExposureRisk.js';
-import Manipulate from './team/Manipulate.js';
+//import Manipulate from './team/Manipulate.js';
 const weightEvent = new Event('updateWeights');
 
 const prepCurrentData = function(currentData) {
@@ -24,8 +24,8 @@ const makeNewNode = function(incoming) {
   });
 }
 
-const setWatchers = function() {
-  let ref = firebase.database().ref('maps/' + window.user.uid);
+const setWatchers = function(mapPath) {
+  let ref = firebase.database().ref(mapPath);
 
   return ref.on('value', function(snapshot) {
     const data = snapshot.val();
@@ -73,7 +73,7 @@ const setWatchers = function() {
       }
     });
 
-    Manipulate.refreshLayout();
+    //Manipulate.refreshLayout();
     ExposureRisk.run();
   });
 };
