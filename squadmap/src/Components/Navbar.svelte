@@ -4,6 +4,8 @@
   import About from './About.svelte';
   import Numbers from './Numbers.svelte';
   import auth from '../auth.js';
+  import database from '../database.js';
+
   export let loading;
 
   let showAbout = false;
@@ -28,9 +30,7 @@
 
   function reset() {
     if (confirm("Are you sure you want to clear all your changes and start over with the demo?")) {
-      localStorage.removeItem('cyjson');
-      localStorage.removeItem('weights');
-      location.reload();
+      database.reset();
     }
   }
 

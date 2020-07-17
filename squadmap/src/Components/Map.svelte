@@ -2,7 +2,7 @@
   import Constants from '../team/Constants.js';
   import cytoscape from 'cytoscape';
   import cola from 'cytoscape-cola';
-  import { sample } from '../team/Team.js'
+
   import { showMenu, showEdgeMenu } from '../team/Labels.js'
   import debounce from 'lodash/debounce';
   import Manipulate from '../team/Manipulate.js';
@@ -11,19 +11,18 @@
   export let user;
   export let loading;
 
-  cytoscape.use(cola);
-  let preloaded = JSON.parse( window.localStorage.getItem("cyjson") );
-  if (!preloaded) {
-    preloaded = {elements: sample}
-  }
+  let domLoaded = false;
+  console.log('init map')
 
-  const startCy = function(preloaded) {
+  cytoscape.use(cola);
+  const startCy = function(cydata) {
+    console.log('starting cy with', cydata);
     var cy = window.cy = cytoscape({
       container: document.getElementById('cy'),
       autounselectify: true,
       boxSelectionEnabled: false,
       style: Constants.nodeStyles,
-      elements: preloaded.elements,
+      elements: cydata.elements,
     });
 
     cy.on('drag', function(event) {
@@ -39,19 +38,19 @@
       showEdgeMenu(edge);
     });
 
-    let storedWeights = JSON.parse(window.localStorage.getItem('weights'));
+    let storedWeights = cydata.weights;
     let weights = {riskWeights: Constants.riskWeights, connectionWeights: Constants.connectionWeights,
       activityModifier: Constants.activityModifier};
     weights = {...weights, ...storedWeights};
     cy.data('weights', weights);
-    cy.data('showLabels', (preloaded.data || {}).showLabels)
+    cy.data('showLabels', cydata.showLabels);
     Manipulate.refreshLayout();
     window.cy = cy;
     Manipulate.setLastNode(cy.nodes()[0]);
     Manipulate.save();
   }
 
-  document.addEventListener('DOMContentLoaded', () => startCy(preloaded));
+  document.addEventListener('DOMContentLoaded', () => domLoaded = true);
 
   var debounceRefreshLayout = debounce(Manipulate.refreshLayout, 10);
 
@@ -67,9 +66,15 @@
   }
 
   $: {
-    window.user = user;
-    if (user) {
-      database.loadMap(startCy)
+    if (domLoaded && !loading) {
+      window.user = user;
+      if (user) {
+        console.log('auth load')
+        database.loadMap(startCy)
+      } else {
+        console.log('unauth load')
+        startCy(database.loadLocal())
+      }
     }
   }
 </script>

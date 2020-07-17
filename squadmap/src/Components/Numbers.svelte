@@ -3,6 +3,7 @@
   import debounce from 'lodash/debounce';
   import ExposureRisk from '../team/ExposureRisk.js';
   import Constants from '../team/Constants.js';
+  import database from '../database.js';
 
   export let closeCB;
   let weights = null;
@@ -38,7 +39,7 @@
     };
     cy.data('weights', weightObj);
     ExposureRisk.run();
-    window.localStorage.setItem('weights', JSON.stringify(weightObj));
+    database.save();
   }
   var debounceWeightUpdate = debounce(weightUpdate, 10);
 
@@ -46,7 +47,8 @@
     weights = {riskWeights: Constants.riskWeights,
       connectionWeights: Constants.connectionWeights,
       activityModifier: Constants.activityModifier};
-    window.localStorage.setItem('weights', JSON.stringify(weights));
+    cy.data('weights', weights);
+    database.save();
     prepWeights();
   };
 

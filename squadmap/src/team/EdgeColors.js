@@ -255,7 +255,7 @@ const edgeColors = [{
 {
   selector: '.no-color-edge',
   css: {
-    'color': 'back'
+    'color': 'black'
   }
 }
 ];

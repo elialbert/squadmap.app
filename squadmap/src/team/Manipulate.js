@@ -67,12 +67,8 @@ const newNode = function() {
 
 const save = function() {
   ExposureRisk.run();
-  const data = JSON.stringify(cy.json())
-  window.localStorage.setItem('cyjson', data);
-  if (window.user) {
-    database.saveMap(data);
-  }
-}
+  database.save();
+};
 
 const saveData = function(obj, key, value) {
   obj.data(key, value);
