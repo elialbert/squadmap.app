@@ -71,7 +71,7 @@ const loadMap = function(initCb) {
     } else {
       let data = unprepData(d)
       initCb(data);
-      diffcy.setWatchers();
+      window.fbRefs.push(diffcy.setWatchers());
     }
   });
 };
