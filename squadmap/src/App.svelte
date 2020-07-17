@@ -3,26 +3,31 @@
   import Navbar from './Components/Navbar.svelte';
   import auth from './auth.js'
   import database from './database.js'
+  import permissions from './permissions.js'
   import { onMount } from 'svelte';
 
   window.user = null;
   let user;
   let loading = true;
 
+  const postSignin = function() {
+    database.writeUserData(window.user);
+    permissions.getShared(window.user);
+  };
+
   const checkUserCb = function(d) {
     loading = false;
     if (!d) { return; }
     user = d;
     window.user = d;
-    database.writeUserData(user);
+    postSignin();
     console.log('user ', user)
   };
 
   const newUserCb = function(result) {
     user = result.user;
     window.user = user;
-    database.writeUserData(user);
-    console.log('user ', user)
+    postSignin();
     loading = false;
   }
 

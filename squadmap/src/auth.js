@@ -13,7 +13,6 @@ const continueAuth = function(cb) {
     // The firebase.auth.AuthCredential type that was used.
     var credential = error.credential;
     console.log('err', errorCode, errorMessage, email, credential)
-    // ...
   });
 };
 
@@ -28,7 +27,7 @@ const signOut = function() {
 
 const checkSignin = function(cb) {
   return firebase.auth().onAuthStateChanged(cb)
-}
+};
 
 export default {
   startAuth: startAuth,

@@ -1,5 +1,6 @@
 import { sample } from './team/Team.js'
 import diffcy from './diffcy.js'
+import permissions from './permissions.js'
 
 const prepData = function() {
   let d = {nodes: {}, edges: {}, weights: cy.data('weights') || {}};
@@ -39,11 +40,8 @@ const save = function() {
 
 const writeUserData = function() {
   if (!window.user) { return; }
-  firebase.database().ref('users/' + window.user.uid).set({
-    username: user.displayName,
-    email: user.email
-  });
-};
+  return permissions.writeUserData(window.user);
+}
 
 const loadLocal = function() {
   let data = JSON.parse( window.localStorage.getItem("cyjson") );
