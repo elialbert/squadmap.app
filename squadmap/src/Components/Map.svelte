@@ -12,13 +12,12 @@
   export let loading;
 
   let domLoaded = false;
-  console.log('init map')
 
   cytoscape.use(cola);
   const startCy = function(cydata) {
     console.log('starting cy with', cydata);
     var cy = window.cy = cytoscape({
-      container: document.getElementById('cy'),
+      container: document.getElementById('cyEl'),
       autounselectify: true,
       boxSelectionEnabled: false,
       style: Constants.nodeStyles,
@@ -43,7 +42,6 @@
       activityModifier: Constants.activityModifier};
     weights = {...weights, ...storedWeights};
     cy.data('weights', weights);
-    cy.data('showLabels', cydata.showLabels);
     Manipulate.refreshLayout();
     window.cy = cy;
     Manipulate.setLastNode(cy.nodes()[0]);
@@ -69,20 +67,18 @@
     if (domLoaded && !loading) {
       window.user = user;
       if (user) {
-        console.log('auth load')
         database.loadMap(startCy)
       } else {
-        console.log('unauth load')
         startCy(database.loadLocal())
       }
     }
   }
 </script>
 
-<div id="cy"></div>
+<div id="cyEl"></div>
 
 <style>
-#cy {
+#cyEl {
   width: 90%;
   height: 90vh;
   position: absolute;

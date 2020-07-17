@@ -26,6 +26,10 @@
     }, 1000)
   }
 
+  document.addEventListener('updateWeights', function(x) {
+    weights = cy.data('weights');
+  });
+
   $: {
     weights = weights;
     prepWeights();

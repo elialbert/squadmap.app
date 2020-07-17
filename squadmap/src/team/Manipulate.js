@@ -2,7 +2,7 @@ import ExposureRisk from './ExposureRisk.js';
 import database from '../database.js'
 
 const setLastNode = function(node) {
-  saveData(cy, 'lastNode', node.data().id)
+  cy.data('lastNode', node.data().id);
 }
 
 const removeNode = function(node) {

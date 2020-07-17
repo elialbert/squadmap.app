@@ -1,7 +1,8 @@
 import { sample } from './team/Team.js'
+import diffcy from './diffcy.js'
 
 const prepData = function() {
-  let d = {nodes: {}, edges: {}, weights: cy.data('weights') || {}, showLabels: cy.data('showLabels') || false};
+  let d = {nodes: {}, edges: {}, weights: cy.data('weights') || {}};
   cy.nodes().forEach(function(node) {
     d.nodes[node.data().id] = node.data();
   });
@@ -12,9 +13,7 @@ const prepData = function() {
 };
 
 // take in storage object, return cy object
-// only used for localstorage I think
 const unprepData = function(data) {
-  console.log('starting unprep with ', data)
   // handle old format
   if (data.elements) { return data; }
   return {
@@ -22,12 +21,10 @@ const unprepData = function(data) {
       nodes: Object.values(data.nodes).map(x => { return {"data": x} }),
       edges: Object.values(data.edges).map(x => { return {"data": x} })
     },
-    weights: data.weights,
-    showLabels: data.showLabels
+    weights: data.weights
   };
 };
 
-// not json
 const saveMap = function(data) {
   firebase.database().ref('maps/' + user.uid).set(data);
 };
@@ -39,7 +36,6 @@ const save = function() {
     saveMap(data);
   }
 }
-
 
 const writeUserData = function() {
   if (!window.user) { return; }
@@ -55,31 +51,35 @@ const loadLocal = function() {
     data = {elements: sample}
   } else {
     data = unprepData(data);
-    console.log('load local created ', data)
   }
   return data;
 }
 
-const loadMap = function(cb) {
+window.fbRefs = [];
+
+const loadMap = function(initCb) {
   if (!window.user) { return; }
-  console.log('in load auth')
-  cb(loadLocal())
-  // var mapRef = firebase.database().ref('maps/' + window.user.uid);
-  // mapRef.on('value', function(snapshot) {
-  //   const d = snapshot.val()
-  //   if (!d) {
-  //     console.log('falling back to local for now')
-  //     return cb(loadLocal())
-  //   }
-  //   // todo DIFFING, weights
-  //   cb(d)
-  // });
+
+  // unload any previous
+  window.fbRefs.forEach(function(fbRef) { fbRef.off(); });
+  var mapRef = firebase.database().ref('maps/' + window.user.uid);
+  mapRef.once('value', function(snapshot) {
+    const d = snapshot.val()
+    if (!d) {
+      console.log('falling back to local for now')
+      return initCb(loadLocal())
+    } else {
+      let data = unprepData(d)
+      initCb(data);
+      diffcy.setWatchers();
+    }
+  });
 };
 
 const reset = function() {
   localStorage.removeItem('cyjson');
   if (window.user) {
-    firebase.database().ref('maps/' + user.uid).set({});
+    firebase.database().ref('maps/' + user.uid).set(null);
   }
   location.reload();
 };

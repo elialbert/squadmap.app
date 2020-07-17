@@ -35,11 +35,11 @@
   }
 
   function toggleColorBlind() {
-    let colorBlind = cy.data('showLabels');
+    let colorBlind = parseInt(localStorage.getItem('showLabels') || 0);
     if (!colorBlind) {
-      cy.data('showLabels', true);
+      localStorage.setItem('showLabels', 1);
     } else {
-      cy.data('showLabels', false);
+      localStorage.setItem('showLabels', 0);
     }
     Manipulate.save();
   };

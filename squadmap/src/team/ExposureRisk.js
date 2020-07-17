@@ -126,7 +126,8 @@ const riskClassLookupByWeight = function(weights) {
 
 const runNodes = function() {
   const weights = cy.data('weights');
-  const showLabels = cy.data('showLabels');
+  const showLabels = parseInt(localStorage.getItem('showLabels') || 0);
+
   cy.nodes().forEach(function(node) {
     let riskFactor = node.data().riskFactor;
     if (riskFactor) {
@@ -146,7 +147,7 @@ const runNodes = function() {
 }
 
 const runEdges = function() {
-  const showLabels = cy.data('showLabels');
+  const showLabels = parseInt(localStorage.getItem('showLabels') || 0);
   const weights = cy.data('weights');
 
   const sortedRisks = Object.entries(weights.riskWeights).sort(function(a,b) { return a[1] - b[1] });
