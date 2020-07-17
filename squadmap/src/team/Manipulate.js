@@ -37,8 +37,14 @@ const edgeBetween = function(node1, node2) {
 const disconnectFrom = function(node, disconnectFrom) {
   setLastNode(node);
   cy.remove(edgeBetween(node, disconnectFrom));
+  console.log('removing')
   save();
 };
+
+const disconnect = function(edge) {
+  cy.remove(edge);
+  save();
+}
 
 const refreshLayout = function() {
   let els = cy.elements();
@@ -76,4 +82,5 @@ const saveData = function(obj, key, value) {
 };
 
 export default { removeNode, getNeighbors, getNonNeighbors, connectTo,
-  disconnectFrom, edgeBetween, newNode, refreshLayout, setLastNode, saveData, save }
+  disconnectFrom, disconnect, edgeBetween, newNode, refreshLayout,
+  setLastNode, saveData, save }

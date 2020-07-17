@@ -18,7 +18,7 @@
 
   function doRemove() {
     closeCB();
-    cy.remove(edge);
+    Manipulate.disconnect(edge);
   }
 </script>
 

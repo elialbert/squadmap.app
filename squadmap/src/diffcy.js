@@ -35,7 +35,7 @@ const setWatchers = function() {
     const currentNodes = prepCurrentData(cy.nodes());
     const currentEdges = prepCurrentData(cy.edges());
 
-    console.log('doing refresh', currentNodes, data)
+    // console.log('doing refresh', currentNodes, data)
     Object.keys(data.nodes).forEach(function(nodeId) {
       const currentEl = currentNodes[nodeId];
       if (currentEl) {
