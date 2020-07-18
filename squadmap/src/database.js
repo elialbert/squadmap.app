@@ -94,6 +94,7 @@ const reset = function() {
 
 const copyMapToShared = function(newName) {
   let updates = {};
+  // TODO NEED TO COPY TO OTHER SHARING METADATA SPOT
   updates[`sharedmaps/${newName}/data`] = prepData();
   updates[`sharedmaps/${newName}/permissions`] = {}
   updates[`sharedmaps/${newName}/permissions`][`${permissions.sanitizeEmail(user.email)}`] = {read: 1, write: 1};

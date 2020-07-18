@@ -1,4 +1,6 @@
 <script>
+  import { slide } from 'svelte/transition';
+  import { onMount } from 'svelte';
   import Manipulate from '../team/Manipulate.js';
   import { showMenu } from '../team/Labels.js'
   import About from './About.svelte';
@@ -11,6 +13,9 @@
 
   let showAbout = false;
   let showNumbers = false;
+  let showNavDropdown = true;
+  let canToggleNav = false;
+
   function newNode() {
     let node = Manipulate.newNode();
     showMenu(node);
@@ -44,11 +49,33 @@
     }
     Manipulate.save();
   };
+
+  function toggleMenu() {
+    if (!canToggleNav) { return; }
+    showNavDropdown = !showNavDropdown
+  };
+
+  function checkNav() {
+    if (!document.getElementById('hiddenIcon')) { return; }
+    if (getComputedStyle(document.getElementById('hiddenIcon')).getPropertyValue('display') == 'block') {
+      canToggleNav = true;
+      showNavDropdown = false;
+    } else {
+      canToggleNav = false;
+      showNavDropdown = true;
+    }
+  }
+  onMount(checkNav);
+  if(window.attachEvent) {
+    window.attachEvent('onresize', checkNav);
+  } else if(window.addEventListener) {
+    window.addEventListener('resize', checkNav, true);
+  }
 </script>
 
 <nav class="navbar fixed-top navbar-expand-lg navbar-light text-dark bg-transparent">
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
+  <button class="navbar-toggler" id='hiddenIcon' type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon" on:click={toggleMenu}></span>
   </button>
   <button class='btn btn-sm btn-primary mr-md-3'
     on:click={newNode}>
@@ -56,8 +83,11 @@
   </button>
   <!-- svelte-ignore a11y-invalid-attribute -->
   <a class="navbar-brand" href="#">SquadMap.app</a>
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav">
+  {#if showNavDropdown}
+  <div class={`collapse bg-white navbar-collapse ${showNavDropdown ? 'show' : ''} ${canToggleNav ? 'pl-3 pb-1' : ''}`}
+    transition:slide
+    id="navbarSupportedContent">
+    <ul class="navbar-nav" >
       <li class="nav-item">
         <!-- svelte-ignore a11y-invalid-attribute -->
         <a class="nav-link" href="#" on:click={openAbout}>About</a>
@@ -76,14 +106,17 @@
       </li>
     </ul>
   </div>
-
-  {#if loading}
-    <span class="ml-md-3">Loading...</span>
-  {:else if window.user}
-    <span class="ml-md-3 signout" on:click={auth.signOut}>{window.user.email} (editing {currentMap})</span>
-  {:else}
-    <span class="ml-md-3 signin" on:click={auth.startAuth}>Sign in to Share</span>
   {/if}
+
+  <span class={`ml-3 bg-white ${canToggleNav ? 'pb-2 pr-2 rounded' : ''}`}>
+    {#if loading}
+      <span class="">Loading...</span>
+    {:else if window.user}
+      <span class=" signout" on:click={auth.signOut}>{window.user.email} (editing {currentMap})</span>
+    {:else}
+      <span class=" signin" on:click={auth.startAuth}>Sign in to Share</span>
+    {/if}
+  </span>
 </nav>
 {#if showAbout}
   <About closeCB={aboutClose}></About>
