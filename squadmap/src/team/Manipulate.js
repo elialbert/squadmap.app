@@ -81,6 +81,17 @@ const saveData = function(obj, key, value) {
   save();
 };
 
+const isInReadOnlyMode = function(sharedMaps, currentMap) {
+  return (sharedMaps && currentMap && (sharedMaps[currentMap] ||{}).read && !(sharedMaps[currentMap] ||{}).write);
+}
+const setReadOnly = function(sharedMaps, currentMap) {
+  if (isInReadOnlyMode(sharedMaps, currentMap)) {
+    cy.data('readOnly', true);
+  } else {
+    cy.data('readOnly', false);
+  }
+}
+
 export default { removeNode, getNeighbors, getNonNeighbors, connectTo,
   disconnectFrom, disconnect, edgeBetween, newNode, refreshLayout,
-  setLastNode, saveData, save }
+  setLastNode, saveData, save, setReadOnly, isInReadOnlyMode }

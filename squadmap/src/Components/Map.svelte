@@ -12,6 +12,7 @@
   export let user;
   export let currentMap;
   export let loading;
+  export let sharedMaps;
 
   let domLoaded = false;
 
@@ -46,8 +47,8 @@
     Manipulate.refreshLayout();
     window.cy = cy;
     Manipulate.setLastNode(cy.nodes()[0]);
+    Manipulate.setReadOnly(sharedMaps, currentMap);
     ExposureRisk.run();
-    // Manipulate.save(); // this seems bad now
   }
 
   document.addEventListener('DOMContentLoaded', () => domLoaded = true);
@@ -66,6 +67,7 @@
   }
 
   $: {
+    // user is loaded
     if (domLoaded && !loading) {
       window.user = user;
       if (user) {
@@ -81,6 +83,7 @@
   }
 
   $: {
+    // handle map change
     if (user && currentMap && (currentMap != window.currentMapName)) {
       console.log('in current map change watcher', currentMap)
       window.currentMapName = currentMap;

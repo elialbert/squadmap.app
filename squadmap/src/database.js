@@ -1,4 +1,3 @@
-import { isString } from 'lodash';
 import { sample } from './team/Team.js'
 import diffcy from './diffcy.js'
 import permissions from './permissions.js'
@@ -40,6 +39,7 @@ const saveMap = function(data) {
 };
 
 const save = function() {
+  if (cy.data('readOnly')) { return; }
   const data = prepData();
   window.localStorage.setItem('cyjson', JSON.stringify(data));
   if (window.user) {

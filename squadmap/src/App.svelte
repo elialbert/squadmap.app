@@ -16,8 +16,8 @@
 
   const postSignin = function() {
     database.writeUserData(window.user);
-    permissions.getShared(function(sharedMapData) {
 
+    permissions.getShared(function(sharedMapData) {
       sharedMaps = sharedMapData;
       console.log('got shared', sharedMaps)
       Object.keys(sharedMaps).forEach(function(name) {
@@ -60,7 +60,7 @@
 
 <div class='container-fluid'>
   <Navbar bind:currentMap {loading} {sharedMaps} {user}></Navbar>
-	<Map {user} {loading} {currentMap}></Map>
+	<Map {user} {loading} {currentMap} {sharedMaps}></Map>
 </div>
 
 <style>

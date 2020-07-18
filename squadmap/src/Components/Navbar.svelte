@@ -90,7 +90,9 @@
     currentMap = 'your private map';
     location.hash = '#'
     auth.signOut();
-  }
+  };
+
+  $: readOnlyMode = readOnlyMode = Manipulate.isInReadOnlyMode(sharedMaps, currentMap);
 </script>
 
 <nav class="navbar fixed-top navbar-expand-lg navbar-light text-dark bg-transparent">
@@ -138,7 +140,7 @@
     {#if loading}
       <span class="">Loading...</span>
     {:else if user}
-      <span class=" signout" on:click={signoutWrapper}>{user.email} ({currentMap})</span>
+      <span class=" signout" on:click={signoutWrapper}>{user.email} ({currentMap} {#if readOnlyMode}<span>Read Only</span>{/if})</span>
     {:else}
       <span class=" signin" on:click={auth.startAuth}>Sign in to Share</span>
     {/if}
