@@ -19,7 +19,7 @@ const writeUserData = function(u) {
 
 const shareMapWithEmail = function(mapName, email) {
   let updates = {};
-  updates['sharing/' + sanitizeEmail(email) + '/' + mapName] = 1;
+  updates['sharing/' + sanitizeEmail(email) + '/' + mapName] = {read: 1, write: 1};
   updates['sharedmaps/' + mapName + '/permissions/' + sanitizeEmail(email)] = {read: 1, write: 1};
   let ref = firebase.database().ref().update(updates);
 };
