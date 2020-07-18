@@ -16,7 +16,7 @@ const getSharers = function(cb) {
   let ref = firebase.database().ref(`sharedmaps/${window.currentMapName}/permissions`);
   ref.once('value', function(snapshot) {
     cb(snapshot.val());
-  })
+  });
 }
 
 const writeUserData = function(u) {

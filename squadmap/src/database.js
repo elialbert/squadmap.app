@@ -98,18 +98,26 @@ const reset = function() {
 const copyMapToShared = function(newName, cb, errCb) {
   let updates = {};
 
-  updates[`sharedmaps/${newName}/data`] = prepData();
-  updates[`sharedmaps/${newName}/permissions`] = {}
-  updates[`sharedmaps/${newName}/permissions`][`${permissions.sanitizeEmail(user.email)}`] = {read: 1, write: 1};
-  // catch here for name taken error!
-  firebase.database().ref().update(updates).then(function(res) {
-    updates = {};
-    updates['sharing/' + permissions.sanitizeEmail(user.email) + '/' + newName] = {read: 1, write: 1};
-    firebase.database().ref().update(updates, function(res2) {
-      cb();
-    })
-  }).catch(function(err) {
-    errCb(err);
+  let testNew = firebase.database().ref(`sharedmaps/${newName}/permissions`);
+  testNew.once('value', function(snapshot) {
+    errCb();
+    // the map already exists for the user
+  }, function(err) {
+    // the map is brand new at least for that uesr
+    updates[`sharedmaps/${newName}/data`] = prepData();
+    updates[`sharedmaps/${newName}/permissions`] = {}
+    updates[`sharedmaps/${newName}/permissions`][`${permissions.sanitizeEmail(user.email)}`] = {read: 1, write: 1};
+
+    firebase.database().ref().update(updates).then(function(res) {
+      updates = {};
+      updates['sharing/' + permissions.sanitizeEmail(user.email) + '/' + newName] = {read: 1, write: 1};
+      firebase.database().ref().update(updates, function(res2) {
+        cb();
+      })
+    }).catch(function(err) {
+      // the map exists for another user
+      errCb(err);
+    });
   });
 };
 
