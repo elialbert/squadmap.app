@@ -9,10 +9,10 @@
       Squadmap.app is a tool to help you survive winter 2020.
     </h4>
     <h6 class='p-2'>
-      The idea is to to feel empowered in the decisions you make around who you share space with and how you do it.
+      The idea is to to feel empowered in the decisions you make about who you share space with and how you do it.
     </h6>
     <h6 class='p-2'>
-      Note that everything is automatically saved in your browser - as of right now nothing is shared online.
+      Note that everything is automatically saved in your browser - but if you sign in with google, you can save to the cloud and share live with anyone.
     </h6>
     <h6 class='p-2'>
       Try it out! Click nodes and edges to change peoples' jobs and interactions, and watch how the colors change. Or turn off colors in the menu for color-blindedness.

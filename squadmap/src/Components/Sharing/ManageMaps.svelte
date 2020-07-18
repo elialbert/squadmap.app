@@ -36,10 +36,10 @@
 </div>
 <ModalTable>
   <tr>
-    <th scope="row">
+    <th scope="row" class='wider'>
       <h6>your private map</h6>
     </th>
-    <td>
+    <td class='wider'>
       <h6>
         Editor
       </h6>
@@ -52,10 +52,10 @@
   </tr>
   {#each mapNames as mapName}
     <tr>
-      <th scope="row">
+      <th scope="row" class='wider'>
         <h6>{mapName}</h6>
       </th>
-      <td>
+      <td class='wider'>
         <h6>{permissions.permToEnglish(sharedMaps[mapName])}</h6>
       </td>
       <td>

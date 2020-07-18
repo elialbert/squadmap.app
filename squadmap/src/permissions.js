@@ -75,6 +75,10 @@ const deleteMap = function(mapName, cb) {
   })
 };
 
+const adminOfTooMany = function(sharedMaps) {
+  return Object.values(sharedMaps).filter(function(x) { return x.admin }).length > 4;
+};
+
 export default {
   getShared: getShared,
   writeUserData: writeUserData,
@@ -84,5 +88,6 @@ export default {
   permToEnglish: permToEnglish,
   perms: perms,
   englishToPerm: englishToPerm,
-  deleteMap: deleteMap
+  deleteMap: deleteMap,
+  adminOfTooMany: adminOfTooMany
 }

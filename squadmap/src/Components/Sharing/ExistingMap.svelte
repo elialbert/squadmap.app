@@ -5,6 +5,7 @@
   export let closeCB;
   export let editingName;
   export let shareMap;
+  export let sharedMaps;
   export let error;
 
   export let newMapName = '';
@@ -48,6 +49,7 @@
     });
   };
 
+  $: disableNewMap = permissions.adminOfTooMany(sharedMaps);
   $: isAdmin = (sharers[user.email.replace('.', '%2E')] || {}).admin;
 
   $: {
@@ -105,26 +107,32 @@
       </div>
     </div>
   {:else}
-  <h6>
+  <h6 class='text-info'>
     Note: You do not have privileges to modify sharing for this map.
   </h6>
   {/if}
 
-  <p class='pb-2'/>
-  <h6>
-    Choose a new name to copy this map again and share it separately.
-  </h6>
-  <div class="input-group">
-    <input type='text' class='form-control' id='name' placeholder='New Map Name'
-      bind:value={newMapName}>
-    <button type='button' class="btn btn-primary"
-      on:click={shareMap} disabled={!newMapName}
-    >Copy Map</button>
-  </div>
-  {#if error}
-    <h6 class='p-2 text-danger'>
-      {error}
+  {#if disableNewMap}
+    <h6 class='text-danger'>
+      Note: You are already admin for 5 maps - please delete one before you make another.
     </h6>
+  {:else}
+    <p class='pb-2'/>
+    <h6>
+      Choose a new name to copy this map again and share it separately.
+    </h6>
+    <div class="input-group">
+      <input type='text' class='form-control' id='name' placeholder='New Map Name'
+        bind:value={newMapName}>
+      <button type='button' class="btn btn-primary"
+        on:click={shareMap} disabled={!newMapName}
+      >Copy Map</button>
+    </div>
+    {#if error}
+      <h6 class='p-2 text-danger'>
+        {error}
+      </h6>
+    {/if}
   {/if}
 </div>
 <div class='form-group form-bottom-section'>
@@ -132,3 +140,9 @@
     on:click={closeCB}
   >Close</button>
 </div>
+
+<style>
+  select.perms {
+    min-width: 100px;
+  }
+</style>

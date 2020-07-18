@@ -71,9 +71,11 @@
     {#if managing}
     <ManageMaps {sharedMaps} {closeCB} {privateMap} bind:currentMap></ManageMaps>
     {:else if !privateMap}
-      <ExistingMap {closeCB} {editingName} bind:newMapName {shareMap} {error}></ExistingMap>
+      <ExistingMap {closeCB} {editingName} {sharedMaps}
+        bind:newMapName {shareMap} {error}></ExistingMap>
     {:else}
-      <NewMap {closeCB} {shareMap} {error} bind:newMapName></NewMap>
+      <NewMap {closeCB} {shareMap} {sharedMaps}
+        {error} bind:newMapName></NewMap>
     {/if}
   </form>
 </Modal>

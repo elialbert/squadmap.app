@@ -21,4 +21,11 @@
   :global(table.table td h6) {
     margin-bottom: 0px;
   }
+
+  :global(table.table td.wider) {
+    width: 40%
+  }
+  :global(table.table th.wider) {
+    width: 40%
+  }
 </style>

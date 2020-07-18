@@ -112,41 +112,45 @@
     <ul class="navbar-nav" >
       <li class="nav-item">
         <!-- svelte-ignore a11y-invalid-attribute -->
-        <a class="nav-link" href="javascript:void(0)" on:click={openAbout}>About</a>
+        <a class="nav-link text-dark" href="javascript:void(0)" on:click={openAbout}>About</a>
       </li>
       {#if user && !loading}
         <li class="nav-item">
           <!-- svelte-ignore a11y-invalid-attribute -->
-          <a class="nav-link" href="javascript:void(0)" on:click={openSharing}>Maps + Sharing</a>
+          <a class="nav-link text-dark" href="javascript:void(0)" on:click={openSharing}>Maps + Sharing</a>
         </li>
       {/if}
       <li class="nav-item">
         <!-- svelte-ignore a11y-invalid-attribute -->
-        <a class="nav-link" href="javascript:void(0)" on:click={openNumbers}>Modify Algorithm Weights</a>
+        <a class="nav-link text-dark" href="javascript:void(0)" on:click={openNumbers}>Modify Algorithm Weights</a>
       </li>
       <li class="nav-item">
         <!-- svelte-ignore a11y-invalid-attribute -->
-        <a class="nav-link" href="javascript:void(0)" on:click={toggleColorBlind}>Toggle color-blind mode</a>
+        <a class="nav-link text-dark" href="javascript:void(0)" on:click={toggleColorBlind}>Toggle color-blind mode</a>
       </li>
       {#if currentMap == 'your private map'}
         <li class="nav-item">
           <!-- svelte-ignore a11y-invalid-attribute -->
-          <a class="nav-link" href="javascript:void(0)" on:click={reset}>Reset</a>
+          <a class="nav-link text-dark" href="javascript:void(0)" on:click={reset}>Reset</a>
         </li>
       {/if}
     </ul>
+    <ul class="navbar-nav ml-auto">
+      <li class="nav-item">
+        {#if loading}
+        <!-- svelte-ignore a11y-missing-attribute -->
+        <a class="nav-link text-dark">Loading...</a>
+      {:else if user}
+        <!-- svelte-ignore a11y-invalid-attribute -->
+        <a class="nav-link text-dark signout" href="javascript:void(0)" on:click={signoutWrapper}>{user.email} ({currentMap} {#if readOnlyMode}<span>Read Only</span>{/if})</a>
+      {:else}
+        <!-- svelte-ignore a11y-invalid-attribute -->
+        <a class="nav-link text-dark signin" href="javascript:void(0)" on:click={auth.startAuth}>Sign in to Share</a>
+      {/if}
+      </li>
+    </ul>
   </div>
   {/if}
-
-  <span class={`ml-3 bg-white ${canToggleNav ? 'pb-2 pr-2 rounded' : ''}`}>
-    {#if loading}
-      <span class="">Loading...</span>
-    {:else if user}
-      <span class=" signout" on:click={signoutWrapper}>{user.email} ({currentMap} {#if readOnlyMode}<span>Read Only</span>{/if})</span>
-    {:else}
-      <span class=" signin" on:click={auth.startAuth}>Sign in to Share</span>
-    {/if}
-  </span>
 </nav>
 {#if showAbout}
   <About closeCB={aboutClose}></About>
@@ -162,11 +166,11 @@
   a.navbar-brand {
     padding-bottom: .6125rem;
   }
-  span.signin {
+  a.signin {
     cursor: pointer;
     text-decoration: underline;
   }
-  span.signout {
+  a.signout {
     cursor: pointer
   }
 </style>
