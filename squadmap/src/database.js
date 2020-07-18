@@ -1,3 +1,4 @@
+import { isString } from 'lodash';
 import { sample } from './team/Team.js'
 import diffcy from './diffcy.js'
 import permissions from './permissions.js'
@@ -94,22 +95,21 @@ const reset = function() {
   location.reload();
 };
 
-const copyMapToShared = function(newName, cb) {
+const copyMapToShared = function(newName, cb, errCb) {
   let updates = {};
 
   updates[`sharedmaps/${newName}/data`] = prepData();
   updates[`sharedmaps/${newName}/permissions`] = {}
   updates[`sharedmaps/${newName}/permissions`][`${permissions.sanitizeEmail(user.email)}`] = {read: 1, write: 1};
-  console.log('update', updates)
   // catch here for name taken error!
-  firebase.database().ref().update(updates, function(res) {
-    console.log('in update cb 1', res)
+  firebase.database().ref().update(updates).then(function(res) {
     updates = {};
     updates['sharing/' + permissions.sanitizeEmail(user.email) + '/' + newName] = {read: 1, write: 1};
     firebase.database().ref().update(updates, function(res2) {
-      console.log('in update cb 2', res2)
       cb();
     })
+  }).catch(function(err) {
+    errCb(err);
   });
 };
 

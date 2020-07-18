@@ -15,7 +15,7 @@
 <div class='form-group'>
   <h6>
     Currently editing: <span class='font-weight-bold'>{currentMap}</span>
-    <br/>
+    <p class='pb-1'/>
     {#if mapNames.length > 0}
       Choose a preexisting map to edit it and invite more people.
     {:else}

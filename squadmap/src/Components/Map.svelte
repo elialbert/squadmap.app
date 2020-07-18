@@ -17,7 +17,6 @@
 
   cytoscape.use(cola);
   const startCy = function(cydata) {
-    console.log('starting cy with', cydata);
     var cy = window.cy = cytoscape({
       container: document.getElementById('cyEl'),
       autounselectify: true,

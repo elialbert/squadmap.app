@@ -85,6 +85,12 @@
   } else if(window.addEventListener) {
     window.addEventListener('resize', checkNav, true);
   }
+
+  function signoutWrapper() {
+    currentMap = 'your private map';
+    location.hash = '#'
+    auth.signOut();
+  }
 </script>
 
 <nav class="navbar fixed-top navbar-expand-lg navbar-light text-dark bg-transparent">
@@ -132,7 +138,7 @@
     {#if loading}
       <span class="">Loading...</span>
     {:else if user}
-      <span class=" signout" on:click={auth.signOut}>{user.email} (editing {currentMap})</span>
+      <span class=" signout" on:click={signoutWrapper}>{user.email} (editing {currentMap})</span>
     {:else}
       <span class=" signin" on:click={auth.startAuth}>Sign in to Share</span>
     {/if}

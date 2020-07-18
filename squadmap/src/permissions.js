@@ -9,6 +9,16 @@ const getShared = function(cb) {
   })
 };
 
+const getSharers = function(cb) {
+  if (window.currentMapName == 'your private map') {
+    return [];
+  }
+  let ref = firebase.database().ref(`sharedmaps/${window.currentMapName}/permissions`);
+  ref.once('value', function(snapshot) {
+    cb(snapshot.val());
+  })
+}
+
 const writeUserData = function(u) {
   if (!u) { return; }
   firebase.database().ref('users/' + u.uid).set({
@@ -17,16 +27,17 @@ const writeUserData = function(u) {
   });
 };
 
-const shareMapWithEmail = function(mapName, email) {
+const shareMapWithEmail = function(mapName, email, cb) {
   let updates = {};
   updates['sharing/' + sanitizeEmail(email) + '/' + mapName] = {read: 1, write: 1};
   updates['sharedmaps/' + mapName + '/permissions/' + sanitizeEmail(email)] = {read: 1, write: 1};
-  let ref = firebase.database().ref().update(updates);
+  firebase.database().ref().update(updates, cb);
 };
 
 export default {
   getShared: getShared,
   writeUserData: writeUserData,
   shareMapWithEmail: shareMapWithEmail,
-  sanitizeEmail: sanitizeEmail
+  sanitizeEmail: sanitizeEmail,
+  getSharers: getSharers
 }

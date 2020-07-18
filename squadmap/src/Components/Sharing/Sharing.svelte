@@ -21,20 +21,18 @@
       privateMap = true;
     } else {
       privateMap = false;
-      editingName = currentMap;
+      editingName = currentMap.slice();
     }
   }
 
-  function shareMap(newMapName) {
-    try {
-      database.copyMapToShared(newMapName, function() {
-        currentMap = newMapName;
-        newMapName = '';
-      });
-    } catch(err) {
-      console.log(err);
+  function shareMap() {
+    error = '';
+    database.copyMapToShared(newMapName, function() {
+      currentMap = newMapName.slice();
+      newMapName = '';
+    }, function(err) {
       error = "That name has already been taken - please try another.";
-    }
+    });
   };
 
 </script>
@@ -53,11 +51,11 @@
   </ul>
   <form class='p-3'>
     {#if managing}
-    <ManageMaps {sharedMaps} {privateMap} bind:currentMap></ManageMaps>
+    <ManageMaps {sharedMaps} {closeCB} {privateMap} bind:currentMap></ManageMaps>
     {:else if !privateMap}
-      <ExistingMap {editingName} {newMapName} {shareMap} {error}></ExistingMap>
+      <ExistingMap {closeCB} {editingName} bind:newMapName {shareMap} {error}></ExistingMap>
     {:else}
-      <NewMap {closeCB} {shareMap} {error} {newMapName}></NewMap>
+      <NewMap {closeCB} {shareMap} {error} bind:newMapName></NewMap>
     {/if}
   </form>
 </Modal>

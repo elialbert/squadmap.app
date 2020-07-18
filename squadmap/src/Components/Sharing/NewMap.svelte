@@ -6,26 +6,28 @@
   export let newMapName = '';
 </script>
 <div class='form-group'>
-  <h6>
-    Name this map to share it!
+  <h6 class='pb-2'>
+    Name this map to copy and share it!
   </h6>
-  <label for="name">Name</label>
   <div class="input-group">
-    <input type='text' class='form-control' id='name'
+    <input type='text' class='form-control' id='name' placeholder='New Map Name'
       bind:value={newMapName} />
+    <div class='input-group-append'>
+      <button type='button' class="btn btn-primary"
+        on:click={shareMap} disabled={!newMapName}
+      >Copy Map</button>
+    </div>
   </div>
   {#if error}
-    <p class='p-2 text-danger'>
+    <h6 class='p-2 text-danger'>
       {error}
-    </p>
+    </h6>
   {/if}
 </div>
 <div class='form-group form-bottom-section'>
   <button type='button' class="btn btn-secondary btn-sm"
     on:click={closeCB}
-  >Cancel</button>
+  >Close</button>
   <br/>
-  <button type='button' class="btn btn-primary btn-sm"
-    on:click={() => shareMap(newMapName)} disabled={!newMapName}
-  >Create Shared Map</button>
+
 </div>
