@@ -70,7 +70,7 @@
     if (domLoaded && !loading) {
       window.user = user;
       if (user) {
-        let urlSpecified = location.pathname.split('/shared/')[1];
+        let urlSpecified = location.hash.split('#/shared/')[1];
         if (urlSpecified && urlSpecified != window.currentMapName) {
         } else {
           database.loadMap(startCy)
@@ -83,7 +83,13 @@
 
   $: {
     if (user && currentMap && (currentMap != window.currentMapName)) {
+      console.log('in current map change watcher', currentMap)
       window.currentMapName = currentMap;
+      if (currentMap != 'your private map') {
+        location.hash = `#/shared/${currentMap}`
+      } else {
+        location.hash = `#`;
+      }
       database.loadMap(startCy);
     }
   }

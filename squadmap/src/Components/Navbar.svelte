@@ -5,14 +5,18 @@
   import { showMenu } from '../team/Labels.js'
   import About from './About.svelte';
   import Numbers from './Numbers.svelte';
+  import Sharing from './Sharing/Sharing.svelte';
   import auth from '../auth.js';
   import database from '../database.js';
 
   export let loading;
   export let currentMap;
+  export let sharedMaps;
+  export let user;
 
   let showAbout = false;
   let showNumbers = false;
+  let showSharing = false;
   let showNavDropdown = true;
   let canToggleNav = false;
 
@@ -26,12 +30,22 @@
   }
   function openAbout() {
     showAbout = true;
+    toggleMenu()
   }
   function numbersClose() {
     showNumbers = false;
   }
   function openNumbers() {
     showNumbers = true;
+    toggleMenu()
+  }
+
+  function sharingClose() {
+    showSharing = false;
+  }
+  function openSharing() {
+    showSharing = true;
+    toggleMenu()
   }
 
   function reset() {
@@ -92,6 +106,12 @@
         <!-- svelte-ignore a11y-invalid-attribute -->
         <a class="nav-link" href="#" on:click={openAbout}>About</a>
       </li>
+      {#if user && !loading}
+        <li class="nav-item">
+          <!-- svelte-ignore a11y-invalid-attribute -->
+          <a class="nav-link" href="#" on:click={openSharing}>Maps + Sharing</a>
+        </li>
+      {/if}
       <li class="nav-item">
         <!-- svelte-ignore a11y-invalid-attribute -->
         <a class="nav-link" href="#" on:click={openNumbers}>Modify Algorithm Weights</a>
@@ -111,8 +131,8 @@
   <span class={`ml-3 bg-white ${canToggleNav ? 'pb-2 pr-2 rounded' : ''}`}>
     {#if loading}
       <span class="">Loading...</span>
-    {:else if window.user}
-      <span class=" signout" on:click={auth.signOut}>{window.user.email} (editing {currentMap})</span>
+    {:else if user}
+      <span class=" signout" on:click={auth.signOut}>{user.email} (editing {currentMap})</span>
     {:else}
       <span class=" signin" on:click={auth.startAuth}>Sign in to Share</span>
     {/if}
@@ -123,6 +143,9 @@
 {/if}
 {#if showNumbers}
   <Numbers closeCB={numbersClose}></Numbers>
+{/if}
+{#if showSharing}
+  <Sharing closeCB={sharingClose} bind:currentMap {sharedMaps}></Sharing>
 {/if}
 
 <style>

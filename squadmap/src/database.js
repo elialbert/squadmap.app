@@ -67,7 +67,9 @@ const loadMap = function(initCb) {
   if (!window.user) { return; }
 
   // unload any previous
-  window.fbRefs.forEach(function(fbRef) { fbRef.off(); });
+  window.fbRefs.forEach(function(fbRef) {
+    fbRef.off();
+  });
   window.fbRefs = [];
   var mapRef = firebase.database().ref(mapPath());
   mapRef.once('value', function(snapshot) {
@@ -92,18 +94,24 @@ const reset = function() {
   location.reload();
 };
 
-const copyMapToShared = function(newName) {
+const copyMapToShared = function(newName, cb) {
   let updates = {};
-  // TODO NEED TO COPY TO OTHER SHARING METADATA SPOT
-  updates['sharing/' + permissions.sanitizeEmail(user.email) + '/' + newName] = {read: 1, write: 1};
+
   updates[`sharedmaps/${newName}/data`] = prepData();
   updates[`sharedmaps/${newName}/permissions`] = {}
   updates[`sharedmaps/${newName}/permissions`][`${permissions.sanitizeEmail(user.email)}`] = {read: 1, write: 1};
   console.log('update', updates)
-  firebase.database().ref().update(updates);
+  // catch here for name taken error!
+  firebase.database().ref().update(updates, function(res) {
+    console.log('in update cb 1', res)
+    updates = {};
+    updates['sharing/' + permissions.sanitizeEmail(user.email) + '/' + newName] = {read: 1, write: 1};
+    firebase.database().ref().update(updates, function(res2) {
+      console.log('in update cb 2', res2)
+      cb();
+    })
+  });
 };
-
-window.t = copyMapToShared;
 
 export default {
   writeUserData: writeUserData,

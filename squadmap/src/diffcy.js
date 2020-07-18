@@ -72,12 +72,13 @@ const runDiff = function(data) {
 const setWatchers = function(mapPath) {
   let ref = firebase.database().ref(mapPath);
 
-  return ref.on('value', function(snapshot) {
+  ref.on('value', function(snapshot) {
     const data = snapshot.val();
     runDiff(data);
 
     ExposureRisk.run();
   });
+  return ref;
 };
 
 export default {

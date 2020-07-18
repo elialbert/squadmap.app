@@ -9,16 +9,19 @@
   window.user = null;
   let user;
   let loading = true;
+  let sharedMaps = [];
 
   window.currentMapName = 'your private map';
   let currentMap = 'your private map';
 
   const postSignin = function() {
     database.writeUserData(window.user);
-    permissions.getShared(function(sharedNames) {
-      console.log('got shared', sharedNames)
-      Object.keys(sharedNames).forEach(function(name) {
-        if (location.pathname.indexOf(`/shared/${name}`) == 0) {
+    permissions.getShared(function(sharedMapData) {
+
+      sharedMaps = sharedMapData;
+      console.log('got shared', sharedMaps)
+      Object.keys(sharedMaps).forEach(function(name) {
+        if (location.hash.indexOf(`#/shared/${name}`) == 0) {
           currentMap = name;
         }
       });
@@ -56,7 +59,7 @@
 </script>
 
 <div class='container-fluid'>
-  <Navbar bind:currentMap {loading}></Navbar>
+  <Navbar bind:currentMap {loading} {sharedMaps} {user}></Navbar>
 	<Map {user} {loading} {currentMap}></Map>
 </div>
 
