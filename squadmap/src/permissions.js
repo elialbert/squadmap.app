@@ -27,11 +27,41 @@ const writeUserData = function(u) {
   });
 };
 
-const shareMapWithEmail = function(mapName, email, cb) {
+const shareMapWithEmail = function(mapName, email, perm, cb) {
   let updates = {};
-  updates['sharing/' + sanitizeEmail(email) + '/' + mapName] = {read: 1, write: 1};
-  updates['sharedmaps/' + mapName + '/permissions/' + sanitizeEmail(email)] = {read: 1, write: 1};
+  updates['sharing/' + sanitizeEmail(email) + '/' + mapName] = perm;
+  updates['sharedmaps/' + mapName + '/permissions/' + sanitizeEmail(email)] = perm;
   firebase.database().ref().update(updates, cb);
+};
+
+const perms = ['Read Only', 'Editor', 'Admin', 'Remove'];
+
+const permToEnglish = function(d) {
+  if (!d) { return ''; }
+  if (d.admin) {
+    return 'Admin';
+  }
+  if (d.write) {
+    return 'Editor';
+  }
+  if (d.read) {
+    return 'Read Only';
+  }
+};
+
+const englishToPerm = function(d) {
+  if (d == 'Admin') {
+    return {admin: 1, write: 1, read: 1};
+  }
+  if (d == 'Editor') {
+    return {write: 1, read: 1};
+  }
+  if (d == 'Read Only') {
+    return {read: 1};
+  }
+  if (d == 'Remove') {
+    return null;
+  }
 };
 
 export default {
@@ -39,5 +69,8 @@ export default {
   writeUserData: writeUserData,
   shareMapWithEmail: shareMapWithEmail,
   sanitizeEmail: sanitizeEmail,
-  getSharers: getSharers
+  getSharers: getSharers,
+  permToEnglish: permToEnglish,
+  perms: perms,
+  englishToPerm: englishToPerm
 }

@@ -15,6 +15,7 @@
 
   let managing = false;
   let error;
+  let actionVerb;
 
   $: {
     if (currentMap == 'your private map') {
@@ -35,6 +36,18 @@
     });
   };
 
+  function getActionVerb() {
+    if (currentMap == 'your private map') { return 'editing'; }
+    if (!sharedMaps[currentMap]) { return 'we have an error'; }
+    if (sharedMaps[currentMap].admin) { return 'admin of'; }
+    if (sharedMaps[currentMap].write) { return 'editing'; }
+    if (sharedMaps[currentMap].read) { return 'read only for'; }
+  }
+  $: {
+    currentMap;
+    actionVerb = getActionVerb();
+  }
+
 </script>
 <Modal title={`Maps + Sharing`} {closeCB}>
   <ul class="nav nav-tabs">
@@ -52,6 +65,9 @@
     </li>
   </ul>
   <form class='p-3'>
+    <h6>
+      Currently {actionVerb}: <span class='font-weight-bold'>{currentMap}</span>
+    </h6>
     {#if managing}
     <ManageMaps {sharedMaps} {closeCB} {privateMap} bind:currentMap></ManageMaps>
     {:else if !privateMap}

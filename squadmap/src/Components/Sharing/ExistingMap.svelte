@@ -1,4 +1,5 @@
 <script>
+  import ModalTable from '../ModalTable.svelte';
   import permissions from '../../permissions.js';
 
   export let closeCB;
@@ -18,14 +19,15 @@
       if (email.replace('%2E', '.') !== user.email) {
         sharersForDisplay.push({
           email: email.replace('%2E', '.'),
-          permissions: sharers[email]
+          permissions: sharers[email],
+          perm: permissions.permToEnglish(sharers[email])
         });
       }
     });
   };
 
   function shareWith() {
-    permissions.shareMapWithEmail(editingName, shareWithEmail.trim(), function() {
+    permissions.shareMapWithEmail(editingName, shareWithEmail.trim(), {read: 1, write: 1}, function() {
       shareWithEmail = '';
       getSharers();
     });
@@ -36,7 +38,17 @@
       sharers = res;
       prepSharing();
     })
-  }
+  };
+
+  function changePerm(sharedWith) {
+    if (sharedWith.perm === null) { console.log('exit early');return; }
+    let perm = permissions.englishToPerm(sharedWith.perm);
+    permissions.shareMapWithEmail(editingName, sharedWith.email, perm, function() {
+      getSharers();
+    });
+  };
+
+  $: isAdmin = (sharers[user.email.replace('.', '%2E')] || {}).admin;
 
   $: {
     editingName;
@@ -45,22 +57,30 @@
   }
 </script>
 <div class='form-group'>
-  <h6 class='pb-1'>
-    Currently editing: <span class='font-weight-bold'>{editingName}</span>
-  </h6>
-
   {#if sharersForDisplay.length > 0}
     <h6>
       Currently shared with:
-      <div class='pb-1'></div>
-      <ul>
-        {#each sharersForDisplay as sharedWith}
-        <li class='pb-1'>
-          {sharedWith.email}
-        </li>
-        {/each}
-      </ul>
     </h6>
+    <ModalTable>
+      {#each sharersForDisplay as sharedWith}
+        <tr>
+          <th scope="row">
+            <h6>{sharedWith.email}</h6>
+          </th>
+          {#if isAdmin}
+            <td>
+              <!-- svelte-ignore a11y-no-onchange -->
+              <select class="form-control perms" bind:value={sharedWith.perm} on:change={() => changePerm(sharedWith)}>
+                {#each permissions.perms as perm}
+                  <option value={perm}>{perm}</option>
+                {/each}
+              </select>
+            </td>
+          {/if}
+        </tr>
+        {/each}
+    </ModalTable>
+
     <h6 class='pb-1'>
       Copy this link to the people above:
       <input type='text' class='form-control mt-1' onclick="this.select()" readonly
@@ -69,19 +89,26 @@
     </h6>
 
   {/if}
-  <p class='pb-1'/>
-  <h6>
-    Enter a google email address to share this map.
-  </h6>
-  <div class="input-group">
-    <input type='text' class='form-control' id='name' placeholder='Share with an email'
-      bind:value={shareWithEmail}>
-    <div class='input-group-append'>
-      <button type='button' class="btn btn-primary float-right"
-        on:click={() => shareWith()} disabled={!shareWithEmail}
-        >Share</button>
+
+  {#if isAdmin}
+    <p class='pb-1'/>
+    <h6>
+      Enter a google email address to share this map.
+    </h6>
+    <div class="input-group">
+      <input type='text' class='form-control' id='name' placeholder='Share with an email'
+        bind:value={shareWithEmail}>
+      <div class='input-group-append'>
+        <button type='button' class="btn btn-primary float-right"
+          on:click={() => shareWith()} disabled={!shareWithEmail}
+          >Share</button>
+      </div>
     </div>
-  </div>
+  {:else}
+  <h6>
+    Note: You do not have privileges to modify sharing for this map.
+  </h6>
+  {/if}
 
   <p class='pb-2'/>
   <h6>
@@ -104,5 +131,4 @@
   <button type='button' class="btn btn-secondary btn-sm"
     on:click={closeCB}
   >Close</button>
-
 </div>

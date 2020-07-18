@@ -98,24 +98,29 @@ const reset = function() {
 const copyMapToShared = function(newName, cb, errCb) {
   let updates = {};
 
-  let testNew = firebase.database().ref(`sharedmaps/${newName}/permissions`);
+  let testNew = firebase.database().ref(`sharedmaps/${newName}`);
+  console.log('going to copy', testNew)
   testNew.once('value', function(snapshot) {
+    console.log('already exists', snapshot.val())
     errCb();
     // the map already exists for the user
-  }, function(err) {
+  }, function() {
+    console.log('in new')
     // the map is brand new at least for that uesr
     updates[`sharedmaps/${newName}/data`] = prepData();
     updates[`sharedmaps/${newName}/permissions`] = {}
-    updates[`sharedmaps/${newName}/permissions`][`${permissions.sanitizeEmail(user.email)}`] = {read: 1, write: 1};
+    updates[`sharedmaps/${newName}/permissions`][`${permissions.sanitizeEmail(user.email)}`] = {read: 1, write: 1, admin: 1};
 
+    console.log('scopy updates', updates)
     firebase.database().ref().update(updates).then(function(res) {
       updates = {};
-      updates['sharing/' + permissions.sanitizeEmail(user.email) + '/' + newName] = {read: 1, write: 1};
+      updates['sharing/' + permissions.sanitizeEmail(user.email) + '/' + newName] = {read: 1, write: 1, admin: 1};
       firebase.database().ref().update(updates, function(res2) {
         cb();
       })
     }).catch(function(err) {
       // the map exists for another user
+      console.log('caught err', err)
       errCb(err);
     });
   });

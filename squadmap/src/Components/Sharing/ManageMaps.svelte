@@ -1,8 +1,10 @@
 <script>
+  import ModalTable from '../ModalTable.svelte';
   export let closeCB;
   export let currentMap;
   export let sharedMaps;
   export let privateMap;
+  import permissions from '../../permissions.js';
   // export let error;
 
   $: mapNames = Object.keys(sharedMaps);
@@ -14,28 +16,24 @@
 
 <div class='form-group'>
   <h6>
-    Currently editing: <span class='font-weight-bold'>{currentMap}</span>
     <p class='pb-1'/>
     {#if mapNames.length > 0}
-      Choose a preexisting map to edit it and invite more people.
+      Choose a map to view, edit, and share.
     {:else}
       Share your private map in the Sharing tab here to be able to switch between maps.
     {/if}
   </h6>
 </div>
-<table class="table">
-  <thead>
-    <!-- <tr>
-      <th scope="col"><h6>Map Name</h6></th>
-      <th scope="col"><h6>Shared with</h6></th>
-      <th scope="col"></th>
-    </tr> -->
-  </thead>
-  <tbody>
+<ModalTable>
   <tr>
     <th scope="row">
       <h6>your private map</h6>
     </th>
+    <td>
+      <h6>
+        Editor
+      </h6>
+    </td>
     <td>
       <button type='button' class="btn btn-info btn-sm"
         on:click={() => switchToMap('your private map')} disabled={privateMap}
@@ -47,9 +45,9 @@
       <th scope="row">
         <h6>{mapName}</h6>
       </th>
-      <!-- <td>
-        <h6>1</h6>
-      </td> -->
+      <td>
+        <h6>{permissions.permToEnglish(sharedMaps[mapName])}</h6>
+      </td>
       <td>
         <button type='button' class="btn btn-info btn-sm"
           on:click={() => switchToMap(mapName)} disabled={mapName == currentMap}
@@ -57,27 +55,10 @@
       </td>
     </tr>
   {/each}
-  </tbody>
-</table>
+</ModalTable>
+
 <div class='form-group form-bottom-section'>
   <button type='button' class="btn btn-secondary btn-sm"
     on:click={closeCB}
   >Close</button>
 </div>
-
-<style>
-  table.table th {
-    padding: .25rem;
-    vertical-align: middle;
-  }
-  table.table th h6 {
-    margin-bottom: 0px;
-  }
-  table.table td {
-    padding: .25rem;
-    vertical-align: middle;
-  }
-  table.table td h6 {
-    margin-bottom: 0px;
-  }
-</style>

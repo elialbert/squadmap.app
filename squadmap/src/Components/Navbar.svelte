@@ -102,7 +102,7 @@
     + Add Someone
   </button>
   <!-- svelte-ignore a11y-invalid-attribute -->
-  <a class="navbar-brand" href="#">SquadMap.app</a>
+  <a class="navbar-brand" href="javascript:void(0)">SquadMap.app</a>
   {#if showNavDropdown}
   <div class={`collapse bg-white navbar-collapse ${showNavDropdown ? 'show' : ''} ${canToggleNav ? 'pl-3 pb-1' : ''}`}
     transition:slide
@@ -110,25 +110,25 @@
     <ul class="navbar-nav" >
       <li class="nav-item">
         <!-- svelte-ignore a11y-invalid-attribute -->
-        <a class="nav-link" href="#" on:click={openAbout}>About</a>
+        <a class="nav-link" href="javascript:void(0)" on:click={openAbout}>About</a>
       </li>
       {#if user && !loading}
         <li class="nav-item">
           <!-- svelte-ignore a11y-invalid-attribute -->
-          <a class="nav-link" href="#" on:click={openSharing}>Maps + Sharing</a>
+          <a class="nav-link" href="javascript:void(0)" on:click={openSharing}>Maps + Sharing</a>
         </li>
       {/if}
       <li class="nav-item">
         <!-- svelte-ignore a11y-invalid-attribute -->
-        <a class="nav-link" href="#" on:click={openNumbers}>Modify Algorithm Weights</a>
+        <a class="nav-link" href="javascript:void(0)" on:click={openNumbers}>Modify Algorithm Weights</a>
       </li>
       <li class="nav-item">
         <!-- svelte-ignore a11y-invalid-attribute -->
-        <a class="nav-link" href="#" on:click={toggleColorBlind}>Toggle color-blind mode</a>
+        <a class="nav-link" href="javascript:void(0)" on:click={toggleColorBlind}>Toggle color-blind mode</a>
       </li>
       <li class="nav-item">
         <!-- svelte-ignore a11y-invalid-attribute -->
-        <a class="nav-link" href="#" on:click={reset}>Reset</a>
+        <a class="nav-link" href="javascript:void(0)" on:click={reset}>Reset</a>
       </li>
     </ul>
   </div>
@@ -138,7 +138,7 @@
     {#if loading}
       <span class="">Loading...</span>
     {:else if user}
-      <span class=" signout" on:click={signoutWrapper}>{user.email} (editing {currentMap})</span>
+      <span class=" signout" on:click={signoutWrapper}>{user.email} ({currentMap})</span>
     {:else}
       <span class=" signin" on:click={auth.startAuth}>Sign in to Share</span>
     {/if}
