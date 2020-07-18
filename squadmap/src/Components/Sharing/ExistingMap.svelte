@@ -45,14 +45,14 @@
   }
 </script>
 <div class='form-group'>
-  <h6>
+  <h6 class='pb-1'>
     Currently editing: <span class='font-weight-bold'>{editingName}</span>
   </h6>
 
   {#if sharersForDisplay.length > 0}
     <h6>
       Currently shared with:
-      <p class='pb-1'/>
+      <div class='pb-1'></div>
       <ul>
         {#each sharersForDisplay as sharedWith}
         <li class='pb-1'>
@@ -71,7 +71,7 @@
   {/if}
   <p class='pb-1'/>
   <h6>
-    Enter an email address to share this map.
+    Enter a google email address to share this map.
   </h6>
   <div class="input-group">
     <input type='text' class='form-control' id='name' placeholder='Share with an email'
