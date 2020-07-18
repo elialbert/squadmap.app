@@ -24,6 +24,7 @@ const makeNewNode = function(incoming) {
 };
 
 const runDiff = function(data) {
+  if (!data) { return; }
   cy.data('weights', data.weights);
   document.dispatchEvent(weightEvent);
 

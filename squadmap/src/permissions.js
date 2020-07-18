@@ -64,6 +64,17 @@ const englishToPerm = function(d) {
   }
 };
 
+const deleteMap = function(mapName, cb) {
+  let updates = {};
+  updates['sharing/' + sanitizeEmail(user.email) + '/' + mapName] = null;
+  updates['sharedmaps/' + mapName] = null;
+  firebase.database().ref().update(updates).then(function(res) {
+    cb();
+  }).catch(function(err) {
+    console.log('caugh', err)
+  })
+};
+
 export default {
   getShared: getShared,
   writeUserData: writeUserData,
@@ -72,5 +83,6 @@ export default {
   getSharers: getSharers,
   permToEnglish: permToEnglish,
   perms: perms,
-  englishToPerm: englishToPerm
+  englishToPerm: englishToPerm,
+  deleteMap: deleteMap
 }

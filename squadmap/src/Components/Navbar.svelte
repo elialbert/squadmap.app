@@ -128,10 +128,12 @@
         <!-- svelte-ignore a11y-invalid-attribute -->
         <a class="nav-link" href="javascript:void(0)" on:click={toggleColorBlind}>Toggle color-blind mode</a>
       </li>
-      <li class="nav-item">
-        <!-- svelte-ignore a11y-invalid-attribute -->
-        <a class="nav-link" href="javascript:void(0)" on:click={reset}>Reset</a>
-      </li>
+      {#if currentMap == 'your private map'}
+        <li class="nav-item">
+          <!-- svelte-ignore a11y-invalid-attribute -->
+          <a class="nav-link" href="javascript:void(0)" on:click={reset}>Reset</a>
+        </li>
+      {/if}
     </ul>
   </div>
   {/if}

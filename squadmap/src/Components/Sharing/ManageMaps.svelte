@@ -12,6 +12,16 @@
   function switchToMap(name) {
     currentMap = name;
   };
+
+  function deleteMap(mapName) {
+    if (confirm(`Are you sure you want to totally remove ${mapName} and everyone's access to it?`)) {
+      let needToSwitch = currentMap == mapName;
+
+      permissions.deleteMap(mapName, function() {
+        if (needToSwitch) { switchToMap('your private map'); }
+      });
+    }
+  }
 </script>
 
 <div class='form-group'>
@@ -52,8 +62,15 @@
         <button type='button' class="btn btn-info btn-sm"
           on:click={() => switchToMap(mapName)} disabled={mapName == currentMap}
         >Switch</button>
+        {#if sharedMaps[mapName].admin}
+          <button type='button' class="btn btn-danger btn-sm"
+            on:click={() => deleteMap(mapName)}
+          >Delete</button>
+        {/if}
       </td>
+
     </tr>
+
   {/each}
 </ModalTable>
 
