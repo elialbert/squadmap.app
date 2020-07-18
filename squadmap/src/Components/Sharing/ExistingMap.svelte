@@ -25,7 +25,7 @@
   };
 
   function shareWith() {
-    permissions.shareMapWithEmail(editingName, shareWithEmail, function() {
+    permissions.shareMapWithEmail(editingName, shareWithEmail.trim(), function() {
       shareWithEmail = '';
       getSharers();
     });
@@ -55,11 +55,17 @@
       <p class='pb-1'/>
       <ul>
         {#each sharersForDisplay as sharedWith}
-        <li>
+        <li class='pb-1'>
           {sharedWith.email}
         </li>
         {/each}
       </ul>
+    </h6>
+    <h6 class='pb-1'>
+      Copy this link to the people above:
+      <input type='text' class='form-control mt-1' onclick="this.select()" readonly
+        value={`https://squadmap.app/#/shared/${editingName}`}>
+      They will have to sign in to google with the specified email address.
     </h6>
 
   {/if}

@@ -40,12 +40,14 @@
   <ul class="nav nav-tabs">
     <li class="nav-item">
       <!-- svelte-ignore a11y-invalid-attribute -->
-      <a href="#" class={`nav-link ${!managing ? 'active' : ''}`}
+      <!-- svelte-ignore a11y-missing-attribute -->
+      <a class={`nav-link ${!managing ? 'active' : ''}`}
         on:click={() => {managing = false }}>Sharing</a>
     </li>
     <li class="nav-item">
       <!-- svelte-ignore a11y-invalid-attribute -->
-      <a href="#" class={`nav-link ${managing ? 'active' : ''}`}
+      <!-- svelte-ignore a11y-missing-attribute -->
+      <a class={`nav-link ${managing ? 'active' : ''}`}
         on:click={() => {managing = true }}>Your Maps</a>
     </li>
   </ul>
@@ -59,3 +61,9 @@
     {/if}
   </form>
 </Modal>
+
+<style>
+  .nav-link {
+    cursor: pointer;
+  }
+</style>
