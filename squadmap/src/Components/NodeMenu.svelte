@@ -3,9 +3,10 @@
   import Manipulate from '../team/Manipulate.js';
   import Constants from '../team/Constants.js';
   import NodeMenuConnections from './NodeMenuConnections.svelte';
+  import { onMount } from 'svelte';
+
   export let node;
   export let closeCB;
-  import { onMount } from 'svelte';
 
   let connectionsVisible = false;
 
@@ -30,7 +31,8 @@
 
   function runConnect() {
     if (!connectToValue) { return; }
-    Manipulate.connectTo(node, connectToValue);
+    let connectToNode = cy.nodes().getElementById(connectToValue)
+    Manipulate.connectTo(node, connectToNode);
     connectToValue = null;
     computeNeighbors();
     connectionsVisible = true;
@@ -105,13 +107,13 @@
       <select class="form-control" id="connectTo" bind:value={connectToValue} on:change={runConnect}>
         <option value={null}>{nonNeighbors.length > 0 ? `Choose` : `Connected to everyone!`}</option>
         {#each nonNeighbors as nonNeighbor}
-          <option value={nonNeighbor}>{nonNeighbor.data().label}</option>
+          <option value={nonNeighbor.data().id}>{nonNeighbor.data().label}</option>
         {/each}
       </select>
     </div>
 
     <NodeMenuConnections
-      {node} {runDisconnect} {neighbors} {nonNeighbors} bind:visible={connectionsVisible}
+      {node} {runDisconnect} {neighbors} bind:visible={connectionsVisible}
     ></NodeMenuConnections>
 
     <div class='form-group form-bottom-section'>

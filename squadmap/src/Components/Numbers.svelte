@@ -1,6 +1,6 @@
 <script>
   import Modal from './Modal.svelte';
-  import debounce from 'lodash/debounce';
+  import * as debounce from 'lodash/debounce';
   import ExposureRisk from '../team/ExposureRisk.js';
   import Constants from '../team/Constants.js';
   import database from '../database.js';
@@ -22,7 +22,7 @@
     weights = cy.data('weights');
   } else {
     setTimeout(function(x) {
-      weights = cy.data('weights')
+      weights = cy.data('weights');
     }, 1000)
   }
 

@@ -6,7 +6,7 @@
   export let runDisconnect;
   export let neighbors;
   export let visible;
-  
+
   function connectionType(node1, node2) {
     return Manipulate.edgeBetween(node1, node2).data().connectionType || [...Constants.connectionTypes].pop();
   };
@@ -26,8 +26,8 @@
 
   function changeConnectionType(neighbor) {
     Manipulate.saveData(
-      Manipulate.edgeBetween(node, neighbor), 
-      'connectionType', 
+      Manipulate.edgeBetween(node, neighbor),
+      'connectionType',
       neighborConnectionTypes[neighbor.data().id]
     );
   };
@@ -35,18 +35,18 @@
   function toggleVisible() {
     visible = !visible;
   }
-  
+
 </script>
 
 <div class='form-group connections-box'>
   <!-- svelte-ignore a11y-invalid-attribute -->
-  <label for="disconnectFrom" on:click={toggleVisible} class='connections-link'><a class='connections-link' href='#'>Connections 
+  <label for="disconnectFrom" on:click={toggleVisible} class='connections-link'><a class='connections-link' href='#'>Connections
     {#if visible}<span class='toggle-icon'>&#9650;</span>{/if}
     {#if !visible}<span class='toggle-icon'>&#9660;</span>{/if}
   </a>
   </label>
   {#if visible}
-  <div class='rounded box-shadow' transition:slide>
+  <div class='rounded box-shadow' id='nodemenuconnections' transition:slide>
     {#each neighbors as neighbor}
       <div class='media pb-3'>
         <div class='media-body pb-1 mb-0 medium lh-125 border-bottom border-gray'>
@@ -57,10 +57,10 @@
               on:click={() => runDisconnect(neighbor)}
             >Disconnect</button>
 
-          <div class='connection-label'>Risk: {riskFactor(neighbor)}</div>
-          <div class='connection-label'>Edit Connection Type:</div>
+          <div class='connection-label font-italic pb-2'>{riskFactor(neighbor)}</div>
+          <div class='connection-label pb-1'>Edit Connection Type:</div>
           <!-- svelte-ignore a11y-no-onchange -->
-          <select class="form-control" id="connectionType" 
+          <select class="form-control" id={`connectionType-${neighbor.data().id}`}
             bind:value={neighborConnectionTypes[neighbor.data().id]} on:change={() => changeConnectionType(neighbor)}>
             <option value={null}>{`Choose`}</option>
             {#each Constants.connectionTypes as connectionType}
