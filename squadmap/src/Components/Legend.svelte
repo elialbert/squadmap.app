@@ -52,8 +52,9 @@
     cursor: pointer;
 
     @media (max-width: 768px) {
-      left: 83vw;
-      top: 91vh;
+      left: 80vw;
+      bottom: 5vh;
+      top: unset;
       font-size: 4vh;
     }
   }
@@ -68,8 +69,10 @@
     border-top: 2px solid black;
     margin-left: -23px;
     @media (max-width: 768px) {
-      height: 50vh;
-      top: 50vh;
+      height: 60vh;
+      top: 40vh;
+      margin-bottom: 10vh;
+      padding-bottom: 10vh;
     }
   }
 
