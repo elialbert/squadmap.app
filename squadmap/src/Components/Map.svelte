@@ -56,6 +56,7 @@
   var debounceRefreshLayout = debounce(Manipulate.refreshLayout, 10);
 
   function resizeAndRefresh() {
+    if (!cy) { return; }
     cy.resize();
     Manipulate.refreshLayout();
   };
