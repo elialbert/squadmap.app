@@ -173,4 +173,8 @@
   a.signout {
     cursor: pointer
   }
+
+  .nav-link:hover {
+    background-color: #f8f9fa;
+  }
 </style>
