@@ -101,7 +101,7 @@ const mapToExposure = function(p) {
 }
 
 const exposureClass = function(num) {
-  return `exposure-risk-${mapToExposure(num)}`;
+  return `exposure-risk-${num}`;
 }
 
 const riskClassAdjustedByActivity = function(weights, sortedRisks, riskLookup, elData) {
@@ -139,10 +139,11 @@ const runNodes = function() {
       node.classes(['node-number-label']);
       node.data('probResult', `${node.data('label')}: ${probResult.toFixed(2)}`);
     } else {
-      const expc = exposureClass(probResult) || '';
-      node.classes([riskFactor, expc]); // not using riskfactor as a class right now
-      log('final for ', node.data().label, expc)
+      node.exposureClassNum = mapToExposure(probResult);
+      const expc = exposureClass(node.exposureClassNum) || '';
+      node.classes([riskFactor, expc]);
     }
+    log('n: ', node.data().label, node.classes())
   });
 }
 
@@ -159,16 +160,19 @@ const runEdges = function() {
       const connectionTypeClass = Constants.connectionTypeClasses[connectionType];
       classesToAdd.push(connectionTypeClass)
     }
-    const sourceClass = riskClassAdjustedByActivity(weights, sortedRisks, riskLookup, edge.source().data())
-    const targetClass = riskClassAdjustedByActivity(weights, sortedRisks, riskLookup, edge.target().data())
+    // const sourceClass = riskClassAdjustedByActivity(weights, sortedRisks, riskLookup, edge.source().data())
+    // const targetClass = riskClassAdjustedByActivity(weights, sortedRisks, riskLookup, edge.target().data())
+    const sourceClass = edge.source().exposureClassNum;
+    const targetClass = edge.target().exposureClassNum;
     if (sourceClass && targetClass) {
-      classesToAdd.push(`rf-${sourceClass}-${targetClass}`)
+      classesToAdd.push(`er-${sourceClass}-${targetClass}`)
     }
     if (!showLabels) {
       edge.classes(classesToAdd);
     } else {
       edge.classes(['no-color-edge'])
     }
+    log(edge.source().data().label, ' - ', edge.target().data().label, edge.classes())
   });
 }
 

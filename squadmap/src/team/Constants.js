@@ -1,5 +1,7 @@
-import EdgeColors from './EdgeColors.js';
+import EdgeColors from './EdgeColors2.js';
 import Colors from './Colors.js';
+
+let borderWidth = 1.5;
 
 const constants = {
   riskFactors: [
@@ -87,8 +89,6 @@ const constants = {
       selector: 'node',
       css: {
         'background-color': 'white',
-        'border-width': 1.5,
-        'border-color': 'black',
         'text-valign': 'center',
         'text-halign': 'center',
         'height': '60px',
@@ -158,33 +158,80 @@ const constants = {
     {
       selector: '.exposure-risk-1',
       css: {
-        'background-color': Colors.c1
+        'background-color': Colors.c1,
+        'border-width': borderWidth
       }
     },
     {
       selector: '.exposure-risk-2',
       css: {
-        'background-color': Colors.c2
+        'background-color': Colors.c2,
+        'border-width': borderWidth
       }
     },
     {
       selector: '.exposure-risk-3',
       css: {
-        'background-color': Colors.c3
+        'background-color': Colors.c3,
+        'border-width': borderWidth
       }
     },
     {
       selector: '.exposure-risk-4',
       css: {
-        'background-color': Colors.c4
+        'background-color': Colors.c4,
+        'border-width': borderWidth
       }
     },
     {
       selector: '.exposure-risk-5',
       css: {
-        'background-color': Colors.c5
+        'background-color': Colors.c5,
+        'border-width': borderWidth
       }
     },
+    // {
+    //   selector: '.risk-factor-home',
+    //   css: {
+    //     'background-color': Colors.c1,
+
+    //   }
+    // },
+    // {
+    //   selector: '.risk-factor-outdoors',
+    //   css: {
+    //     'background-color': Colors.c2,
+
+    //   }
+    // },
+    // {
+    //   selector: '.risk-factor-office',
+    //   css: {
+    //     'background-color': Colors.c3,
+
+    //   }
+    // },
+    // {
+    //   selector: '.risk-factor-hospitality',
+    //   css: {
+    //     'background-color': Colors.c4,
+
+    //   }
+    // },
+    // {
+    //   selector: '.risk-factor-hospital',
+    //   css: {
+    //     'background-color': Colors.c5,
+
+    //   }
+    // },
+    // {
+    //   selector: '.risk-factor-unknown',
+    //   css: {
+    //     'background-color': Colors.c6,
+
+    //   }
+    // },
   ]
 };
 
