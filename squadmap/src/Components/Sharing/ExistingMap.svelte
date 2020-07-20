@@ -114,7 +114,7 @@
 
   {#if disableNewMap}
     <h6 class='text-danger'>
-      Note: You are already admin for 5 maps - please delete one before you make another.
+      Note: You are already the owner for 5 maps - please delete one before you make another.
     </h6>
   {:else}
     <p class='pb-2'/>

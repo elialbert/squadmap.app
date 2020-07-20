@@ -42,7 +42,7 @@ const makeNodeMenu = function(node) {
   let menuObj = new NodeMenu({
     target: div,
     props: {
-      node: node, 
+      node: node,
       closeCB: node.closeCB
     }
   });
@@ -65,4 +65,4 @@ const showMenu = function(node) {
   }
 }
 
-export { showMenu, showEdgeMenu }
+export { showMenu, showEdgeMenu, removeMenus }

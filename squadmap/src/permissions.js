@@ -34,12 +34,12 @@ const shareMapWithEmail = function(mapName, email, perm, cb) {
   firebase.database().ref().update(updates, cb);
 };
 
-const perms = ['Read Only', 'Editor', 'Admin', 'Remove'];
+const perms = ['Read Only', 'Editor', 'Owner', 'Remove'];
 
 const permToEnglish = function(d) {
   if (!d) { return ''; }
   if (d.admin) {
-    return 'Admin';
+    return 'Owner';
   }
   if (d.write) {
     return 'Editor';
@@ -50,7 +50,7 @@ const permToEnglish = function(d) {
 };
 
 const englishToPerm = function(d) {
-  if (d == 'Admin') {
+  if (d == 'Owner') {
     return {admin: 1, write: 1, read: 1};
   }
   if (d == 'Editor') {

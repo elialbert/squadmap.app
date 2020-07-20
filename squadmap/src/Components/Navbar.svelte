@@ -2,7 +2,7 @@
   import { slide } from 'svelte/transition';
   import { onMount } from 'svelte';
   import Manipulate from '../team/Manipulate.js';
-  import { showMenu } from '../team/Labels.js'
+  import { showMenu, removeMenus } from '../team/Labels.js'
   import About from './About.svelte';
   import Numbers from './Numbers.svelte';
   import Sharing from './Sharing/Sharing.svelte';
@@ -30,6 +30,8 @@
   }
   function openAbout() {
     showAbout = true;
+    showSharing = false;
+    showNumbers = false;
     toggleMenu()
   }
   function numbersClose() {
@@ -37,6 +39,8 @@
   }
   function openNumbers() {
     showNumbers = true;
+    showSharing = false;
+    showAbout = false;
     toggleMenu()
   }
 
@@ -45,6 +49,8 @@
   }
   function openSharing() {
     showSharing = true;
+    showNumbers = false;
+    showAbout = false;
     toggleMenu()
   }
 
@@ -65,8 +71,9 @@
   };
 
   function toggleMenu() {
+    removeMenus(cy.nodes());
     if (!canToggleNav) { return; }
-    showNavDropdown = !showNavDropdown
+    showNavDropdown = !showNavDropdown;
   };
 
   function checkNav() {

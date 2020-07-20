@@ -43,7 +43,7 @@
   .sticky-legend-button {
     position: fixed;
     left: 96vw;
-    top: 3vh;
+    top: 6vh;
     z-index: 1030;
     font-size: 4vh;
     background-color: white;
@@ -53,23 +53,33 @@
 
     @media (max-width: 768px) {
       left: 90vw;
-      top: 7vh;
+      top: 9vh;
       font-size: 4vh;
+    }
+
+    @media (max-height: 460px) {
+      left: 94vw;
+      top: 12vh;
+      font-size: 7vh;
     }
   }
 
   .sticky-legend {
     position: fixed;
     width: 100vw;
-    height: 24vh;
+    height: 30vh;
     z-index: 1031;
     background-color: white;
     top: 4vh;
     border-bottom: 2px solid black;
     margin-left: -23px;
     @media (max-width: 768px) {
-      height: 40vh;
+      height: 44vh;
       top: 7vh;
+    }
+    @media (max-height: 460px) {
+      height: 80vh;
+      top: 12vh;
     }
   }
 
@@ -89,6 +99,9 @@
     @media (min-width: 768px) {
       margin-top: .8rem;
       margin-right: 1rem;
+    }
+    @media (max-height: 460px) {
+      margin-right: 4rem;
     }
   }
 
