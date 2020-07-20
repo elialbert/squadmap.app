@@ -76,7 +76,8 @@ const deleteMap = function(mapName, cb) {
 };
 
 const adminOfTooMany = function(sharedMaps) {
-  return Object.values(sharedMaps).filter(function(x) { return x.admin }).length > 4;
+  if (!sharedMaps) { return false }
+  return Object.values((sharedMaps || {})).filter(function(x) { return x.admin }).length > 4;
 };
 
 export default {

@@ -1,6 +1,6 @@
 <script>
   import Modal from './Modal.svelte';
-  import * as debounce from 'lodash/debounce';
+  import * as _ from 'lodash';
   import ExposureRisk from '../team/ExposureRisk.js';
   import Constants from '../team/Constants.js';
   import database from '../database.js';
@@ -45,7 +45,7 @@
     ExposureRisk.run();
     database.save();
   }
-  var debounceWeightUpdate = debounce(weightUpdate, 10);
+  var debounceWeightUpdate = _.debounce(weightUpdate, 10);
 
   function reset() {
     weights = {riskWeights: Constants.riskWeights,

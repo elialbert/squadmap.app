@@ -10,7 +10,7 @@
   window.user = null;
   let user;
   let loading = true;
-  let sharedMaps = [];
+  let sharedMaps = {};
 
   window.currentMapName = 'your private map';
   let currentMap = 'your private map';
@@ -19,7 +19,7 @@
     database.writeUserData(window.user);
 
     permissions.getShared(function(sharedMapData) {
-      sharedMaps = sharedMapData;
+      sharedMaps = sharedMapData || {};
       console.log('got shared', sharedMaps)
       Object.keys(sharedMaps).forEach(function(name) {
         if (location.hash.indexOf(`#/shared/${name}`) == 0) {
