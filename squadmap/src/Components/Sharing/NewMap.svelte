@@ -5,6 +5,17 @@
   export let error;
   export let sharedMaps;
 
+  let valid = false;
+
+  function validate () {
+    valid = newMapName && !!newMapName.match(/^[a-zA-Z0-9]+$/g);
+    if (newMapName && !valid) {
+      error = 'Just letters and numbers, please.';
+    } else {
+      error = '';
+    }
+  }
+
   export let newMapName = '';
   $: disableNewMap = permissions.adminOfTooMany(sharedMaps);
 </script>
@@ -19,10 +30,11 @@
     </h6>
     <div class="input-group">
       <input type='text' class='form-control' id='name' placeholder='New Map Name'
+        on:input={() => validate()}
         bind:value={newMapName} />
       <div class='input-group-append'>
         <button type='button' class="btn btn-primary"
-          on:click={shareMap} disabled={!newMapName}
+          on:click={shareMap} disabled={!newMapName || !valid}
         >Copy Map</button>
       </div>
     </div>

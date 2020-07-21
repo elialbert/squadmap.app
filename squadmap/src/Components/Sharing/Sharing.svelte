@@ -28,9 +28,10 @@
 
   function shareMap() {
     error = '';
-    database.copyMapToShared(newMapName, function() {
-      currentMap = newMapName.slice();
-      newMapName = '';
+    let nmn = newMapName.trim();
+    database.copyMapToShared(nmn, function() {
+      currentMap = nmn.slice();
+      nmn = '';
     }, function(err) {
       error = "That name has already been taken - please try another.";
     });

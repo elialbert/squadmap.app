@@ -14,12 +14,22 @@
   let sharersForDisplay = [];
   let shareWithEmail = '';
 
+  let valid = false;
+  function validate () {
+    valid = newMapName && !!newMapName.match(/^[a-zA-Z0-9]+$/g);
+    if (newMapName && !valid) {
+      error = 'Just letters and numbers, please.';
+    } else {
+      error = '';
+    }
+  }
+
   function prepSharing() {
     sharersForDisplay = [];
     Object.keys(sharers).forEach(function(email) {
-      if (email.replace('%2E', '.') !== user.email) {
+      if (permissions.unsanitizeEmail(email) !== user.email) {
         sharersForDisplay.push({
-          email: email.replace('%2E', '.'),
+          email: permissions.unsanitizeEmail(email),
           permissions: sharers[email],
           perm: permissions.permToEnglish(sharers[email])
         });
@@ -50,7 +60,7 @@
   };
 
   $: disableNewMap = permissions.adminOfTooMany(sharedMaps);
-  $: isAdmin = (sharers[user.email.replace('.', '%2E')] || {}).admin;
+  $: isAdmin = (sharers[permissions.sanitizeEmail(user.email)] || {}).admin;
 
   $: {
     editingName;
@@ -123,9 +133,10 @@
     </h6>
     <div class="input-group">
       <input type='text' class='form-control' id='name' placeholder='New Map Name'
-        bind:value={newMapName}>
+        bind:value={newMapName}
+        on:input={() => validate()}>
       <button type='button' class="btn btn-primary"
-        on:click={shareMap} disabled={!newMapName}
+        on:click={shareMap} disabled={!newMapName || !valid}
       >Copy Map</button>
     </div>
     {#if error}

@@ -20,7 +20,6 @@
 
     permissions.getShared(function(sharedMapData) {
       sharedMaps = sharedMapData || {};
-      console.log('got shared', sharedMaps)
       Object.keys(sharedMaps).forEach(function(name) {
         if (location.hash.indexOf(`#/shared/${name}`) == 0) {
           currentMap = name;

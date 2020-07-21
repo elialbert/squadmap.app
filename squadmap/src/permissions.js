@@ -1,5 +1,9 @@
 const sanitizeEmail = function(e) {
-  return e.replace('.', '%2E');
+  return e.split('.').join('%2E');
+};
+
+const unsanitizeEmail = function(e) {
+  return e.split('%2E').join('.');
 }
 
 const getShared = function(cb) {
@@ -85,6 +89,7 @@ export default {
   writeUserData: writeUserData,
   shareMapWithEmail: shareMapWithEmail,
   sanitizeEmail: sanitizeEmail,
+  unsanitizeEmail: unsanitizeEmail,
   getSharers: getSharers,
   permToEnglish: permToEnglish,
   perms: perms,
