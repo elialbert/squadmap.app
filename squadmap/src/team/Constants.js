@@ -88,6 +88,7 @@ const constants = {
     {
       selector: 'node',
       css: {
+        'border-width': borderWidth,
         'background-color': 'white',
         'text-valign': 'center',
         'text-halign': 'center',

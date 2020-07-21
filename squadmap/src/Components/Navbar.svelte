@@ -6,6 +6,7 @@
   import About from './About.svelte';
   import Numbers from './Numbers.svelte';
   import Sharing from './Sharing/Sharing.svelte';
+  import Legend from './Legend.svelte';
   import auth from '../auth.js';
   import database from '../database.js';
 
@@ -19,39 +20,49 @@
   let showSharing = false;
   let showNavDropdown = true;
   let canToggleNav = false;
+  let showLegend = false;
 
   function newNode() {
     let node = Manipulate.newNode();
     showMenu(node);
-  }
+  };
 
   function aboutClose() {
     showAbout = false;
   }
   function openAbout() {
-    showAbout = true;
-    showSharing = false;
-    showNumbers = false;
-    toggleMenu()
+    showAbout = !showAbout;
+    if (showAbout) {
+      showSharing = false;
+      showNumbers = false;
+      showLegend = false;
+      toggleMenu()
+    }
   }
   function numbersClose() {
     showNumbers = false;
   }
   function openNumbers() {
-    showNumbers = true;
-    showSharing = false;
-    showAbout = false;
-    toggleMenu()
+    showNumbers = !showNumbers;
+    if (showNumbers) {
+      showSharing = false;
+      showAbout = false;
+      showLegend = false;
+      toggleMenu()
+    }
   }
 
   function sharingClose() {
     showSharing = false;
   }
   function openSharing() {
-    showSharing = true;
-    showNumbers = false;
-    showAbout = false;
-    toggleMenu()
+    showSharing = !showSharing;
+    if (showSharing) {
+      showNumbers = false;
+      showAbout = false;
+      showLegend = false;
+      toggleMenu()
+    }
   }
 
   function reset() {
@@ -75,6 +86,15 @@
     if (!canToggleNav) { return; }
     showNavDropdown = !showNavDropdown;
   };
+
+  function toggleShowLegend() {
+    showLegend = !showLegend;
+    if (showLegend) {
+      showAbout = false;
+      showSharing = false;
+      showNumbers = false;
+    }
+  }
 
   function checkNav() {
     if (!document.getElementById('hiddenIcon')) { return; }
@@ -106,12 +126,11 @@
   <button class="navbar-toggler" id='hiddenIcon' type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon" on:click={toggleMenu}></span>
   </button>
-  <button class='btn btn-sm btn-primary mr-md-3'
-    on:click={newNode}>
-    + Add Someone
-  </button>
+
   <!-- svelte-ignore a11y-invalid-attribute -->
   <a class="navbar-brand" href="javascript:void(0)">SquadMap.app</a>
+  <div class='legend-link mr-2' on:click={toggleShowLegend}>&#x24D8;</div>
+
   {#if showNavDropdown}
   <div class={`collapse bg-white navbar-collapse ${showNavDropdown ? 'show' : ''} ${canToggleNav ? 'pl-3 pb-1' : ''}`}
     transition:slide
@@ -159,6 +178,11 @@
   </div>
   {/if}
 </nav>
+<!-- svelte-ignore a11y-invalid-attribute -->
+<div  class="new-node-button">
+  <span class="new-node-button-inner"
+    on:click={newNode}>&#xFF0B;</span>
+</div>
 {#if showAbout}
   <About closeCB={aboutClose}></About>
 {/if}
@@ -169,7 +193,9 @@
   <Sharing closeCB={sharingClose} bind:currentMap {sharedMaps}></Sharing>
 {/if}
 
-<style>
+<Legend {showLegend}></Legend>
+
+<style lang='scss'>
   a.navbar-brand {
     padding-bottom: .6125rem;
   }
@@ -183,5 +209,55 @@
 
   .nav-link:hover {
     background-color: #f8f9fa;
+  }
+
+  .legend-link {
+    cursor: pointer;
+    font-size: 1.5em;
+  }
+
+  .new-node-button-inner {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2em;
+    height: 2em;
+    padding: 1px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 3vh;
+    background-color:#0C9;
+    border-radius:50px;
+    box-shadow: 2px 2px 3px #999;
+    border: 2px solid black;
+    @media (max-width: 768px) {
+      font-size: 3vh;
+    }
+
+    @media (max-height: 460px) {
+      font-size: 7vh;
+      width: 2em;
+      height: 2em;
+    }
+  }
+
+  .new-node-button {
+    position: fixed;
+    width:60px;
+    height:60px;
+    bottom:40px;
+    right:40px;
+    color:#FFF;
+    text-align:center;
+    z-index: 1030;
+    cursor: pointer;
+    @media (max-width: 768px) {
+      bottom:25px;
+      right:25px;
+    }
+    @media (max-height: 460px) {
+      bottom:80px;
+      right:25px;
+    }
   }
 </style>

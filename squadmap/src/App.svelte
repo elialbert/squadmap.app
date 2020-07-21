@@ -1,7 +1,6 @@
 <script>
   import Map from './Components/Map.svelte';
   import Navbar from './Components/Navbar.svelte';
-  import Legend from './Components/Legend.svelte';
   import auth from './auth.js'
   import database from './database.js'
   import permissions from './permissions.js'
@@ -61,7 +60,7 @@
 <div class='container-fluid'>
   <Navbar bind:currentMap {loading} {sharedMaps} {user}></Navbar>
   <Map {user} {loading} {currentMap} {sharedMaps}></Map>
-  <Legend></Legend>
+
 </div>
 
 <style>
