@@ -119,6 +119,10 @@
     auth.signOut();
   };
 
+  setTimeout(function() {
+    openSharing();
+  }, 1000)
+
   $: readOnlyMode = readOnlyMode = Manipulate.isInReadOnlyMode(sharedMaps, currentMap);
 </script>
 

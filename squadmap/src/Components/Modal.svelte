@@ -2,6 +2,7 @@
   export let title;
   export let closeCB;
   export let customClass='';
+  export let popoverClass='popover-body';
 </script>
 
 <div class={`popover fade bs-popover-right show custom-modal ${customClass}`}>
@@ -9,7 +10,7 @@
     {title}
     <span class="float-right cursor-pointer close-button" on:click={closeCB}>X</span>
   </h3>
-  <div class='popover-body'>
+  <div class='{popoverClass} popoverbody-overflow'>
     <slot></slot>
   </div>
 </div>
@@ -28,9 +29,14 @@
     background-color: rgba(255, 255, 255, 0.95);
   }
 
-  .popover-body {
+  .popoverbody-overflow {
     overflow-y: auto;
+    overflow-x: hidden;
     max-height: 84vh;
+  }
+
+  .popover-body-nopadding {
+    color: #212529
   }
 
   .cursor-pointer {

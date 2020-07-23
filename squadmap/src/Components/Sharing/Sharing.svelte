@@ -13,7 +13,7 @@
   let editingName = '';
   let newMapName = '';
 
-  let managing = false;
+  let managing = true;
   let error;
   let actionVerb;
 
@@ -37,52 +37,46 @@
     });
   };
 
-  function getActionVerb() {
-    if (currentMap == 'your private map') { return 'editing'; }
-    if (!sharedMaps[currentMap]) { return 'we have an error'; }
-    if (sharedMaps[currentMap].admin) { return 'admin of'; }
-    if (sharedMaps[currentMap].write) { return 'editing'; }
-    if (sharedMaps[currentMap].read) { return 'read only for'; }
-  }
+  // function getActionVerb() {
+  //   if (currentMap == 'your private map') { return 'editing'; }
+  //   if (!sharedMaps[currentMap]) { return 'we have an error'; }
+  //   if (sharedMaps[currentMap].admin) { return 'admin of'; }
+  //   if (sharedMaps[currentMap].write) { return 'editing'; }
+  //   if (sharedMaps[currentMap].read) { return 'read only for'; }
+  // }
   $: {
     currentMap;
-    actionVerb = getActionVerb();
+    // actionVerb = getActionVerb();
   }
 
 </script>
-<Modal title={`Maps + Sharing`} {closeCB}>
-  <ul class="nav nav-tabs">
+<Modal title={`Maps + Sharing`} {closeCB} popoverClass={'popover-body-nopadding'}>
+  <!-- <ul class="nav nav-tabs">
     <li class="nav-item">
-      <!-- svelte-ignore a11y-invalid-attribute -->
-      <!-- svelte-ignore a11y-missing-attribute -->
       <a class={`nav-link ${!managing ? 'active' : ''}`}
         on:click={() => {managing = false }}>Sharing</a>
     </li>
     <li class="nav-item">
-      <!-- svelte-ignore a11y-invalid-attribute -->
-      <!-- svelte-ignore a11y-missing-attribute -->
       <a class={`nav-link ${managing ? 'active' : ''}`}
         on:click={() => {managing = true }}>Your Maps</a>
     </li>
-  </ul>
-  <form class='p-3'>
-    <h6>
+  </ul> -->
+  <form >
+    <!-- <h6>
       Currently {actionVerb}: <span class='font-weight-bold'>{currentMap}</span>
-    </h6>
+    </h6> -->
     {#if managing}
-    <ManageMaps {sharedMaps} {closeCB} {privateMap} bind:currentMap></ManageMaps>
-    {:else if !privateMap}
-      <ExistingMap {closeCB} {editingName} {sharedMaps}
-        bind:newMapName {shareMap} {error}></ExistingMap>
-    {:else}
-      <NewMap {closeCB} {shareMap} {sharedMaps}
-        {error} bind:newMapName></NewMap>
+      <ManageMaps {sharedMaps} {closeCB} {shareMap} {privateMap} bind:currentMap></ManageMaps>
     {/if}
+      <!-- <ExistingMap {closeCB} {editingName} {sharedMaps}
+        bind:newMapName {shareMap} {error}></ExistingMap>
+      <NewMap {closeCB} {shareMap} {sharedMaps}
+        {error} bind:newMapName></NewMap> -->
   </form>
 </Modal>
 
 <style>
-  .nav-link {
+  /* .nav-link {
     cursor: pointer;
-  }
+  } */
 </style>

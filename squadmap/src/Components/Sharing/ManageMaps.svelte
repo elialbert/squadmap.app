@@ -1,16 +1,19 @@
 <script>
   import ModalTable from '../ModalTable.svelte';
+  import MapSharing from './MapSharing.svelte';
   export let closeCB;
   export let currentMap;
   export let sharedMaps;
+  export let shareMap;
   export let privateMap;
   import permissions from '../../permissions.js';
-  // export let error;
 
   $: mapNames = Object.keys(sharedMaps);
 
   function switchToMap(name) {
-    currentMap = name;
+    if (currentMap !== name) {
+      currentMap = name;
+    }
   };
 
   function deleteMap(mapName) {
@@ -24,9 +27,8 @@
   }
 </script>
 
-<div class='form-group'>
+<div class='form-group m-1'>
   <h6>
-    <p class='pb-1'/>
     {#if mapNames.length > 0}
       Choose a map to view, edit, and share.
     {:else}
@@ -35,42 +37,39 @@
   </h6>
 </div>
 <ModalTable>
-  <tr>
-    <th scope="row" class='wider'>
-      <h6>your private map</h6>
-    </th>
-    <td class='wider'>
-      <h6>
-        Editor
-      </h6>
-    </td>
-    <td>
-      <button type='button' class="btn btn-info btn-sm"
-        on:click={() => switchToMap('your private map')} disabled={privateMap}
-      >Switch</button>
-    </td>
-  </tr>
+  <!-- svelte-ignore a11y-invalid-attribute -->
+  <div class='maprow'>
+    <div class='row' on:click={() => switchToMap('your private map')}>
+      <div class='col-7'>
+        <h6 class='font-weight-bold'>your private map</h6>
+      </div>
+      <div class='col-5'>
+        <h6>
+          Editor
+        </h6>
+      </div>
+    </div>
+  </div>
   {#each mapNames as mapName}
-    <tr>
-      <th scope="row" class='wider'>
-        <h6>{mapName}</h6>
-      </th>
-      <td class='wider'>
-        <h6>{permissions.permToEnglish(sharedMaps[mapName])}</h6>
-      </td>
-      <td>
-        <button type='button' class="btn btn-info btn-sm"
-          on:click={() => switchToMap(mapName)} disabled={mapName == currentMap}
-        >Switch</button>
-        {#if sharedMaps[mapName].admin}
-          <button type='button' class="btn btn-danger btn-sm"
-            on:click={() => deleteMap(mapName)}
-          >Delete</button>
-        {/if}
-      </td>
+    <div class='maprow'>
+      <div class='row' on:click={() => switchToMap(mapName)}>
+        <div class='col-7'>
+          <h6 class='font-weight-bold'>{mapName}</h6>
+        </div>
+        <div class='col-5'>
+          <h6>{permissions.permToEnglish(sharedMaps[mapName])}</h6>
+        </div>
 
-    </tr>
+          <!-- {#if sharedMaps[mapName].admin}
+            <button type='button' class="btn btn-danger btn-sm"
+              on:click={() => deleteMap(mapName)}
+            >Delete</button>
+          {/if} -->
 
+      </div>
+      <MapSharing sharedMap={sharedMaps[mapName]}
+        {shareMap}></MapSharing>
+    </div>
   {/each}
 </ModalTable>
 
@@ -79,3 +78,16 @@
     on:click={closeCB}
   >Close</button>
 </div>
+<style>
+  .maprow {
+    border-bottom: 1px solid gray;
+
+    margin-top: 6px;
+    padding-top: 6px;
+
+  }
+
+  .row {
+    cursor: pointer;
+  }
+</style>
