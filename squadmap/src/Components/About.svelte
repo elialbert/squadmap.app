@@ -15,10 +15,7 @@
       Note that everything is automatically saved in your browser - but if you sign in with google, you can save to the cloud and share live with anyone.
     </h6>
     <h6 class='p-2'>
-      Try it out! Click nodes and edges to change peoples' jobs and interactions, and watch how the colors change. Or turn off colors in the menu for color-blindedness.
-    </h6>
-    <h6 class='p-2'>
-      Node colors reflect the overall risk to that person, and edge gradients reflect that person's independent risk.
+      Try it out! Click nodes and edges to change peoples' jobs and interactions, and watch how the colors change to signify risk. Or turn off colors in the menu for color-blindedness.
     </h6>
     <h6 class='p-2'>
       Thanks, hope you like it!
