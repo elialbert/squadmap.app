@@ -13,11 +13,8 @@ const getShared = function(cb) {
   })
 };
 
-const getSharers = function(cb) {
-  if (window.currentMapName == 'your private map') {
-    return [];
-  }
-  let ref = firebase.database().ref(`sharedmaps/${window.currentMapName}/permissions`);
+const getSharers = function(mapName, cb) {
+  let ref = firebase.database().ref(`sharedmaps/${mapName || window.currentMapName}/permissions`);
   ref.once('value', function(snapshot) {
     cb(snapshot.val());
   });

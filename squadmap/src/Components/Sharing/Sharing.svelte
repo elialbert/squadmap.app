@@ -26,7 +26,7 @@
     }
   }
 
-  function shareMap() {
+  function copyMap() {
     error = '';
     let nmn = newMapName.trim();
     database.copyMapToShared(nmn, function() {
@@ -66,7 +66,7 @@
       Currently {actionVerb}: <span class='font-weight-bold'>{currentMap}</span>
     </h6> -->
     {#if managing}
-      <ManageMaps {sharedMaps} {closeCB} {shareMap} {privateMap} bind:currentMap></ManageMaps>
+      <ManageMaps {sharedMaps} {closeCB} {privateMap} bind:currentMap></ManageMaps>
     {/if}
       <!-- <ExistingMap {closeCB} {editingName} {sharedMaps}
         bind:newMapName {shareMap} {error}></ExistingMap>

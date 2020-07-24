@@ -1,10 +1,10 @@
 <script>
+  import ModalTable from '../ModalTable.svelte';
   import { slide } from 'svelte/transition';
   import permissions from '../../permissions.js';
-  export let shareMap;
-  export let sharedMap;
-  export let error;
-
+  export let mapName;
+  export let sharedMaps;
+  export let deleteMap;
 
   let visible = false;
   let sharers = {};
@@ -28,14 +28,14 @@
   };
 
   function shareWith() {
-    permissions.shareMapWithEmail(editingName, shareWithEmail.trim(), {read: 1, write: 1}, function() {
+    permissions.shareMapWithEmail(mapName, shareWithEmail.trim(), {read: 1, write: 1}, function() {
       shareWithEmail = '';
       getSharers();
     });
   };
 
   function getSharers() {
-    permissions.getSharers(function(res) {
+    permissions.getSharers(mapName, function(res) {
       sharers = res;
       prepSharing();
     })
@@ -44,18 +44,17 @@
   function changePerm(sharedWith) {
     if (sharedWith.perm === null) { console.log('exit early');return; }
     let perm = permissions.englishToPerm(sharedWith.perm);
-    permissions.shareMapWithEmail(editingName, sharedWith.email, perm, function() {
+    permissions.shareMapWithEmail(mapName, sharedWith.email, perm, function() {
       getSharers();
     });
   };
-
+  $: disableNewMap = permissions.adminOfTooMany(sharedMaps);
   $: isAdmin = (sharers[permissions.sanitizeEmail(user.email)] || {}).admin;
-
   $: {
-    // editingName;
-    // newMapName;
+    mapName;
     getSharers();
   }
+
 </script>
 <div class='row'>
   <div class='col-4'>
@@ -65,29 +64,78 @@
         {#if !visible}<span class='toggle-icon'>&#9660;</span>{/if}
       </h6>
     </label>
-    {#if visible}
-      <div class='rounded box-shadow' id='mapsharing' transition:slide>
-        here
+  </div>
+  <div class='col-8'>
+    <button type='button' class="btn btn-danger btn-sm"
+      on:click={() => deleteMap(mapName)}
+    >Delete</button>
+  </div>
+</div>
+{#if visible}
+  <div class='rounded box-shadow' id='mapsharing' transition:slide>
+    {#if sharersForDisplay.length > 0}
+      <h6>
+        Currently shared with:
+      </h6>
+      <ModalTable>
+        {#each sharersForDisplay as sharedWith}
+          <tr>
+            <th scope="row">
+              <h6>{sharedWith.email}</h6>
+            </th>
+            {#if isAdmin}
+              <td>
+                <!-- svelte-ignore a11y-no-onchange -->
+                <select class="form-control perms" bind:value={sharedWith.perm} on:change={() => changePerm(sharedWith)}>
+                  {#each permissions.perms as perm}
+                    <option value={perm}>{perm}</option>
+                  {/each}
+                </select>
+              </td>
+            {/if}
+          </tr>
+          {/each}
+      </ModalTable>
+
+      <h6 class='pb-1'>
+        Copy this link to the people above:
+        <input type='text' class='form-control mt-1' onclick="this.select()" readonly
+          value={`https://squadmap.app/#/shared/${mapName}`}>
+        They will have to sign in to google with the specified email address.
+      </h6>
+
+    {/if}
+
+    {#if isAdmin}
+      <p class='pb-1'/>
+      <h6>
+        Enter a google email address to share this map.
+      </h6>
+      <div class="input-group">
+        <input type='text' class='form-control' id='name' placeholder='Share with an email'
+          bind:value={shareWithEmail}>
+        <div class='input-group-append'>
+          <button type='button' class="btn btn-primary float-right"
+            on:click={() => shareWith()} disabled={!shareWithEmail}
+            >Share</button>
+        </div>
       </div>
+    {:else}
+    <h6 class='text-info'>
+      Note: You do not have privileges to modify sharing for this map.
+    </h6>
     {/if}
   </div>
-  <div class='col-8'></div>
-</div>
+{/if}
 
 
 <style>
-.connections-box {
-  padding-bottom: 10px;
-}
 .connections-link {
   color: '#007bff';
   cursor: pointer;
 }
 .connections-link:hover {
   text-decoration: underline;
-}
-.connection-label {
-  font-size: 16px;
 }
 .toggle-icon {
   float: right;
