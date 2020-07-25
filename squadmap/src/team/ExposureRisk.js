@@ -1,5 +1,9 @@
+import * as _ from 'lodash';
+
 import Constants from './Constants.js';
-const verbose = false;
+import Pathing from './Pathing.js'
+
+const verbose = true;
 
 const log = function(...args) {
   if (verbose) {
@@ -7,80 +11,9 @@ const log = function(...args) {
   }
 }
 
-const closest = (orderedArray, value, valueGetter = item => item) =>
-  orderedArray.find((item, i) =>
-    i === orderedArray.length - 1 ||
-    Math.abs(value - valueGetter(item)) < Math.abs(value - valueGetter(orderedArray[i + 1])));
-
-const nodekey = function(n) {
-  return n.data().id;
+const edgeBetween = function(node1, node2) {
+  return cy.collection(node1).edgesWith(cy.collection(node2))[0];
 };
-
-const nodeskey = function(n1, n2) {
-  return [n1.data().id, n2.data().id].sort().join(' - ');
-}
-
-const adjustedRiskWeight = function(weights, elData) {
-  const riskWeight = weights.riskWeights[elData.riskFactor];
-  const activityModifier = weights.activityModifier[elData.activity] || 0;
-  log('activity modifier', activityModifier, riskWeight, riskWeight + (activityModifier))
-  return riskWeight + (activityModifier);
-}
-
-const reversePath = function(path) {
-  let t = [];
-  path.forEach(function(x) { t.push(x) });
-  return t.reverse();
-}
-
-const rollup = function(n1, path, weights) {
-  let prob = 0;
-  let checked = [];
-  let lastNodeRisk = null;
-  const reversed = reversePath(path);
-  reversed.forEach(function(el) {
-    const eld = el.data()
-    if (eld.riskFactor) {
-      lastNodeRisk = (prob + adjustedRiskWeight(weights, eld));
-      checked.push(eld.id);
-    } else if (eld.connectionType) {
-      log('internal: ',prob, lastNodeRisk, weights.connectionWeights[eld.connectionType],(
-        lastNodeRisk *
-        weights.connectionWeights[eld.connectionType]
-      ))
-      prob = (
-        lastNodeRisk *
-        weights.connectionWeights[eld.connectionType]
-      );
-    }
-  });
-  return {checked: checked, prob: prob}
-}
-
-const alg = function(n1, weights) {
-  log('****************alg for : ', n1.data().label)
-  let prob = adjustedRiskWeight(weights, n1.data());
-  let d = cy.elements().dijkstra(n1);
-  let data = [];
-  cy.nodes().difference(n1).forEach(function(n2) {
-    data.push({n1: n1, n2: n2, distance: d.distanceTo(n2), path: d.pathTo(n2)});
-  });
-  data = data.sort(function(a,b) { return a.distance - b.distance  }).reverse();
-  let checked = [];
-  data.forEach(function(pathInfo) {
-    let n2Data = pathInfo.n2.data();
-    let roll = rollup(n1, pathInfo.path, weights);
-    log('r', n2Data.label, roll.prob);
-    if (checked.indexOf(n2Data.id) < 0) {
-      prob += roll.prob;
-      log('not checked: new prob now', prob)
-      checked = checked.concat(roll.checked);
-    } else { log('checked, skipping', n2Data.label)}
-
-  });
-  log('prob!', prob)
-  return prob
-}
 
 const mapToExposure = function(p) {
   if (p > 0 && p <= 0.1) {
@@ -104,18 +37,6 @@ const exposureClass = function(num) {
   return `exposure-risk-${num}`;
 }
 
-const riskClassAdjustedByActivity = function(weights, sortedRisks, riskLookup, elData) {
-  const adj = adjustedRiskWeight(weights, elData);
-  const closestRiskWeight = closest(sortedRisks, adj, function(x) { return x[1]; })[1];
-  const newRisk = riskLookup[closestRiskWeight];
-  log('rcaba', elData.label, adj, closestRiskWeight, newRisk)
-  if (newRisk) {
-    return Constants.riskFactorClassesShort[newRisk];
-  } else {
-    return Constants.riskFactorClassesShort[elData.riskFactor];
-  }
-};
-
 const riskClassLookupByWeight = function(weights) {
   let a = {};
   Object.entries(weights.riskWeights).forEach(function(x) {
@@ -124,7 +45,89 @@ const riskClassLookupByWeight = function(weights) {
   return a;
 }
 
+const reversePath = function(path) {
+  // let t = [];
+  // path.forEach(function(x) { t.push(x) });
+  // return t.reverse();
+  return path.reverse();
+}
+
+const adjustedRiskWeight = function(weights, elData) {
+  const riskWeight = weights.riskWeights[elData.riskFactor];
+  const activityModifier = weights.activityModifier[elData.activity] || 0;
+  log('adjrisk: ', riskWeight + activityModifier)
+  return riskWeight + activityModifier;
+}
+
+const rollup = function(n1, path, weights, checked) {
+  let prob = 0;
+  // let checked = [];
+  let lastNodeRisk = null;
+  // const reversed = reversePath(path);
+  let previous = n1;
+  path.forEach(function(el) {
+    const eld = el.data()
+    const edge = edgeBetween(previous, el);
+    //console.log('edge is ', edge, previous, el)
+
+
+    // if (eld.riskFactor) {
+      log('rollup got to node ', eld.label)
+      lastNodeRisk = (prob + adjustedRiskWeight(weights, eld));
+      // checked.push(eld.id);
+    //} else if (eld.connectionType) {
+    if (edge) {
+      const edgeD = edge.data()
+      // log('checked', checked.indexOf(edgeD.id))
+      if (checked.indexOf(edgeD.id) < 0) {
+        log(`internal: prob: ${prob}, adj: ${lastNodeRisk}, conn: ${weights.connectionWeights[edgeD.connectionType]}, res: ${(
+          lastNodeRisk *
+          weights.connectionWeights[edgeD.connectionType]
+        )}`)
+        prob = (
+          lastNodeRisk *
+          weights.connectionWeights[edgeD.connectionType]
+        );
+        checked.push(edgeD.id);
+      } else {
+        // console.log('checked already for ', edgeD.id)
+      }
+    }
+    previous = el;
+  });
+  return {checked: checked, prob: prob}
+}
+
+const alg = function(n1, weights) {
+  log('****************alg for : ', n1.data().label)
+  let prob = adjustedRiskWeight(weights, n1.data());
+
+  //let d = cy.elements().dijkstra(n1);
+  let data = Pathing.run(n1);
+  // cy.nodes().difference(n1).forEach(function(n2) {
+  //   data.push({n1: n1, n2: n2, distance: d.distanceTo(n2), path: d.pathTo(n2)});
+  // });
+  // data = data.sort(function(a,b) { return a.distance - b.distance  }).reverse();
+  let checked = [];
+
+  data.forEach(function(pathInfo) {
+    let n2Data = _.last(pathInfo).data();
+    log('rolling up ', n2Data.label)
+    let roll = rollup(n1, pathInfo, weights, checked);
+    log('ROLLUP RESULT ', n2Data.label, roll.prob);
+    //if (checked.indexOf(n2Data.id) < 0) {
+      prob += roll.prob;
+      log('total new prob now', prob)
+      //checked = checked.concat(roll.checked);
+    //} else { log('checked, skipping', n2Data.label)}
+
+  });
+  log('prob!', prob)
+  return prob
+}
+
 const runNodes = function() {
+
   const weights = cy.data('weights');
   const showLabels = parseInt(localStorage.getItem('showLabels') || 0);
 
@@ -143,7 +146,7 @@ const runNodes = function() {
       const expc = exposureClass(node.exposureClassNum) || '';
       node.classes([riskFactor, expc]);
     }
-    log('n: ', node.data().label, node.classes())
+    log('end: ', node.data().label, node.classes())
   });
 }
 
@@ -160,18 +163,12 @@ const runEdges = function() {
       const connectionTypeClass = Constants.connectionTypeClasses[connectionType];
       classesToAdd.push(connectionTypeClass)
     }
-    // const sourceClass = riskClassAdjustedByActivity(weights, sortedRisks, riskLookup, edge.source().data())
-    // const targetClass = riskClassAdjustedByActivity(weights, sortedRisks, riskLookup, edge.target().data())
     const sourceClass = edge.source().exposureClassNum;
     const targetClass = edge.target().exposureClassNum;
     if (sourceClass && targetClass) {
       classesToAdd.push(`er-${sourceClass}-${targetClass}`)
     }
-    if (!showLabels) {
-      edge.classes(classesToAdd);
-    } else {
-      edge.classes(['no-color-edge'])
-    }
+    edge.classes(classesToAdd);
     log(edge.source().data().label, ' - ', edge.target().data().label, edge.classes())
   });
 }
