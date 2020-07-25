@@ -166,13 +166,18 @@
         {#if loading}
         <!-- svelte-ignore a11y-missing-attribute -->
         <a class="nav-link text-dark">Loading...</a>
-      {:else if user}
+        {:else if user}
         <!-- svelte-ignore a11y-invalid-attribute -->
-        <a class="nav-link text-dark signout" href="javascript:void(0)" on:click={signoutWrapper}>{user.email} ({currentMap} {#if readOnlyMode}<span>Read Only</span>{/if})</a>
-      {:else}
+        <a class="nav-link text-dark signout" href="javascript:void(0)" on:click={openSharing}>{user.email} ({currentMap} {#if readOnlyMode}<span>Read Only</span>{/if})</a>
+        {:else}
         <!-- svelte-ignore a11y-invalid-attribute -->
         <a class="nav-link text-dark signin" href="javascript:void(0)" on:click={auth.startAuth}>Sign in to Share</a>
-      {/if}
+        {/if}
+      </li>
+      <li class="nav-item">
+        {#if user}
+        <a class="nav-link text-dark signout" href="javascript:void(0)" on:click={signoutWrapper}>Sign Out</a>
+        {/if}
       </li>
     </ul>
   </div>
@@ -258,6 +263,12 @@
     @media (max-height: 460px) {
       bottom:80px;
       right:25px;
+    }
+  }
+
+  .collapse {
+    @media (max-width: 991px) {
+      border-bottom: 2px solid black;
     }
   }
 </style>

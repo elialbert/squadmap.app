@@ -42,6 +42,9 @@
     top: 61px;
     border-bottom: 2px solid black;
     margin-left: -23px;
+    @media (max-width: 768px) {
+      height: 400px;
+    }
   }
 
   .legend-inner {
