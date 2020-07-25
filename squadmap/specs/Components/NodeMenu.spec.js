@@ -90,7 +90,7 @@ describe('Node Menu Component', () => {
 
     otherNode = cy.nodes().filter(function(n) { return n.data().id == '8' })[0]
     await waitFor(() => {
-      expect(otherNode.classes()).toStrictEqual([ 'risk-factor-home', 'exposure-risk-4' ])
+      expect(otherNode.classes()).toStrictEqual([ 'risk-factor-home', 'exposure-risk-5' ])
     });
   });
 });

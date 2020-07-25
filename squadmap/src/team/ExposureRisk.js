@@ -60,7 +60,12 @@ const rollup = function(n1, path, weights) {
 const alg = function(n1, weights) {
   log('****************alg for : ', n1.data().label)
   let prob = adjustedRiskWeight(weights, n1.data());
-  let d = cy.elements().dijkstra(n1);
+  let d = cy.elements().dijkstra({
+    root: n1,
+    weight: function(edge) {
+      return 1 - weights.connectionWeights[edge.data().connectionType] ;
+    }
+  });
   let data = [];
   cy.nodes().difference(n1).forEach(function(n2) {
     data.push({n1: n1, n2: n2, distance: d.distanceTo(n2), path: d.pathTo(n2)});
