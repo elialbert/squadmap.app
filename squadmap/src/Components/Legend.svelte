@@ -36,19 +36,14 @@
   .sticky-legend {
     position: fixed;
     width: 100vw;
-    height: 30vh;
+    height: 300px;
     z-index: 1031;
     background-color: white;
-    top: 4vh;
+    top: 61px;
     border-bottom: 2px solid black;
     margin-left: -23px;
     @media (max-width: 768px) {
-      height: 44vh;
-      top: 7vh;
-    }
-    @media (max-height: 460px) {
-      height: 80vh;
-      top: 12vh;
+      height: 400px;
     }
   }
 
