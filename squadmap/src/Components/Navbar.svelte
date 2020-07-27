@@ -23,6 +23,7 @@
   let showLegend = false;
 
   function newNode() {
+    if (!window.cy) { return; }
     let node = Manipulate.newNode();
     showMenu(node);
   };
@@ -82,7 +83,8 @@
   };
 
   function toggleMenu() {
-    removeMenus(cy.nodes());
+    if (!window.cy) { return; }
+    removeMenus(window.cy.nodes());
     if (!canToggleNav) { return; }
     showNavDropdown = !showNavDropdown;
   };
@@ -176,6 +178,7 @@
       </li>
       <li class="nav-item">
         {#if user}
+        <!-- svelte-ignore a11y-invalid-attribute -->
         <a class="nav-link text-dark signout" href="javascript:void(0)" on:click={signoutWrapper}>Sign Out</a>
         {/if}
       </li>

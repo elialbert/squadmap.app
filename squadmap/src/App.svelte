@@ -43,6 +43,10 @@
     loading = false;
   }
 
+  // function checkCy() {
+  //   if (!window.cy) { alert('We seem to have had an issue while loading - please try refreshing the page?'); }
+  // }
+
   function runAuth() {
     if (location.pathname.indexOf('/__/auth/handler') > -1) {
       auth.continueAuth(newUserCb);
@@ -54,7 +58,12 @@
     }
   }
 
-  onMount(runAuth);
+  function runMount() {
+    // checkCy();
+    runAuth();
+  }
+
+  onMount(runMount);
 </script>
 
 <div class='container-fluid'>

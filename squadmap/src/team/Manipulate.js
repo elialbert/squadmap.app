@@ -2,12 +2,12 @@ import ExposureRisk from './ExposureRisk.js';
 import database from '../database.js'
 
 const setLastNode = function(node) {
-  cy.data('lastNode', node.data().id);
+  window.cy.data('lastNode', node.data().id);
 }
 
 const removeNode = function(node) {
-  cy.remove(node);
-  setLastNode(cy.nodes()[0]);
+  window.cy.remove(node);
+  setLastNode(window.cy.nodes()[0]);
   save();
 };
 
@@ -17,12 +17,12 @@ const getNeighbors = function(node) {
 
 const getNonNeighbors = function(node) {
   const neighbors = getNeighbors(node);
-  return cy.nodes().difference(neighbors.union(node));
+  return window.cy.nodes().difference(neighbors.union(node));
 };
 
 const connectTo = function(node, connectTo) {
   setLastNode(connectTo);
-  cy.add({
+  window.cy.add({
     group: 'edges',
     data: { source: node.data().id, target: connectTo.data().id,
       connectionType: 'Close as can be' }
@@ -31,23 +31,23 @@ const connectTo = function(node, connectTo) {
 };
 
 const edgeBetween = function(node1, node2) {
-  return cy.collection(node1).edgesWith(cy.collection(node2))[0];
+  return window.cy.collection(node1).edgesWith(window.cy.collection(node2))[0];
 };
 
 const disconnectFrom = function(node, disconnectFrom) {
   setLastNode(node);
-  cy.remove(edgeBetween(node, disconnectFrom));
+  window.cy.remove(edgeBetween(node, disconnectFrom));
   console.log('removing')
   save();
 };
 
 const disconnect = function(edge) {
-  cy.remove(edge);
+  window.cy.remove(edge);
   save();
 }
 
 const refreshLayout = function() {
-  let els = cy.elements();
+  let els = window.cy.elements();
   els.makeLayout({
     name: 'cola',
     fit: true,
@@ -57,7 +57,7 @@ const refreshLayout = function() {
 }
 
 const newNode = function() {
-  let res = cy.add({
+  let res = window.cy.add({
     group: 'nodes',
     data: {
       label: 'New'
@@ -66,7 +66,7 @@ const newNode = function() {
       x: 100, y: 100
     }
   });
-  connectTo(cy.nodes().filter(function(n) { return n.data().id == cy.data().lastNode })[0], res);
+  connectTo(window.cy.nodes().filter(function(n) { return n.data().id == window.cy.data().lastNode })[0], res);
   refreshLayout();
   return res;
 };
@@ -86,9 +86,9 @@ const isInReadOnlyMode = function(sharedMaps, currentMap) {
 }
 const setReadOnly = function(sharedMaps, currentMap) {
   if (isInReadOnlyMode(sharedMaps, currentMap)) {
-    cy.data('readOnly', true);
+    window.cy.data('readOnly', true);
   } else {
-    cy.data('readOnly', false);
+    window.cy.data('readOnly', false);
   }
 }
 
