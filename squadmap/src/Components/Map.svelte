@@ -1,5 +1,6 @@
 <script>
-  import Constants from '../team/Constants.js';
+  import Constants from '../team/Constants';
+
   import cytoscape from 'cytoscape';
   import cola from 'cytoscape-cola';
 
