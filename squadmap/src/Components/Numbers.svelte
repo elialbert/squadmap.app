@@ -60,7 +60,7 @@
 
 <Modal title={"Modify Algorithm Weights"} {closeCB}>
   {#if weights}
-    <h4>Occupation Risk</h4>
+    <h4>Frequency of new partners</h4>
     {#each riskWeights as [key, value]}
       <div class='form-group'>
         <label for="connectTo">{key}: {value}</label>
@@ -73,7 +73,7 @@
     {/each}
     <hr/>
 
-    <h4>Activity Risk</h4>
+    <h4>Protection level with new partners</h4>
     {#each activityModifier as [key, value]}
       <div class='form-group'>
         <label for="connectTo">{key}: {value}</label>
@@ -86,7 +86,7 @@
     {/each}
     <hr/>
 
-    <h4>Connection Risk</h4>
+    <h4>Connection Type Risks</h4>
     {#each connectionWeights as [key, value]}
       <div class='form-group'>
         <label for="connectTo">{key}: {value}</label>
