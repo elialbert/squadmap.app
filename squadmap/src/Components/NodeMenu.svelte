@@ -82,7 +82,7 @@
       </div>
     </div>
     <div class='form-group'>
-      <label for="riskFactor">Frequency of new partners</label>
+      <label for="riskFactor">Occupation</label>
       <!-- svelte-ignore a11y-no-onchange -->
       <select class="form-control" id="riskFactor" bind:value={riskFactorValue} on:change={changeRiskFactor}>
         {#each Constants.riskFactors as riskFactor}
@@ -92,7 +92,7 @@
     </div>
 
     <div class='form-group'>
-      <label for="activities">Protection level with new partners</label>
+      <label for="activities">Activity Level</label>
       <!-- svelte-ignore a11y-no-onchange -->
       <select class="form-control" id="activities" bind:value={activityValue} on:change={changeActivity}>
         {#each Constants.activities as activity}

@@ -6,19 +6,16 @@
 <Modal title={"About"} {closeCB}>
   <div class='p-2'>
     <h4 class='p-2'>
-      Squadmap.app is a tool to help you plan your polycule!
+      Squadmap.app is a tool to help you survive winter 2020.
     </h4>
     <h6 class='p-2'>
-      The idea is to to feel empowered in the decisions you make about who you hook up with and how you do it.
+      The idea is to to feel empowered in the decisions you make about who you share space with and how you do it.
     </h6>
     <h6 class='p-2'>
       Note that everything is automatically saved in your browser - but if you sign in with google, you can save to the cloud and share live with anyone.
     </h6>
     <h6 class='p-2'>
-      Try it out! Click nodes and edges to change peoples' risks and interactions, and watch how the colors change to signify risk. Or turn off colors in the menu for color-blindedness.
-    </h6>
-    <h6 class='p-2'>
-      One last note - this tool use to be for pandemicule planning. Let me know if you're still using that, and I can bring it back.
+      Try it out! Click nodes and edges to change peoples' jobs and interactions, and watch how the colors change to signify risk. Or turn off colors in the menu for color-blindedness.
     </h6>
     <h6 class='p-2'>
       Thanks, hope you like it!
