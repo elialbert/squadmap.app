@@ -1,7 +1,6 @@
 <script>
   import Manipulate from '../team/Manipulate.js';
-  import Constants from '../team/Constants';
-
+  import Constants from '../team/Constants.js';
   import { slide } from 'svelte/transition';
   export let node;
   export let runDisconnect;

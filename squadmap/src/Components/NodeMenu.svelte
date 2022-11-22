@@ -1,8 +1,7 @@
 <script>
   import Modal from './Modal.svelte';
   import Manipulate from '../team/Manipulate.js';
-  import Constants from '../team/Constants';
-
+  import Constants from '../team/Constants.js';
   import NodeMenuConnections from './NodeMenuConnections.svelte';
   import { onMount } from 'svelte';
 
@@ -71,8 +70,6 @@
     Manipulate.saveData(node, 'label', name);
     data = node.data();
   }
-
-  let polyMode = !window.process
 </script>
 <Modal title={`Edit Info for ${data.label}`} {closeCB}>
   <form>
@@ -85,11 +82,7 @@
       </div>
     </div>
     <div class='form-group'>
-      {#if polyMode}
-        <label for="riskFactor">Frequency of new partners</label>
-      {:else}
-        <label for="riskFactor">Occupation</label>
-      {/if}
+      <label for="riskFactor">Frequency of new partners</label>
       <!-- svelte-ignore a11y-no-onchange -->
       <select class="form-control" id="riskFactor" bind:value={riskFactorValue} on:change={changeRiskFactor}>
         {#each Constants.riskFactors as riskFactor}
@@ -99,11 +92,7 @@
     </div>
 
     <div class='form-group'>
-      {#if polyMode}
-        <label for="activities">Protection level with new partners</label>
-      {:else}
-        <label for="activities">Activity level</label>
-      {/if}
+      <label for="activities">Protection level with new partners</label>
       <!-- svelte-ignore a11y-no-onchange -->
       <select class="form-control" id="activities" bind:value={activityValue} on:change={changeActivity}>
         {#each Constants.activities as activity}

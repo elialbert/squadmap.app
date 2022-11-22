@@ -2,8 +2,7 @@
   import Modal from './Modal.svelte';
   import * as _ from 'lodash';
   import ExposureRisk from '../team/ExposureRisk.js';
-  import Constants from '../team/Constants';
-
+  import Constants from '../team/Constants.js';
   import database from '../database.js';
 
   export let closeCB;
@@ -56,17 +55,12 @@
     database.save();
     prepWeights();
   };
-  let polyMode = !window.process
 
 </script>
 
 <Modal title={"Modify Algorithm Weights"} {closeCB}>
   {#if weights}
-    {#if polyMode}
-      <h4>Frequency of new partners</h4>
-    {:else}
-      <h4>Occupation Risk</h4>
-    {/if}
+    <h4>Frequency of new partners</h4>
     {#each riskWeights as [key, value]}
       <div class='form-group'>
         <label for="connectTo">{key}: {value}</label>
@@ -79,11 +73,7 @@
     {/each}
     <hr/>
 
-    {#if polyMode}
-      <h4>Protection level with new partners</h4>
-    {:else}
-      <h4>Activity Risk</h4>
-    {/if}
+    <h4>Protection level with new partners</h4>
     {#each activityModifier as [key, value]}
       <div class='form-group'>
         <label for="connectTo">{key}: {value}</label>
@@ -96,11 +86,7 @@
     {/each}
     <hr/>
 
-    {#if polyMode}
-      <h4>Connection Type Risks</h4>
-    {:else}
-      <h4>Connection Risk</h4>
-    {/if}
+    <h4>Connection Type Risks</h4>
     {#each connectionWeights as [key, value]}
       <div class='form-group'>
         <label for="connectTo">{key}: {value}</label>

@@ -112,7 +112,7 @@ const nodeStyles = [
   }
 ]
 
-const Constants = {
+const constants = {
   riskFactors: [
     'Never sees anyone new',
     'Very occasionally',
@@ -178,7 +178,7 @@ const Constants = {
   nodeStyles: nodeStyles
 }
 
-const Constants2 = {
+const constants2 = {
   riskFactors: [
     'Works at home',
     'Works outdoors',
@@ -262,8 +262,6 @@ const Constants2 = {
   nodeStyles: nodeStyles
 };
 
-Constants.nodeStyles = Constants.nodeStyles.concat(EdgeColors);
-Constants2.nodeStyles = Constants2.nodeStyles.concat(EdgeColors);
+constants.nodeStyles = constants.nodeStyles.concat(EdgeColors);
 
-const toExport = window.process ? Constants2 : Constants;
-export default toExport;
+export default constants;

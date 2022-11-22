@@ -1,8 +1,7 @@
 <script>
   import Modal from './Modal.svelte';
   import Manipulate from '../team/Manipulate.js';
-  import Constants from '../team/Constants';
-
+  import Constants from '../team/Constants.js';
   export let edge;
 
   let node1 = edge.source();

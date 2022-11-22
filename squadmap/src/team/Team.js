@@ -189,5 +189,4 @@ const sample2 = {
   ]
 }
 
-const toExport = window.process ? sample2 : sample;
 export { sample }

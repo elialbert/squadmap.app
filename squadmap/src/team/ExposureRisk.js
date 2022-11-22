@@ -1,5 +1,4 @@
-import Constants from '../team/Constants';
-
+import Constants from './Constants.js';
 const verbose = false;
 
 const log = function(...args) {
