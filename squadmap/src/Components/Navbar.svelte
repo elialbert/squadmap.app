@@ -164,24 +164,6 @@
       {/if}
     </ul>
     <ul class="navbar-nav ml-auto">
-      <li class="nav-item">
-        {#if loading}
-        <!-- svelte-ignore a11y-missing-attribute -->
-        <a class="nav-link text-dark">Loading...</a>
-        {:else if user}
-        <!-- svelte-ignore a11y-invalid-attribute -->
-        <a class="nav-link text-dark signout" href="javascript:void(0)" on:click={openSharing}>{user.email} ({currentMap} {#if readOnlyMode}<span>Read Only</span>{/if})</a>
-        {:else}
-        <!-- svelte-ignore a11y-invalid-attribute -->
-        <a class="nav-link text-dark signin" href="javascript:void(0)" on:click={auth.startAuth}>Sign in to Share</a>
-        {/if}
-      </li>
-      <li class="nav-item">
-        {#if user}
-        <!-- svelte-ignore a11y-invalid-attribute -->
-        <a class="nav-link text-dark signout" href="javascript:void(0)" on:click={signoutWrapper}>Sign Out</a>
-        {/if}
-      </li>
     </ul>
   </div>
   {/if}
