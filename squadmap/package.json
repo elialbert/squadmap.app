@@ -16,14 +16,15 @@
     "babel-jest": "^26.1.0",
     "jest": "^26.1.0",
     "lodash": "^4.17.21",
-    "sass": "^1.77.0",
     "rollup": "^2.3.4",
+    "rollup-plugin-css-only": "^4.5.5",
     "rollup-plugin-livereload": "^1.0.0",
-    "rollup-plugin-svelte": "^5.0.3",
+    "rollup-plugin-svelte": "^7.2.3",
     "rollup-plugin-terser": "^5.1.2",
+    "sass": "^1.77.0",
     "svelte": "^3.0.0",
     "svelte-jester": "^1.0.6",
-    "svelte-preprocess": "^3.9.11",
+    "svelte-preprocess": "^4.10.7",
     "typescript": "^3.9.6"
   },
   "dependencies": {
